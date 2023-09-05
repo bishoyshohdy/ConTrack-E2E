@@ -1,0 +1,37 @@
+{
+  "properties": {
+    "scheduled_report_enabled": { "enum": ["0", "1"], "type": "string" },
+    "is_periodic": { "enum": ["0", "1"], "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "is_periodic": { "const": "1" } },
+        "required": ["is_periodic"]
+      },
+      "then": {
+        "required": ["hour", "day", "week"],
+        "properties": {
+          "hour": { "type": "string", "pattern": "^[0-9]*$" },
+          "day": { "type": "string", "pattern": "^[0-9]*$" },
+          "week": { "type": "string", "pattern": "^[0-9]*$" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "scheduled_report_enabled": { "const": "1" } },
+        "required": ["scheduled_report_enabled"]
+      },
+      "then": {
+        "required": ["is_periodic", "report_id", "name", "email"],
+        "properties": {
+          "is_periodic": { "type": "boolean" },
+          "report_id": { "type": "string", "enum": ["audit_log"] },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+#react-select-3-listbox {
+  width: 100%;
+  background-color: white;
+}
+
+.multi-select-dark {
+  width: 100%;
+}
+
+.multi-select-dark .css-wsp0cs-MultiValueGeneric .css-12a83d4-MultiValueRemove {
+  width: "fit-content";
+  background-color: initial;
+}
+.multi-select-light {
+  width: 100%;
+}
+
+.multi-select-light
+  .css-wsp0cs-MultiValueGeneric
+  .css-12a83d4-MultiValueRemove {
+  width: "fit-content";
+  background-color: initial;
+}
+
+.multi-select-dark .css-1jqq78o-placeholder {
+  color: white !important;
+}
+
+.multi-select-light .css-1jqq78o-placeholder {
+  color: black !important;
+}
+.multi-select-dark .css-tj5bde-Svg {
+  color: black !important;
+}
+
+.multi-select-dark .css-1p3m7a8-multiValue {
+  background-color: darkgray;
+  /* width: 170px;
+  justify-content: space-between;
+  align-items: space-between; */
+}
+
+.multi-select-light .css-1p3m7a8-multiValue {
+  background-color: darkgray;
+  /* width: 170px;
+  justify-content: space-between;
+  align-items: space-between;
+} */
+}
+
+.multi-select-dark .css-166bipr-Input {
+  color: white !important;
+}
+
+.multi-select-dark .css-tj5bde-Svg {
+  color: white !important;
+}
+
+.multi-select-light .css-tj5bde-Svg {
+  color: black !important;
+}
+
+.multi-select-light .css-166bipr-Input {
+  color: black !important;
+}
+
+.multi-select-light div {
+  color: black;
+}
+
+.multi-select-light .css-13cymwt-control {
+  width: 100%;
+}
+
+.multi-select-dark div {
+  color: black;
+}
+
+.multi-select-dark .css-13cymwt-control {
+  width: 100%;
+}

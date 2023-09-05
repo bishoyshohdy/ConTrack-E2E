@@ -1,0 +1,86 @@
+{
+  "name": "frontend-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.15",
+    "@chakra-ui/react": "^2.4.6",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@hookform/error-message": "^2.0.1",
+    "@react-google-maps/api": "^2.17.1",
+    "@rjsf/chakra-ui": "^5.2.1",
+    "@rjsf/core": "^5.2.1",
+    "@rjsf/utils": "^5.2.1",
+    "@rjsf/validator-ajv8": "^5.2.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "apexcharts": "^3.36.3",
+    "axios": "^1.4.0",
+    "chakra-ui-markdown-renderer": "^4.1.0",
+    "firebase": "^9.17.1",
+    "framer-motion": "^8.3.0",
+    "google-map-react": "^2.2.0",
+    "js-file-download": "^0.4.12",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.28",
+    "marked": "^6.0.0",
+    "moment-timezone": "^0.5.43",
+    "react": "^18.2.0",
+    "react-apexcharts": "^1.4.0",
+    "react-csv": "^2.2.2",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.42.1",
+    "react-icons": "^4.7.1",
+    "react-markdown": "^8.0.7",
+    "react-router-dom": "^6.6.1",
+    "react-scripts": "5.0.1",
+    "react-select": "^5.7.0",
+    "react-table": "^7.8.0",
+    "react-toastify": "^9.1.1",
+    "socket.io-client": "^4.7.1",
+    "styled-components": "^5.3.6",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "rules": {
+      "jsx-a11y/accessible-emoji": "off"
+    },
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.21.2",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  }
+}
