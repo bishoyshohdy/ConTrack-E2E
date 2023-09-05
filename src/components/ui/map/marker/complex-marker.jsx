@@ -12,6 +12,7 @@ function ComplexMarker ({ key, marker }) {
                 name={marker.name}
                 position={{ lat: parseFloat(marker.position.lat), lng: parseFloat(marker.position.lng) }}
                 label={marker.name}
+                title= {marker.name}
                 onClick={() => toggleShowBox(!showBox)}
             />
             { showBox && <InfoWindowF position={{ lat: parseFloat(marker.position.lat), lng: parseFloat(marker.position.lng) }}>

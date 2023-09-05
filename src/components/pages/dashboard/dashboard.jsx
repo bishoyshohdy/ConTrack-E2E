@@ -50,6 +50,8 @@ export function AlarmAction({
       callback(useAlarmId ? alarm : {});
     });
   };
+  
+  
   return (
     <Box as={Flex} justifyContent={"center"}>
       {!actionPerformed ? (
