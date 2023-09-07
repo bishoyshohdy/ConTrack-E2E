@@ -90,6 +90,7 @@ export function AlarmAction({
 function Dashboard() {
   const deviceCtx = useContext(DevicesContext);
   const themeCtx = useContext(ThemeContext);
+  
   const [markers, setMarkers] = useState([]);
   const navigate = useNavigate();
   const [cycollects, setCycollects] = useState([]);
@@ -690,7 +691,7 @@ function Dashboard() {
       </Box>
       <div 
       ref={refDevices}
-      className={cytags.length !== 0 ? "grid-container" : "flex-container"}>
+      >
         
 
         {/* DEVICES TABLE */}
@@ -722,6 +723,7 @@ function Dashboard() {
             "pccw_iccid",
             "satcom_iccid",
             "cytags",
+            "latest_values",
             "id",
             "lat",
             "lng",
@@ -747,8 +749,9 @@ function Dashboard() {
           </Box>
         </CardTable>
 
+
+          {/* connected cytags */}
         
-        {/* stop */}
         {cytags.length !== 0 && (
           <ComplexTable
             redirectToDevice={redirectToCytag}
@@ -765,6 +768,9 @@ function Dashboard() {
             }
           />
         )}
+
+                {/* stop */}
+
       </div>
       {cytags.length !== 0 && (
         <Box mt={1} w={"100%"} ref={refTags}>

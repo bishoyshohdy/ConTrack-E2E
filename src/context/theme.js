@@ -31,12 +31,17 @@ const periwinklecrayola3 = '#ced4da';
 const lightsteelblue = '#adb5bd';
 const babyblueeyes = '#6c757d';
 
-const cardColor = '#1b254b';
+const gradientColor1 = 'rgb(155,41,231)';
+const gradientColor2 = 'rgb(119,22,237)';
+
+const cardColor = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
 
 const tablecellGray = '#2D3748';
 const tablecelllight = '#f0f0f0';
 
 const purple1 = "#9b29e7";
+
+const purpleGradient = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
 
 const darkModeColors = {
     primary: {

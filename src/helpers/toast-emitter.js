@@ -10,7 +10,7 @@ let lastErrorTimestamp=0;
 
 export function showerror (message) {
     const currentTime= Date.now();
-    if (currentTime - lastErrorTimestamp>= 1*5*60){
+    if (currentTime - lastErrorTimestamp>= 5*60*1000){
     toast.error(message, {
         position: "bottom-right",
         autoClose: false,

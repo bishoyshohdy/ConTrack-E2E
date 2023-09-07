@@ -85,7 +85,8 @@ function CardTable({
   setPage,
   setPageNumber,
   pageNumber,
-  CreateDevice
+  CreateDevice,
+  allCytags
 
 }) {
   const [flatData, setFlatData] = useState(data);
@@ -102,8 +103,27 @@ function CardTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
-  hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
-  const themeCtx = useContext(ThemeContext);
+  // hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
+  // const themeCtx = useContext(ThemeContext);
+  // const columns = React.useMemo(
+  //   () =>
+  //     reverse
+  //       ? [...extractFn(data, hiddenCols).reverse()]
+  //       : [
+  //           ...extractFn(data, hiddenCols),
+  //           {
+  //             Header: "Cytag",
+  //             accessor: "cytag", // Assuming "cytag" is the property containing Cytag information
+  //             Cell: ({ value }) => (
+  //               <Tag size="md" colorScheme="teal">
+  //                 <TagLabel>{value}</TagLabel>
+  //               </Tag>
+  //             ),
+  //           },
+  //         ],
+  //   [data]
+  // );
+  
   const {
     getTableProps,
     getTableBodyProps,
@@ -272,16 +292,17 @@ function CardTable({
                 
                    {page.map((row, index) => {
                     prepareRow(row);
-                    let imei, namez, locked, vals, loc, tagged; // Declare variables here
+                    let imei, namez, locked, vals, loc, attached,cytagKOKO; // Declare variables here
                 
                     row.cells.forEach((cell, cellIndex) => {
                       switch (cellIndex) {
                         case 0: imei = cell.value; break;
                         case 1: namez = cell.value; break;
                         case 2: locked = cell.value; break;
-                        case 3: vals = cell.value; break;
-                        case 4: loc = cell.value; break;
-                        case 5: tagged = cell.value; break;
+                        case 3: loc = cell.value; break;
+                        case 4: attached = cell.value; break;
+                        case 5: cytagKOKO = cell.value; break;
+
                       }
                     });
                       
@@ -296,6 +317,9 @@ function CardTable({
                       backgroundColor: "primary.100",
                       borderColor: "primary.60",
                     }}
+
+                    cursor={redirectToDevice ? "pointer" : "default"}
+
 
                     onClick={(e) => {
                       e.preventDefault();
@@ -340,7 +364,8 @@ function CardTable({
 
                         <Text as={'abbr'}> IMEI: {imei}  <br/>
                         Last Location Type: {loc} <br/>
-                        {/* Latest Values: {vals} <br/>  */}
+                        Cytags: {cytagKOKO}
+                        
                          </Text>
                         </CardBody>
 
@@ -350,7 +375,7 @@ function CardTable({
                       pt={'10px'}>
                       <Flex
                       mt={'5%'}>
-                        <Text as={'abbr'}> Attached To: {tagged} </Text>
+                        <Text as={'abbr'}> Attached To: {attached} </Text>
                         <Spacer/>
                         <Image
                           objectFit='cover'
@@ -370,254 +395,7 @@ function CardTable({
             </SimpleGrid>
              {/* /Card Grid */}
 
-              {/* <Table
-                color={"secondary.100
-                h={"100%"}"}
-                {...getTableProps()}
-                variant={"unstyled"}
-              >
-                <Thead pos={"sticky"} top={"0"} bg={"primary.80"}>
-                  {headerGroups.map((headerGroup, index) => (
-                    <Tr
-                      bg={"primary.100"}
-                      key={index}
-                      {...headerGroup.getHeaderGroupProps()}
-                    >
-                      {headerGroup.headers.map((column, i) => {
-                        return column.id === "severity" ? (
-                          <Th
-                            mb={2}
-                            textAlign={"center"}
-                            h={"10px"}
-                            key={i}
-                            {...column.getHeaderProps()}
-                          >
-                            <Flex textAlign={"center"}>
-                              {column.render("Header")}
-                              <IconButton
-                                ml={1}
-                                size={"xs"}
-                                bg={"transparent"}
-                                isDisabled
-                              />
-                            </Flex>
-                          </Th>
-                        ) : (
-                          <Th
-                            textAlign={"center"}
-                            h={"10px"}
-                            key={i}
-                            {...column.getSortByToggleProps()}
-                          >
-                            <Flex textAlign={"center"}>
-                              {column.render("Header")}
-                              <IconButton
-                                ml={1}
-                                size={"xs"}
-                                bg={"transparent"}
-                                icon={
-                                  column.isSorted ? (
-                                    column.isSortedDesc ? (
-                                      <IconButton as={ArrowDownIcon} size={'50px'} bg={'transparent'} color={'text.primary'} />
-                                    ) : (
-                                      <IconButton as={ArrowUpIcon} size={'50px'} bg={'transparent'} color={'text.primary'} />
-                                    )
-                                  ) : (
-                                    <IconButton as={BsArrowDownUp} size={'50px'} bg={'transparent'} color={'text.primary'} />
-                                  )
-                                }
-                              />
-                            </Flex>
-                          </Th>
-                        );
-                      })}
-                    </Tr>
-                  ))}
-                </Thead>
-                <Tbody {...getTableBodyProps()}>
-                  {page.map((row, index) => {
-                    prepareRow(row);
-                    return (
-                      <Tr
-                        h={"10px"}
-                        cursor={redirectToDevice ? "pointer" : "default"}
-                        borderColor={"transparent"}
-                        borderRightWidth={4}
-                        borderLeftWidth={4}
-                        _hover={{
-                          backgroundColor: "primary.100",
-                          borderColor: "primary.60",
-                        }}
-                        onClick={() =>
-                          redirectToDevice ? redirectToDevice(row.cells) : null
-                        }
-                        key={index}
-                        {...row.getRowProps()}
-                        width={"100%"}
-                      >
-                        {row.cells.map((cell, index) => {
-                          return (
-                            <Td
-                              p={1}
-                              key={index}
-                              {...cell.getCellProps()}
-                              minWidth={"200px"}
-                            >
-                              {cell.column.id !== "Acknowledge" &&
-                              cell.column.id !== "edit" &&
-                              cell.column.id !== "delete" &&
-                              cell.column.id !== "Clear" &&
-                              cell.column.id !== "severity" &&
-                              cell.column.id !== "Geofence_Actions" &&
-                              cell.column.id !== "Route_Actions" ? (
-                                <Box
-                                  h={"50px"}
-                                  textAlign={"start"}
-                                  p={2}
-                                  rounded={"md"}
-                                  bg={"table.cell"}
-                                  w={"100%"}
-                                >
-                                  {" "}
-                                  {typeof cell.value !== "undefined"
-                                    ? cell.render("Cell")
-                                    : "-"}
-                                </Box>
-                              ) : (
-                                <Box
-                                  p={2}
-                                  w={"100%"}
-                                  display={"flex"}
-                                  justifyContent={"space-evenly"}
-                                  textAlign={"start"}
-                                  fontSize={"sm"}
-                                >
-                                  {cell.render("Cell")}
-                                </Box>
-                              )}
-                            </Td>
-                          );
-                        })}
-                        {cytagsBtn && (
-                          <Td>
-                            {" "}
-                            <IconButton
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                cytagsBtn(
-                                  row.cells.find(
-                                    (col) => col.column.Header === "IMEI"
-                                  ).value
-                                );
-                              }}
-                              size={"sm"}
-                              bg={"action.100"}
-                              icon={
-                                <CyTagIcon
-                                  boxSize={"30px"}
-                                  display={"block"}
-                                  margin={"auto"}
-                                  p={"15%"}
-                                  color={
-                                    themeCtx.theme.colors &&
-                                    themeCtx.theme.colors.text.primary
-                                  }
-                                />
-                              }
-                              rounded={"full"}
-                            />{" "}
-                          </Td>
-                        )}
-                        {alarms && (
-                          <>
-                            <Td as={Flex} gap={2}>
-                              <Button
-                                size={"sm"}
-                                bg={"danger.100"}
-                                icon={<MdClear color={"danger.100"} />}
-                                rounded={"full"}
-                              >
-                                Clear{" "}
-                              </Button>
-                              <Button
-                                size={"sm"}
-                                bg={"action.100"}
-                                icon={<MdVerified color={"danger.100"} />}
-                                rounded={"full"}
-                              >
-                                Acknowledge
-                              </Button>
-                            </Td>
-                          </>
-                        )}
-                        {deleteBtn && (
-                          <Td>
-                            <FunctionalModal
-                              iconBtn={DeleteIcon}
-                              modalMinH={"500px"}
-                              btnColor={"danger.100"}
-                              modalTitle={`Delete ${type}`}
-                              btnAction={
-                                <Button
-                                  bg={"danger.100"}
-                                  color={"text.primary"}
-                                  onClick={() => deleteBtn(row.cells[0].value)}
-                                >
-                                  Delete {type}
-                                </Button>
-                              }
-                            >
-                              <Text>
-                                Are you sure you want to delete this {type}?
-                              </Text>
-                              <Tag
-                                size="lg"
-                                colorScheme="danger"
-                                borderRadius="full"
-                              >
-                                <TagLabel>
-                                  {row.cells[1].value} : {row.cells[0].value}
-                                </TagLabel>
-                              </Tag>
-                            </FunctionalModal>
-                          </Td>
-                        )}
-                        {editBtn && (
-                          <Td>
-                            <FunctionalModal
-                              modalMinH={"500px"}
-                              iconBtn={AiFillEdit}
-                              btnColor={"action.100"}
-                              modalTitle={`Edit ${type}`}
-                              btnAction={
-                                <Button
-                                  bg={"primary.100"}
-                                  color={"text.primary"}
-                                  onClick={editBtn}
-                                >
-                                  Edit {type}
-                                </Button>
-                              }
-                            >
-                              <DeviceForm
-                                id={id}
-                                name={name}
-                                initialId={row.cells[0].value}
-                                initialName={row.cells[1].value}
-                                idLabel={idLabel}
-                                setName={setName}
-                                setId={setId}
-                              />
-                            </FunctionalModal>
-                          </Td>
-                        )}
-                      </Tr>
-                    );
-                  })}
-                  <Box h={"-moz-available"}></Box>
-                </Tbody>
-              </Table> */}
+             
             </Box>
             <Stack
               pos={"relative"}

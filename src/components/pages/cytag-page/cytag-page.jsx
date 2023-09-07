@@ -8,8 +8,9 @@ import {
   Heading,
   Tag,
   Button,
+  Grid, GridItem 
 } from "@chakra-ui/react";
-import StatCard from "../../ui/card/stat-card";
+import StatBox from "../../ui/card/stat-box";
 import ComplexTable from "../../ui/table/complex-table";
 import { GiBatteryPack } from "react-icons/gi";
 import { FiThermometer } from "react-icons/fi";
@@ -311,15 +312,14 @@ function CytagPage() {
 
   return (
     <>
-      <div className={"grid"}>
-        <Box w={"100%"} borderRadius={"5px"} bg={"primary.80"}>
+      <div className={"grid"} >
+        <Box w={"100%"} borderRadius={"5px"} bg={"primary.80"} >
           <Box
             borderTopRadius={"5px"}
             gap={2}
             p={3}
             alignItems={"center"}
             as={Flex}
-            bg={"card.100"}
           >
             <Image
               borderRadius="full"
@@ -338,7 +338,7 @@ function CytagPage() {
               <Tag
                 mt={2}
                 p={1}
-                bg={"action.100"}
+                bg={"primary.100"}
                 fontSize="sm"
                 textDecoration={"underline"}
                 color={"text.primary"}
@@ -347,15 +347,11 @@ function CytagPage() {
               </Tag>
             </Box>
           </Box>
-          <Stack p={4} spacing="3">
-            <StatCard
+          <Box  as={Flex} flexWrap={"wrap"} alignItems={'center'} justifyContent={'center'}  >
+            <StatBox
               icon={
                 <GiBatteryPack
                   size={"25px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
                   color="secondary.60"
                 />
               }
@@ -374,16 +370,13 @@ function CytagPage() {
               bgColor={"card.100"}
               textColor={"secondary.100"}
               maxH={"xs"}
-              maxW={"100%"}
+              maxW={"15%"}
+              wXh= {"200px"}
             />
-            <StatCard
+            <StatBox
               icon={
                 <WiHumidity
                   size={"30px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
                   color="secondary.60"
                 />
               }
@@ -402,16 +395,14 @@ function CytagPage() {
               bgColor={"card.100"}
               textColor={"secondary.100"}
               maxH={"xs"}
-              maxW={"100%"}
+              maxW={"15%"}
+              wXh= {"200px"}
+
             />
-            <StatCard
+            <StatBox
               icon={
                 <FiThermometer
                   size={"30px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
                   color="secondary.60"
                 />
               }
@@ -430,9 +421,11 @@ function CytagPage() {
               bgColor={"card.100"}
               textColor={"secondary.100"}
               maxH={"xs"}
-              maxW={"100%"}
+              maxW={"15%"}
+              wXh= {"200px"}
+
             />
-            <StatCard
+            <StatBox
               icon={
                 <BsLightning
                   size={"30px"}
@@ -462,11 +455,13 @@ function CytagPage() {
               bgColor={"card.100"}
               textColor={"secondary.100"}
               maxH={"xs"}
-              maxW={"100%"}
+              maxW={"15%"}
+              wXh= {"200px"}
+
             />
-          </Stack>
+          </Box>
         </Box>
-        <Box mb={1} as={Flex} w={"100%"}>
+        <Box as={Flex} w={"100%"}>
           <DeviceChart
             startType={"Temperature"}
             mb={"0"}
@@ -484,7 +479,7 @@ function CytagPage() {
           />
         </Box>
       </div>
-      <Box w="100%" margin={"0.5%"}>
+      <Box w="100%" padding={"0.5%"}>
         <ComplexTable
           hiddenCols={[
             "id",
