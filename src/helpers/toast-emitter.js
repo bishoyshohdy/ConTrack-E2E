@@ -2,8 +2,15 @@ import { toast } from 'react-toastify';
 
 export function showsuccess (message) {
     toast.success(message, {
-        closeOnClick: true
-    });
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
 }
 
 let lastErrorTimestamp=0;
@@ -26,5 +33,14 @@ export function showerror (message) {
 }
 
 export function showinfo (message) {
-    toast.info(message);
+    toast.info(message,{
+        position: "bottom-right",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
 }

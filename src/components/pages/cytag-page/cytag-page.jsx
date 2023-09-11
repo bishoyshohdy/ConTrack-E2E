@@ -372,6 +372,8 @@ function CytagPage() {
               maxH={"xs"}
               maxW={"15%"}
               wXh= {"200px"}
+              width={"35%"}
+
             />
             <StatBox
               icon={
@@ -397,7 +399,7 @@ function CytagPage() {
               maxH={"xs"}
               maxW={"15%"}
               wXh= {"200px"}
-
+              width={"35%"}
             />
             <StatBox
               icon={
@@ -423,6 +425,8 @@ function CytagPage() {
               maxH={"xs"}
               maxW={"15%"}
               wXh= {"200px"}
+              width={"35%"}
+
 
             />
             <StatBox
@@ -457,6 +461,7 @@ function CytagPage() {
               maxH={"xs"}
               maxW={"15%"}
               wXh= {"200px"}
+              width={"35%"}
 
             />
           </Box>

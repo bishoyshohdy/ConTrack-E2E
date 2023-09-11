@@ -20,6 +20,7 @@ import {
 import React, { useEffect, useContext, useState, useRef } from "react";
 import { SiMicrosoftexcel } from "react-icons/si";
 import StatCard from "../../ui/card/stat-card";
+import StatBox from "../../ui/card/stat-box";
 import ComplexTable from "../../ui/table/complex-table";
 import { GiBatteryPack, GiCargoCrate, GiSattelite } from "react-icons/gi";
 import "./device.css";
@@ -475,7 +476,7 @@ function Device() {
     navigator.clipboard.writeText(
       `https://www.google.com/maps/?q=${device.lat},${device.lng}`
     );
-    showinfo("copied google maps link to clipboard");
+    showsuccess("copied google maps link to clipboard");
   };
 
   const switchTripMsg = (status) => {
@@ -618,7 +619,7 @@ function Device() {
             p={3}
             alignItems={"center"}
             as={Flex}
-            bg={"card.100"}
+            bg={"primary.80"}
           >
             <Image
               borderRadius="full"
@@ -635,7 +636,7 @@ function Device() {
                 {device && device.name}
               </Heading>
               <Tag
-                bg={"action.100"}
+                bg={"primary.80"}
                 p={1}
                 mt={2}
                 fontSize="sm"
@@ -645,7 +646,7 @@ function Device() {
                 IMEI: {device && identifier}
               </Tag>
               <Tag
-                bg={"action.100"}
+                bg={"primary.80"}
                 p={1}
                 mt={2}
                 ml={1}
@@ -658,7 +659,7 @@ function Device() {
               </Tag>
             </Box>
           </Box>
-          <Box bg={"card.100"} pb={2}>
+          <Box bg={"primary.80"} pb={2}>
             {device && hasPermission(PERMISSIONS.LOCK_UNLOCK_DEVICE) && (
               <Box ml={8} as={Flex}>
                 <Center
@@ -666,19 +667,19 @@ function Device() {
                   className={!locked ? "leftTranslate" : "rightTranslate"}
                   color={"text.primary"}
                   borderRadius={"10px"}
-                  bg={"action.100"}
+                  bg={"primary.80"}
                   h={"40px"}
                   w={"152px"}
                 >
                   {locked ? (
                     <Icon
-                      color={"text.secondary"}
+                      color={"green"}
                       as={AiFillLock}
                       boxSize={"30px"}
                     />
                   ) : (
                     <Icon
-                      color={"text.secondary"}
+                      color={"red"}
                       as={AiFillUnlock}
                       boxSize={"30px"}
                     />
@@ -710,40 +711,14 @@ function Device() {
                   h={"40px"}
                   w={"150px"}
                 >
-                  {!locked ? "" : "UnLock"}
+                  {!locked ? "" : "Unlock"}
                 </Center>
               </Box>
             )}
           </Box>
-          <Flex flexWrap={"wrap"} w={"100%"} gap={2} p={4}>
-            <StatCard
-              icon={
-                <TbRoute
-                  size={"25px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="In progress trips"
-              subTitle={
-                inProgressTrip && inProgressTrip.route
-                  ? inProgressTrip.route.name
-                  : "No trip is currently in progress"
-              }
-              subText={`Trip started at: ${
-                inProgressTrip ? formatDate(inProgressTrip.start_date) : "-"
-              }`}
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              width={"100%"}
-              minH={"fit-content"}
-            />
-            <StatCard
+          <Flex flexWrap={"wrap"} w={"100%"} gap={2} p={4} justifyContent={"center"}>
+
+          <StatBox
               icon={
                 <GiBatteryPack
                   size={"25px"}
@@ -770,57 +745,11 @@ function Device() {
               textColor={"secondary.100"}
               maxH={"400px"}
               maxW={"100%"}
-              width={"100%"}
+              width={"29%"}
               minH={"fit-content"}
             />
-            <StatCard
-              icon={
-                <FaSimCard
-                  size={"25px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="PCCW ICCID"
-              subTitle={
-                device && device.pccw_iccid ? `${device.pccw_iccid}` : "-"
-              }
-              subText={""}
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              width={"100%"}
-              minH={"fit-content"}
-            />
-            <StatCard
-              icon={
-                <GiSattelite
-                  size={"25px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="SATCOM ICCID"
-              subTitle={
-                device && device.satcom_iccid ? `${device.satcom_iccid}` : "-"
-              }
-              subText={""}
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              width={"100%"}
-              minH={"fit-content"}
-            />
-            <StatCard
-              width={"100%"}
+
+          <StatBox
               icon={
                 <TbAntenna
                   size={"30px"}
@@ -850,7 +779,131 @@ function Device() {
               maxH={"400px"}
               maxW={"100%"}
               minH={"fit-content"}
+              width={"29%"}
+
             />
+          {tringLoc ? (
+              <StatBox
+                icon={
+                  <FaBroadcastTower
+                    size={"30px"}
+                    h={"100%"}
+                    display={"block"}
+                    margin={"auto"}
+                    p={"20%"}
+                    color="secondary.60"
+                  />
+                }
+                title="Location Type"
+                subTitle={"Triangulation Location"}
+                bgColor={"card.100"}
+                textColor={"secondary.100"}
+                maxH={"400px"}
+                maxW={"100%"}
+                minH={"fit-content"}
+                width={"29%"}
+              />
+            ) : (
+              <StatBox
+                icon={
+                  <MdGpsFixed
+                    size={"30px"}
+                    h={"100%"}
+                    display={"block"}
+                    margin={"auto"}
+                    p={"20%"}
+                    color="secondary.60"
+                  />
+                }
+                title="Location Type"
+                subTitle={"GPS Location"}
+                bgColor={"card.100"}
+                textColor={"secondary.100"}
+                maxH={"400px"}
+                maxW={"100%"}
+                minH={"fit-content"}
+                width={"29%"}
+
+              />
+            )}
+
+
+
+            <StatCard
+              icon={
+                <TbRoute
+                  size={"25px"}
+                  h={"100%"}
+                  display={"block"}
+                  margin={"auto"}
+                  p={"20%"}
+                  color="secondary.60"
+                />
+              }
+              title="In progress trips"
+              subTitle={
+                inProgressTrip && inProgressTrip.route
+                  ? inProgressTrip.route.name
+                  : "No trip is currently in progress"
+              }
+              subText={`Trip started at: ${
+                inProgressTrip ? formatDate(inProgressTrip.start_date) : "-"
+              }`}
+              bgColor={"table.cell"}
+              textColor={"secondary.100"}
+              maxH={"400px"}
+              maxW={"100%"}
+              width={"100%"}
+              minH={"fit-content"}
+            />
+            
+            <StatCard
+              icon={
+                <FaSimCard
+                  size={"25px"}
+                  h={"100%"}
+                  display={"block"}
+                  margin={"auto"}
+                  p={"20%"}
+                  color="secondary.60"
+                />
+              }
+              title="PCCW ICCID"
+              subTitle={
+                device && device.pccw_iccid ? `${device.pccw_iccid}` : "-"
+              }
+              subText={""}
+              bgColor={"table.cell"}
+              textColor={"secondary.100"}
+              maxH={"400px"}
+              maxW={"100%"}
+              width={"100%"}
+              minH={"fit-content"}
+            />
+            <StatCard
+              icon={
+                <GiSattelite
+                  size={"25px"}
+                  h={"100%"}
+                  display={"block"}
+                  margin={"auto"}
+                  p={"20%"}
+                  color="secondary.60"
+                />
+              }
+              title="SATCOM ICCID"
+              subTitle={
+                device && device.satcom_iccid ? `${device.satcom_iccid}` : "-"
+              }
+              subText={""}
+              bgColor={"table.cell"}
+              textColor={"secondary.100"}
+              maxH={"400px"}
+              maxW={"100%"}
+              width={"100%"}
+              minH={"fit-content"}
+            />
+            
             <StatCard
               width={"100%"}
               icon={
@@ -879,55 +932,13 @@ function Device() {
                   ? `Last updated at: ${formatDate(lastLocationTimestamp)}`
                   : "-"
               }
-              bgColor={"card.100"}
+              bgColor={"table.cell"}
               textColor={"secondary.100"}
               maxH={"400px"}
               maxW={"100%"}
               minH={"fit-content"}
             />
-            {tringLoc ? (
-              <StatCard
-                width={"100%"}
-                icon={
-                  <FaBroadcastTower
-                    size={"30px"}
-                    h={"100%"}
-                    display={"block"}
-                    margin={"auto"}
-                    p={"20%"}
-                    color="secondary.60"
-                  />
-                }
-                title="Location Type"
-                subTitle={"Triangulation Location"}
-                bgColor={"card.100"}
-                textColor={"secondary.100"}
-                maxH={"400px"}
-                maxW={"100%"}
-                minH={"fit-content"}
-              />
-            ) : (
-              <StatCard
-                width={"100%"}
-                icon={
-                  <MdGpsFixed
-                    size={"30px"}
-                    h={"100%"}
-                    display={"block"}
-                    margin={"auto"}
-                    p={"20%"}
-                    color="secondary.60"
-                  />
-                }
-                title="Location Type"
-                subTitle={"GPS Location"}
-                bgColor={"card.100"}
-                textColor={"secondary.100"}
-                maxH={"400px"}
-                maxW={"100%"}
-                minH={"fit-content"}
-              />
-            )}
+            
             <StatCard
               minH={"130px"}
               width={"100%"}
@@ -949,7 +960,7 @@ function Device() {
               subText3={`Requested at: ${
                 statusRequestedAt ? formatDate(statusRequestedAt) : "-"
               }`}
-              bgColor={"card.100"}
+              bgColor={"table.cell"}
               textColor={"secondary.100"}
               maxH={"400px"}
               maxW={"100%"}
@@ -1003,6 +1014,7 @@ function Device() {
                 bg={"action.100"}
                 leftIcon={<Icon as={CopyIcon} />}
                 onClick={() => copyLocationLink()}
+                textColor={"white"}
               >
                 Copy location
               </Button>
@@ -1017,7 +1029,7 @@ function Device() {
                 trips.length !== 0 ? (
                   <Accordion m={1} w={"100%"} allowMultiple>
                     <AccordionItem>
-                      <AccordionButton bg={"action.100"}>
+                      <AccordionButton bg={"primary.80"}>
                         <Box
                           color={"text.primary"}
                           fontSize={"xl"}
@@ -1025,7 +1037,7 @@ function Device() {
                         >
                           Trips
                         </Box>
-                        <AccordionIcon />
+                        <AccordionIcon color={"white"} />
                       </AccordionButton>
                       <AccordionPanel>
                         <Box

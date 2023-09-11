@@ -753,7 +753,8 @@ function Dashboard() {
           {/* connected cytags */}
         
         {cytags.length !== 0 && (
-          <ComplexTable
+          <div id="connected_cytags">
+          <ComplexTable 
             redirectToDevice={redirectToCytag}
             data={selectedCytags}
             title={"Connected CyTags"}
@@ -767,6 +768,7 @@ function Dashboard() {
               />
             }
           />
+        </div>
         )}
 
                 {/* stop */}

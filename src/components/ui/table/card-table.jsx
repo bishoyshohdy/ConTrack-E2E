@@ -321,15 +321,23 @@ function CardTable({
                     cursor={redirectToDevice ? "pointer" : "default"}
 
 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      cytagsBtn(
-                        row.cells.find(
-                          (col) => col.column.Header === "IMEI"
-                        ).value
-                      );
-                    }}
+                    // onClick={(e) => {
+                    //   e.preventDefault();
+                    //   e.stopPropagation();
+                    //   cytagsBtn(
+                    //     row.cells.find(
+                    //       (col) => col.column.Header === "IMEI"
+                    //     ).value
+                    //   );
+                    // }}
+
+
+
+                    onClick={() =>
+                      redirectToDevice ? redirectToDevice(row.cells) : null
+                    }
+
+
 
                     key={index}
                     {...row.getRowProps()}
@@ -364,8 +372,34 @@ function CardTable({
 
                         <Text as={'abbr'}> IMEI: {imei}  <br/>
                         Last Location Type: {loc} <br/>
-                        Cytags: {cytagKOKO}
-                        
+                      
+                      <Box  onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      cytagsBtn(
+                        row.cells.find(
+                          (col) => col.column.Header === "IMEI"
+                        ).value
+                      );
+                      const sectionElement = document.getElementById("connected_cytags"); // Replace with the actual ID of the section
+                      if (sectionElement) {
+                        sectionElement.scrollIntoView({ behavior: "smooth" }); // Use smooth scrolling for a nicer effect
+                      }
+                    }}
+                    _hover={{
+                      color: "card.100",
+                      textDecoration:"underline"
+                      
+                    }}
+                    style={{ 
+                      color:"#9b29e7"
+          
+                    }}
+
+                     > Connected Cytags
+
+                      </Box>
+
                          </Text>
                         </CardBody>
 

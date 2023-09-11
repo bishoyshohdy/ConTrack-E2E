@@ -54,7 +54,7 @@ function StatCard (props) {
             borderRadius={'5px'}
             overflow="hidden"
             cursor={handleClick ? 'pointer' : 'default'}
-            w={'35%'}
+            w={width}
             // minW={size === SCREEN_SIZE.LG ? 'fit-content' : '24%'}
             onClick={() => {
                 handleClick ? handleClick(title) : null;
