@@ -47,7 +47,7 @@ function StyledSelect({
         >
           {!removeNoChoice && (
             <option style={optsStyle} value={-1}>
-              --Choose an option--
+              Choose an option
             </option>
           )}
           {options &&

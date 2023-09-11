@@ -16,6 +16,7 @@ import {
   AccordionIcon,
   TagLeftIcon,
   TagLabel,
+  Spacer
 } from "@chakra-ui/react";
 import React, { useEffect, useContext, useState, useRef } from "react";
 import { SiMicrosoftexcel } from "react-icons/si";
@@ -463,7 +464,9 @@ function Device() {
   const getTripField = (tripId, field) => {
     try {
       const trip = trips.find((t) => t.id === parseInt(tripId));
-      return trip[field];
+      // return trip[field];
+      return trip[field].toUpperCase().charAt(0) + trip[field].slice(1);
+
     } catch (error) {
       console.error(
         "could not find the trip with the given id try again later maybe we can find it"
@@ -476,7 +479,7 @@ function Device() {
     navigator.clipboard.writeText(
       `https://www.google.com/maps/?q=${device.lat},${device.lng}`
     );
-    showsuccess("copied google maps link to clipboard");
+    showsuccess("Copied google maps link to clipboard");
   };
 
   const switchTripMsg = (status) => {
@@ -853,8 +856,9 @@ function Device() {
               textColor={"secondary.100"}
               maxH={"400px"}
               maxW={"100%"}
-              width={"100%"}
+              width={"94%"}
               minH={"fit-content"}
+            
             />
             
             <StatCard
@@ -877,7 +881,7 @@ function Device() {
               textColor={"secondary.100"}
               maxH={"400px"}
               maxW={"100%"}
-              width={"100%"}
+              width={"94%"}
               minH={"fit-content"}
             />
             <StatCard
@@ -900,12 +904,12 @@ function Device() {
               textColor={"secondary.100"}
               maxH={"400px"}
               maxW={"100%"}
-              width={"100%"}
+              width={"94%"}
               minH={"fit-content"}
             />
             
             <StatCard
-              width={"100%"}
+              width={"94%"}
               icon={
                 <HiOutlineLocationMarker
                   size={"30px"}
@@ -941,7 +945,7 @@ function Device() {
             
             <StatCard
               minH={"130px"}
-              width={"100%"}
+              width={"94%"}
               icon={
                 <AiFillLock
                   size={"30px"}
@@ -966,6 +970,7 @@ function Device() {
               maxW={"100%"}
             />
           </Flex>
+          <Flex justifyContent={"center"}>
           {device &&
             hasPermission(PERMISSIONS.POST_DEVICE_MODE) &&
             hasPermission(PERMISSIONS.EDIT_DEVICE_GEOFENCES) && (
@@ -990,6 +995,8 @@ function Device() {
                 />
               </Box>
             )}
+
+</Flex>
         </Box>
         <Box
           w="100%"
@@ -1059,19 +1066,27 @@ function Device() {
                               onchange={setTripInMap}
                               options={trips.map((trip) => {
                                 return {
-                                  label: trip.route ? trip.route.name : "--",
+                                  label: trip.route ? trip.route.name : "Unnamed Trip",
                                   value: trip.id,
                                 };
                               })}
                             />
+                            
+
+                          {trip && getTripField(trip, "status") ?
                             <Tag
-                              size={"lg"}
-                              color={"text.primary"}
-                              colorScheme="action"
+                            size={"lg"}
+                            color={"text.primary"}
+                            colorScheme="action"
+                            ml={"2"}
                             >
-                              {trip && getTripField(trip, "status")}
-                            </Tag>
+                            {trip && getTripField(trip, "status")}
+                          </Tag>
+                          : <br /> }
+
+                            
                           </Box>
+                        <Flex >
                           <ButtonGroup
                             w={"100%"}
                             color={"text.primary"}
@@ -1091,6 +1106,7 @@ function Device() {
                                 getTripField(trip, "status") !==
                                   TripStatus.PENDING
                               }
+                              color={"white"}
                             >
                               Start Trip
                             </Button>
@@ -1104,10 +1120,16 @@ function Device() {
                                 getTripField(trip, "status") !==
                                   TripStatus.IN_PROGRESS
                               }
+                              color={"white"}
+
                             >
                               Complete Trip
                             </Button>
-                            <Button
+                          </ButtonGroup>
+                          <Button
+                              ml={3}
+                              w={"100%"}
+                              variant="outline"
                               onClick={() =>
                                 changeTripStatusCall(trip, TripStatus.PENDING)
                               }
@@ -1117,11 +1139,13 @@ function Device() {
                                 getTripField(trip, "status") !==
                                   TripStatus.IN_PROGRESS
                               }
+                              color={"white"}
+
                             >
                               Stop Trip
                             </Button>
-                          </ButtonGroup>
-                        </Box>
+                        </Flex>
+                      </Box>
                       </AccordionPanel>
                     </AccordionItem>
                   </Accordion>
