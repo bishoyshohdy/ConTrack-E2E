@@ -111,7 +111,7 @@ const CreateDevice=({
           modalMinH={'610px'}
           modalMinW={"700px"}
           btnMinH={'40px'}
-          btnColor={'white'}
+          btnColor={'card.100'}
           footer={false}
           >
             <form >

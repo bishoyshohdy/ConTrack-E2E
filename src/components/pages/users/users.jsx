@@ -99,7 +99,7 @@ function Users () {
 
     return (
         <>
-            <Flex p={2} flexWrap={'wrap'} gap={2}>
+            <Flex p={2} flexWrap={'wrap'} gap={2} >
                 <Box w={'100%'} justifyContent={'end'} as={Flex}>
                     {hasPermission(PERMISSIONS.CREATE_USERS) && 
                     (  <FunctionalModal

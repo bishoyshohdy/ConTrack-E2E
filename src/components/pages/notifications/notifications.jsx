@@ -186,6 +186,7 @@ function Notifications () {
                             title={'Medium Severity'}
                             disabled={false}
                             saveAction={medEditCall}
+                            style={{color:"white"}}
                         />
                     )}
                 </Box>
