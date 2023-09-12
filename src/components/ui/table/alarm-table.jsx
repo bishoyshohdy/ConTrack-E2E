@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
+import {mapThreatToColor} from "../../../helpers/array-map"
 import {
     Table,
     Thead,
@@ -36,7 +37,10 @@ import {
   ArrowUpIcon,
   MinusIcon,
   DeleteIcon,
+  WarningTwoIcon
 } from "@chakra-ui/icons";
+import { Icon,  CheckCircleIcon  } from "@chakra-ui/icons";
+
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
 import {
   usePagination,
@@ -44,6 +48,7 @@ import {
   useGlobalFilter,
   useTable,
 } from "react-table";
+
 import GlobalFilter from "./components/global-filter/global-filter";
 import StyledSelect from "../styled-select/styled-select";
 import { BsArrowDownUp, BsDoorOpen } from "react-icons/bs";
@@ -60,7 +65,7 @@ import container_side from '../../../assets/images/resources/container_side.svg'
 
 
 
-function CardTable({
+function AlarmTable({
   reverse = false,
   minHEmpty = "150px",
   flatten = false,
@@ -292,30 +297,34 @@ function CardTable({
                 
                    {page.map((row, index) => {
                     prepareRow(row);
-                    let imei, namez, locked, vals, loc, attached,cytagKOKO; // Declare variables here
-                
+                    let severity, entity, type, min, max, details,startTime,updatedTime,ack,clear; // Declare variables here
                     row.cells.forEach((cell, cellIndex) => {
                       switch (cellIndex) {
-                        case 0: imei = cell.value; break;
-                        case 1: namez = cell.value; break;
-                        case 2: locked = cell.value; break;
-                        case 3: loc = cell.value; break;
-                        case 4: attached = cell.value; break;
-                        case 5: cytagKOKO = cell.value; break;
-
+                        case 0: severity = cell.value; break;
+                        case 1: entity = cell.value; break;
+                        case 2: type = cell.value; break;
+                        case 3: min = cell.value; break;
+                        case 4: max = cell.value; break;
+                        case 5: details = cell.value; break;
+                        case 6: startTime = cell.value; break;
+                        case 7: updatedTime = cell.value; break;
+                        case 8: ack = cell.value; break;
+                        case 9: clear = cell.value; break;
                       }
                     });
-                      
+
+                    let alarmColor= mapThreatToColor(severity);
+                    
                   return(
                     <Card 
                     bg={'#2d3748'}
                     color="secondary.100"
                     width={'100%'}
-                    border="1px solid #2d3748" 
+                    border="2px solid " 
+                    borderColor={alarmColor}
 
                     _hover={{
                       backgroundColor: "primary.100",
-                      borderColor: "primary.60",
                     }}
 
                     cursor={redirectToDevice ? "pointer" : "default"}
@@ -348,76 +357,49 @@ function CardTable({
                       
                       <CardHeader
                       pb={'10px'}>
-                      <Flex alignItems={'center'}>
-                        <Heading size='md' mb={'10px'}> {namez}</Heading>
-                        <Spacer/>
-                        {{locked}? 
-                        <div style={{ color: 'green' , marginLeft: 'auto' ,display: 'flex', alignItems: 'center', justifyContent:'center' }}> 
-                          <FiLock/>
-                          <Text fontSize='lg' ml={'3px'}> Locked</Text> 
-                        </div>  
-                        : <div style={{ color: 'red' , marginLeft: 'auto' ,display: 'flex', alignItems: 'center' }}>
-                            <FiUnlock/>
-                            <Text fontSize='lg' ml={'3px'}> Unlocked</Text>
-                          </div> }
+                      <Flex alignItems={'center'} >
+                      <WarningTwoIcon color={alarmColor} fontSize={'25px'} m={'10px'}/>
+                        <Heading size='md' mb={'10px'}> 
+                            {type} <br/>
+                            <Text as='cite' fontSize={'14px'} fontWeight="normal"> {severity} severity</Text>
+                        </Heading>
+                        
                       </Flex>
+                      
                       <hr style={{ width: '60%', color: 'blue' }} />
                       
                       </CardHeader>
                            
-                      <CardBody
-                      pt={'10px'} 
-                      pb={'0px'}
-                      pr={'0px'}>
+                    <CardBody mb={0}>
 
-                        <Text as={'abbr'}> IMEI: {imei}  <br/>
-                        Last Location Type: {loc} <br/>
+                        <Text as={'abbr'}> Entity: {entity}  <br/>
+                        Min: {min} 
+                        Max:{max}<br/>
+                        Details: {details}
                       
-                      <Box  onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      cytagsBtn(
-                        row.cells.find(
-                          (col) => col.column.Header === "IMEI"
-                        ).value
-                      );
-                      const sectionElement = document.getElementById("connected_cytags"); // Replace with the actual ID of the section
-                      if (sectionElement) {
-                        sectionElement.scrollIntoView({ behavior: "smooth" }); // Use smooth scrolling for a nicer effect
-                      }
-                    }}
-                    _hover={{
-                      color: "card.100",
-                      textDecoration:"underline"
                       
-                    }}
-                    style={{ 
-                      color:"#9b29e7"
-          
-                    }}
-
-                     > Connected Cytags
-
-                      </Box>
-
                          </Text>
-                        </CardBody>
+                    </CardBody>
 
-                      <CardFooter
-                      pb={'0px'}
-                      pr={'0px'}
-                      pt={'10px'}>
-                      <Flex
-                      mt={'5%'}>
-                        <Text as={'abbr'}> Attached To: {attached} </Text>
+                      <CardFooter as={'Flex'} p={'5%'}   >
+                      <Flex alignItems={'right'} w={'100%'}>
+                        <Text as={'abbr'}>Start Time:{startTime} <br/>
+                        Updated Time:{updatedTime} 
+                        </Text>
                         <Spacer/>
-                        <Image
-                          objectFit='cover'
-                          src= {container_side}
-                          alt='Chakra UI'
-                          width={'60%'}
-                          p={0}
-                        />
+                        <Box
+                                as={'Flex'}
+                                justifyContent={'right'}
+                                size={"sm"}
+                                bg={alarmColor}
+                                rounded={"full"}
+                                p={'3px'}
+                                title={"Acknowledge Alert"}
+                              >
+                                <MdVerified color={"white"} fontSize={"30px"} />
+ 
+                        </Box>
+                        
                       </Flex>
 
                       </CardFooter>
@@ -535,4 +517,4 @@ function CardTable({
   );
 }
 
-export default CardTable;
+export default AlarmTable;

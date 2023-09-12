@@ -5,6 +5,7 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import StatCard from "../../ui/card/stat-card";
 import ComplexTable from "../../ui/table/complex-table";
 import CardTable from "../../ui/table/card-table";
+import AlarmTable from "../../ui/table/alarm-table";
 
 import Map from "../../ui/map/map";
 import "./dashboard.css";
@@ -577,7 +578,7 @@ function Dashboard() {
       </Box>  
       {/* ALARM TABLE */}
       <Box mb={1} ref={refAlarm}>
-        <ComplexTable
+        <AlarmTable
           hiddenCols={[
             "id",
             "current_status",
@@ -687,7 +688,7 @@ function Dashboard() {
               data={prepareExportDataAlarms([...alarmsData])}
             />
           </Box>
-        </ComplexTable>
+        </AlarmTable>
       </Box>
       <div 
       ref={refDevices}

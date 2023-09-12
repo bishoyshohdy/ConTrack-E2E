@@ -116,7 +116,11 @@ function DeviceManagement () {
                         types.map((type) => {
                             return <TabPanel key={type}>
                                 <DeviceTab deleteAction={() => { getDeletionMethod(type); devicesContext.getDevicesCall(); }} createAction={() => { getCreationMethod(type); devicesContext.getDevicesCall(); }} type={type} deviceList={getDeviceList(type)} CreateDevice={
-                                <CreateDevice DeviceType={type} users={users} roles={roles} style={{color: 'red'}}></CreateDevice>
+                                <CreateDevice 
+                                DeviceType={type} 
+                                users={users} 
+                                roles={roles} 
+                                ></CreateDevice>
                                 }/>
                             </TabPanel>;
                         }) 
