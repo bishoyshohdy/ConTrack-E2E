@@ -26,7 +26,8 @@ import {
   TagLabel,
   FormLabel,
   Card, CardHeader, CardBody, CardFooter,
-  Image
+  Image,
+  CloseButton
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -60,7 +61,6 @@ import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
 import { FiUnlock, FiLock } from 'react-icons/fi';
-import container_side from '../../../assets/images/resources/container_side.svg';
 
 
 
@@ -354,9 +354,13 @@ function AlarmTable({
                     
                     
                       
-                      
                       <CardHeader
-                      pb={'10px'}>
+                      pb={'10px'} >
+                      <Flex justifyContent={'flex-end'}>
+                      {/* <CloseButton onClick={actionAlarmCall}/> */}
+                      </Flex>
+
+
                       <Flex alignItems={'center'} >
                       <WarningTwoIcon color={alarmColor} fontSize={'25px'} m={'10px'}/>
                         <Heading size='md' mb={'10px'}> 
@@ -373,8 +377,14 @@ function AlarmTable({
                     <CardBody mb={0}>
 
                         <Text as={'abbr'}> Entity: {entity}  <br/>
+                        { min !== '-' || max !== '-' ? 
+                         <Text as={'abbr'}>
                         Min: {min} 
-                        Max:{max}<br/>
+                        Max:{max}
+                        <br/>
+                        </Text>
+                        :<Text></Text>
+                   }
                         Details: {details}
                       
                       
@@ -389,11 +399,13 @@ function AlarmTable({
                         <Spacer/>
                         <Box
                                 as={'Flex'}
-                                justifyContent={'right'}
+                                justifyContent={'center'}
+                                alignItems= {'center'}
                                 size={"sm"}
                                 bg={alarmColor}
                                 rounded={"full"}
-                                p={'3px'}
+                                w = {'60px'}
+                                h = {'60px'}
                                 title={"Acknowledge Alert"}
                               >
                                 <MdVerified color={"white"} fontSize={"30px"} />

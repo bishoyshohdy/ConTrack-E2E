@@ -2,11 +2,20 @@ import { globalErrorHandler } from './api-helpers';
 import axios from './axios-default';
 import { getToken, setAuthToken } from './user';
 
-export function createCycollector ({ id, name }) {
-    return axios.post('thuraya/cycollector', {
-        IMEI: id,
-        cycollector_name: name
-    }).catch(globalErrorHandler);
+export function createCycollector({ id, name }) {
+    return axios
+        .post('thuraya/cycollector', {
+            IMEI: id,
+            cycollector_name: name,
+        })
+        .then((response) => {
+            // Update the cache with the latest data
+            cachedData['createCycollector'] = response.data;
+            localStorage.setItem('apiCache', JSON.stringify(cachedData));
+            console.log(localStorage.getItem('apiCache'))
+            return response;
+        })
+        .catch((error) => globalErrorHandler(error, 'createCycollector'));
 }
 
 export function deleteCycollector ({ id }) {

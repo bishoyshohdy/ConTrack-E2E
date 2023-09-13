@@ -355,6 +355,7 @@ function ComplexTable({
                                 bg={"danger.100"}
                                 icon={<MdClear color={"danger.100"} />}
                                 rounded={"full"}
+                                onClick={actionAlarmCall}
                               >
                                 Clear{" "}
                               </Button>

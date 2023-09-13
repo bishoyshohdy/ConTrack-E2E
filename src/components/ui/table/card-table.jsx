@@ -55,7 +55,7 @@ import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
 import { FiUnlock, FiLock } from 'react-icons/fi';
-import container_side from '../../../assets/images/resources/container_side.svg';
+import container_side from '../../../assets/images/resources/container_side.png';
 
 
 
@@ -408,7 +408,7 @@ function CardTable({
                       pr={'0px'}
                       pt={'10px'}>
                       <Flex
-                      mt={'5%'}>
+                      mt={'5%'} w= {"100%"}>
                         <Text as={'abbr'}> Attached To: {attached} </Text>
                         <Spacer/>
                         <Image

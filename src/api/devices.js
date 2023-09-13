@@ -2,15 +2,35 @@ import axios from "./axios-default";
 import { getToken, setAuthToken } from "./user";
 import { globalErrorHandler } from "./api-helpers";
 import { formatLocalToISOUTC } from "../helpers/array-map";
+import { showinfo, showsuccess, showerrorMainMenu, showinfoMainMenu, showsuccessMainMenu } from "../helpers/toast-emitter";
+
 
 const baseURL = "api-v2/";
 const hotelsURL = "hotel/";
 const bandsURL = "bands";
 
+
 export async function getDevices() {
   setAuthToken(getToken());
-  return axios.get(baseURL + "devices/").catch(globalErrorHandler);
+  try {
+    showinfoMainMenu("Loading...");
+    response = await axios.get(baseURL + "devices/");
+    localStorage.setItem('getDevice', JSON.stringify(response));
+    showsuccessMainMenu("Loaded Successfully");
+    return response;
+    } 
+    catch (API_Down) {
+      try{
+        showinfoMainMenu("Error retieving data from API, Loading cached data...");
+        return Promise.resolve(JSON.parse(localStorage.getItem('getDevice')));
+      }
+    catch(noCache){
+      globalErrorHandler();
+    }
 }
+}
+
+
 
 export function getTelemetry(imei, startDate, endDate, offset, limit) {
   const startDateISO = formatLocalToISOUTC(startDate);

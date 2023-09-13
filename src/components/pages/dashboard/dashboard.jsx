@@ -58,7 +58,7 @@ export function AlarmAction({
       {!actionPerformed ? (
         <FunctionalModal
           modalTitle={acknowldgeAction ? "Acknowledge alarm" : "Clear alarm"}
-          iconBtn={CheckCircleIcon}
+          iconBtn={zzz}
           modalMinW={"70%"}
           modalMinH={"200px"}
           btnColor={"action.100"}
@@ -601,93 +601,7 @@ function Dashboard() {
           }
           data={[...alarms]}
         >
-          <Box as={Flex} gap={1}>
-            <FunctionalModal
-              modalTitle={"Set Filters"}
-              modalMinH={"100%"}
-              modalMinW={"70%"}
-              btnTitle={"Set Filters"}
-              transparent
-              iconBtn={BiFilter}
-              btnColor={"action.100"}
-              btnAction={
-                <Flex gap={2}>
-                  <Button
-                    bg={"primary.100"}
-                    color={"text.primary"}
-                    onClick={() => handleFilter(false)}
-                  >
-                    Set filters
-                  </Button>
-                  <Button
-                    bg={"danger.100"}
-                    color={"text.primary"}
-                    onClick={() => handleFilter(true)}
-                  >
-                    Reset filters
-                  </Button>
-                </Flex>
-              }
-            >
-              <HistoryPicker
-                showBtn={false}
-                selectStartDate={(date) => setStartDate(date)}
-                selectEndDate={(date) => setEndDate(date)}
-                disabled={!startDate || !endDate}
-                startDate={startDate}
-                endDate={endDate}
-              />
-              <Text p={1}>Alarm Type:</Text>
-              <StyledSelect
-                value={alarmType}
-                onchange={setAlarmType}
-                options={alarmTypes.map((type) => {
-                  return { label: type.name, value: type.id };
-                })}
-              />
-              <Text p={1}>Severity:</Text>
-              <StyledSelect
-                value={severity}
-                onchange={setSeverity}
-                options={Object.values(SEVERITY).map((type) => {
-                  return { label: type, value: type };
-                })}
-              />
-              <Text p={1}>Status:</Text>
-              <StyledSelect
-                value={status}
-                onchange={setStatus}
-                options={Object.values(ALARM_STATUS).map((type) => {
-                  return { label: type, value: type };
-                })}
-              />
-              <Text p={1}>Notified:</Text>
-              <StyledSelect
-                value={notified}
-                onchange={setNotified}
-                options={[
-                  { label: "Yes", value: 1 },
-                  { label: "No", value: 0 },
-                ]}
-              />
-              <Text p={1}>Entity:</Text>
-              <StyledSelect
-                value={entity}
-                onchange={setEntity}
-                options={[...cycollects, ...cytags].map((dev) => {
-                  return { label: dev.name, value: dev.id };
-                })}
-              />
-            </FunctionalModal>
-            <PdfExport
-              title={"Alarms"}
-              data={prepareExportDataAlarms([...alarmsData])}
-            />
-            <ExcelExport
-              title={"Alarms"}
-              data={prepareExportDataAlarms([...alarmsData])}
-            />
-          </Box>
+
         </AlarmTable>
       </Box>
       <div 
