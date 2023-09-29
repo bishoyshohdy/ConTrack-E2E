@@ -36,12 +36,18 @@ const gradientColor2 = 'rgb(119,22,237)';
 
 const cardColor = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
 
+const gradientColor1_lo = 'rgb(155,41,231, 0.5)';
+const gradientColor2_lo = 'rgb(119,22,237, 0.5)';
+
+const cardColor2 = `linear-gradient(90deg, ${gradientColor1_lo} 0%, ${gradientColor2_lo} 100%)`;
+
 const tablecellGray = '#2D3748';
 const tablecelllight = '#f0f0f0';
 
 const purple1 = "#9b29e7";
 
 const purpleGradient = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
+
 
 const darkModeColors = {
     primary: {
@@ -96,6 +102,7 @@ const darkModeColors = {
     },
     card: {
         100: cardColor,
+        80:cardColor2,
         50: periwinklecrayola2
     },
     company: {
