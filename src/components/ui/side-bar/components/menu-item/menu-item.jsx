@@ -23,6 +23,7 @@ export default function MenuItem ({ icon, title, description, active, navSize, p
                     as={NavLink}
                     backgroundColor={active && 'secondary.100'}
                     p={3}
+                    px={5}
                     borderRadius={8}
                     _hover={{ textDecor: 'none', backgroundColor: 'secondary.40' }}
                     w={navSize === 'large' && '100%'}
@@ -32,7 +33,7 @@ export default function MenuItem ({ icon, title, description, active, navSize, p
                         <Flex alignItems="center">
                             <Icon
                                 as={icon}
-                                fontSize="xl"
+                                fontSize="2xl"
                                 color={active ? 'text.secondary' : 'text.primary'}
                             />
                             <Text color={active ? 'text.secondary' : 'text.primary'} ml={5} display={navSize === 'small' ? 'none' : 'flex'}>

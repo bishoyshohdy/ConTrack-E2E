@@ -36,7 +36,7 @@ import { SCREEN_SIZE } from '../../../types/screen';
 import { sideBarData } from '../../../data/side-bar';
 import AlexPortImg from '../../../assets/images/logo/alex-port-en.png';
 import AlexPortDarkImg from '../../../assets/images/logo/alex-port-dark-en.png';
-import BoschImg from '../../../assets/images/logo/bosch.svg';
+// import BoschImg from '../../../assets/images/logo/bosch.svg';
 
 function NavBar (props) {
     const themeCtx = useContext(ThemeContext);
@@ -53,10 +53,10 @@ function NavBar (props) {
                 setLightImage(AlexPortImg);
                 setDarkImage(AlexPortDarkImg);
             }
-            if (getUserInfo().customer === 'bosch') {
-                setLightImage(BoschImg);
-                setDarkImage(BoschImg);
-            }
+            // if (getUserInfo().customer === 'bosch') {
+            //     setLightImage(BoschImg);
+            //     setDarkImage(BoschImg);
+            // }
         }
     }, []);
     return (
@@ -106,9 +106,8 @@ function NavBar (props) {
                             <DrawerContent bg={'primary.80'}>
                                 <DrawerCloseButton bg={'transparent'} color={'text.primary'} />
                                 <DrawerHeader>
-                                    <Flex gap={2}>
+                                    <Flex>
                                         <Logo w={100} logo={themeCtx.darkMode ? lightLogo : DarkLogo} />
-                                        <Logo w={100} logo={themeCtx.darkMode ? darkImage : lightImage} />
                                     </Flex>
                                 </DrawerHeader>
                                 <DrawerBody>
@@ -155,7 +154,7 @@ function NavBar (props) {
                                                 >
                                                     <Text>
                                                         <Avatar
-                                                            mr={2}
+                                                            // mr={2}
                                                             size={'sm'}
                                                             name={getUserInfo && getUserInfo().user_name ? getUserInfo().user_name : ''}
                                                         />{getUserInfo && getUserInfo().user_name ? getUserInfo().user_name : ''}

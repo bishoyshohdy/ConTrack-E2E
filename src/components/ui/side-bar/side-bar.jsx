@@ -17,7 +17,7 @@ import useScreenSize from '../../../hooks/screen-size';
 import { SCREEN_SIZE } from '../../../types/screen';
 import AlexPortImg from '../../../assets/images/logo/alex-port-en.png';
 import AlexPortDarkImg from '../../../assets/images/logo/alex-port-dark-en.png';
-import BoschImg from '../../../assets/images/logo/bosch.svg';
+// import BoschImg from '../../../assets/images/logo/bosch.svg';
 import { getUserInfo } from '../../../api/user';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 
@@ -41,21 +41,20 @@ export default function SideBar ({ updateNavSize }) {
                 setLightImage(AlexPortImg);
                 setDarkImage(AlexPortDarkImg);
             }
-            if (getUserInfo().customer === 'bosch') {
-                setLightImage(BoschImg);
-                setDarkImage(BoschImg);
-            }
+            // if (getUserInfo().customer === 'bosch') {
+            //     setLightImage(BoschImg);
+            //     setDarkImage(BoschImg);
+            // }
         }
     }, []);
     return (
         <>
             {size === SCREEN_SIZE.LG &&             
             <Box
-                w={navSize === 'small' ? '5%' : '100%'}
+                w={"100%"}
                 h= "100vh"
                 p={2}
                 bg={'primary.80'}
-                boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
                 position="sticky" // Set the position to sticky
                 top={0}
 
@@ -81,6 +80,7 @@ export default function SideBar ({ updateNavSize }) {
                                 key={ele.id}
                                 navSize={navSize}
                                 icon={ele.icon}
+
                                 title={ele.name}
                                 path={ele.path}
                                 active={location.pathname === ele.path}
