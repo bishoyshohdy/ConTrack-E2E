@@ -1,10 +1,13 @@
 import React from 'react';
 // import FunctionalModal from '../../../ui/functional-modal/functional-modal';
 import ComplexTable from '../../../ui/table/complex-table';
+import AccordionTable from '../../../ui/table/accordion-table.jsx';
+
 // import { Button, Box, Flex } from '@chakra-ui/react';
 import { capatalizeName } from '../../../../helpers/string-operations';
 // import DeviceForm from '../device-form/device-form';
 import { getDeviceIdentifier } from '../../../../data/device-form';
+
 
 function DeviceTab ({ type, deviceList, createAction, deleteAction,CreateDevice }) {
     // const [id, setId] = useState('');
@@ -12,6 +15,8 @@ function DeviceTab ({ type, deviceList, createAction, deleteAction,CreateDevice 
 
     return (
         <>
+            {type === 'cytag' ?    
+
             <ComplexTable
                 hiddenCols={['pccw_iccid', 'satcom_iccid', 'lat', 'lng', 'lock_status', 'Battery']}
                 title={capatalizeName(type) + 's'}
@@ -36,6 +41,19 @@ function DeviceTab ({ type, deviceList, createAction, deleteAction,CreateDevice 
                     </FunctionalModal>
                 </Box> */}
             </ComplexTable>
+            :
+            // Call accordion component here
+            <AccordionTable
+            hiddenCols={['pccw_iccid', 'satcom_iccid', 'lat', 'lng', 'lock_status', 'Battery']}
+            title={capatalizeName(type) + 's'}
+            data={deviceList}
+            //deleteBtn={deleteAction}
+            // setId={setId}
+            // setName={setName}
+            idLabel={getDeviceIdentifier(type)}
+            type={type}
+            CreateDevice={CreateDevice}/>
+            }
         </>
     );
 }

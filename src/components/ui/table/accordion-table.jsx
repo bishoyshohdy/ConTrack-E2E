@@ -1,17 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
-import {mapThreatToColor} from "../../../helpers/array-map"
 import {
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer,
-    SimpleGrid,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
   Box,
   IconButton,
   Input,
@@ -25,9 +20,13 @@ import {
   Tag,
   TagLabel,
   FormLabel,
-  Card, CardHeader, CardBody, CardFooter,
-  Image,
-  CloseButton
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Grid, 
+  GridItem 
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -38,10 +37,7 @@ import {
   ArrowUpIcon,
   MinusIcon,
   DeleteIcon,
-  WarningTwoIcon
 } from "@chakra-ui/icons";
-import { Icon,  CheckCircleIcon  } from "@chakra-ui/icons";
-
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
 import {
   usePagination,
@@ -49,7 +45,6 @@ import {
   useGlobalFilter,
   useTable,
 } from "react-table";
-
 import GlobalFilter from "./components/global-filter/global-filter";
 import StyledSelect from "../styled-select/styled-select";
 import { BsArrowDownUp, BsDoorOpen } from "react-icons/bs";
@@ -60,12 +55,9 @@ import DeviceForm from "../../pages/device-management/device-form/device-form";
 import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
-import { FiUnlock, FiLock } from 'react-icons/fi';
 
 
-
-
-function AlarmTable({
+function ComplexTable({
   reverse = false,
   minHEmpty = "150px",
   flatten = false,
@@ -90,8 +82,7 @@ function AlarmTable({
   setPage,
   setPageNumber,
   pageNumber,
-  CreateDevice,
-  allCytags
+  CreateDevice
 
 }) {
   const [flatData, setFlatData] = useState(data);
@@ -108,27 +99,8 @@ function AlarmTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
-  // hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
-  // const themeCtx = useContext(ThemeContext);
-  // const columns = React.useMemo(
-  //   () =>
-  //     reverse
-  //       ? [...extractFn(data, hiddenCols).reverse()]
-  //       : [
-  //           ...extractFn(data, hiddenCols),
-  //           {
-  //             Header: "Cytag",
-  //             accessor: "cytag", // Assuming "cytag" is the property containing Cytag information
-  //             Cell: ({ value }) => (
-  //               <Tag size="md" colorScheme="teal">
-  //                 <TagLabel>{value}</TagLabel>
-  //               </Tag>
-  //             ),
-  //           },
-  //         ],
-  //   [data]
-  // );
-  
+  hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
+  const themeCtx = useContext(ThemeContext);
   const {
     getTableProps,
     getTableBodyProps,
@@ -222,9 +194,9 @@ function AlarmTable({
         </Flex>
         {columns.length !== 0 ? (
           <>
-            <Box  overflowY={"scroll"} h={"430px"}>
-            <Table
-                mb={'10px'}
+            <Box overflowX={"scroll"} overflowY={"scroll"} h={"430px"}>
+              <Table
+                h={"100%"}
                 color={"secondary.100"}
                 {...getTableProps()}
                 variant={"unstyled"}
@@ -287,144 +259,54 @@ function AlarmTable({
                     </Tr>
                   ))}
                 </Thead>
-            </Table>
-
-            {/* Card Grid */}
-            <SimpleGrid 
-            spacing={4} 
-            templateColumns='repeat(auto-fill, minmax( 260px, 24% ))'
-            {...getTableBodyProps()}>
-                
-                   {page.map((row, index) => {
+                </Table>
+                {/* start */}
+                <Accordion {...getTableBodyProps()}
+                defaultIndex={[0]} allowMultiple>
+                  {page.map((row, index) => {
                     prepareRow(row);
-                    let severity, entity, type, min, max, details,startTime,updatedTime,ack,clear; // Declare variables here
-                    row.cells.forEach((cell, cellIndex) => {
-                      switch (cellIndex) {
-                        case 0: severity = cell.value; break;
-                        case 1: entity = cell.value; break;
-                        case 2: type = cell.value; break;
-                        case 3: min = cell.value; break;
-                        case 4: max = cell.value; break;
-                        case 5: details = cell.value; break;
-                        case 6: startTime = cell.value; break;
-                        case 7: updatedTime = cell.value; break;
-                        case 8: ack = cell.value; break;
-                        case 9: clear = cell.value; break;
-                      }
-                    });
+                    return (
+                      <AccordionItem 
+                        // onClick={() =>
+                        //   redirectToDevice ? redirectToDevice(row.cells) : null
+                        // }
+                        key={index}
+                        {...row.getRowProps()}
+                      >
 
-                    let alarmColor= mapThreatToColor(severity);
-                    
-                  return(
-                    <Card 
-                    bg={'#2d3748'}
-                    color="secondary.100"
-                    width={'100%'}
-                    border="2px solid " 
-                    borderColor={alarmColor}
-
-                    _hover={{
-                      backgroundColor: "primary.100",
-                    }}
-
-                    cursor={redirectToDevice ? "pointer" : "default"}
-
-
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   e.stopPropagation();
-                    //   cytagsBtn(
-                    //     row.cells.find(
-                    //       (col) => col.column.Header === "IMEI"
-                    //     ).value
-                    //   );
-                    // }}
-
-
-
-                    onClick={() =>
-                      redirectToDevice ? redirectToDevice(row.cells) : null
-                    }
-
-
-
-                    key={index}
-                    {...row.getRowProps()}
-                   >
-                    
-                    
-                      
-                      <CardHeader
-                      pb={'10px'} >
-                      <Flex justifyContent={'flex-end'}>
-                      {/* <CloseButton onClick={actionAlarmCall}/> */}
-                      </Flex>
-
-
-                      <Flex alignItems={'center'} >
-                      <WarningTwoIcon color={alarmColor} fontSize={'25px'} m={'10px'}/>
-                        <Heading size='md' mb={'10px'}> 
-                            {type} <br/>
-                            <Text as='cite' fontSize={'14px'} fontWeight="normal"> {severity} severity</Text>
-                        </Heading>
-                        
-                      </Flex>
-                      
-                      <hr style={{ width: '60%', color: 'blue' }} />
-                      
-                      </CardHeader>
-                           
-                    <CardBody mb={0}>
-
-                        <Text as={'abbr'}> Entity: {entity}  <br/>
-                        { min !== '-' || max !== '-' ? 
-                         <Text as={'abbr'}>
-                        Min: {min} 
-                        Max:{max}
-                        <br/>
-                        </Text>
-                        :<Text></Text>
-                   }
-                        Details: {details}
-                      
-                      
-                         </Text>
-                    </CardBody>
-
-                      <CardFooter as={'Flex'} p={'5%'}   >
-                      <Flex alignItems={'right'} w={'100%'}>
-                        <Text as={'abbr'}>Start Time:{startTime} <br/>
-                        Updated Time:{updatedTime} 
-                        </Text>
-                        <Spacer/>
-                        <Box
-                                as={'Flex'}
-                                justifyContent={'center'}
-                                alignItems= {'center'}
-                                size={"sm"}
-                                bg={alarmColor}
-                                rounded={"full"}
-                                w = {'50px'}
-                                h = {'50px'}
-                                title={"Acknowledge Alert"}
-                                p={"5px"}
-                              >
-                                <MdVerified color={"white"} fontSize={"40px"}  />
-                        
-                        </Box>
-                        
-                      </Flex>
-
-                      </CardFooter>
-                      
-                    </Card>
-                  )
-  
-                })}
-            </SimpleGrid>
-             {/* /Card Grid */}
-
-             
+                        {row.cells.map((cell, index) => {
+                          return (
+                            <AccordionButton
+                              p={1}
+                              key={index}
+                              {...cell.getCellProps()}
+                              minWidth={"200px"}
+                            >
+                                {/* <Box
+                                  p={2}
+                                  w={"100%"}
+                                  display={"flex"}
+                                  justifyContent={"space-evenly"}
+                                  textAlign={"start"}
+                                  fontSize={"sm"}
+                                > */}
+                                
+                                  {/* {cell.render("Cell")} */}
+                                  {/* render only the first cell of each column */}
+                                  {/* {cell.render("Cell") && index === 0 (
+                                    console.log("cell", cell.render("Cell")))}
+                                </Box> */}
+                            
+                            </AccordionButton>
+                          );
+                        })}
+ 
+                      </AccordionItem>
+                    );
+                  })}
+                  <Box h={"-moz-available"}></Box>
+                </Accordion>
+                {/* end */}
             </Box>
             <Stack
               pos={"relative"}
@@ -530,4 +412,4 @@ function AlarmTable({
   );
 }
 
-export default AlarmTable;
+export default ComplexTable;
