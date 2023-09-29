@@ -69,7 +69,7 @@ function NavBar (props) {
             alignItems="center"
             gap="2"
         >
-            {size !== SCREEN_SIZE.LG && <IconButton
+            {size < SCREEN_SIZE.LG && <IconButton
                 ms={1}
                 bg={'transparent'}
                 size={'lg'}
@@ -89,7 +89,7 @@ function NavBar (props) {
                 </Heading>
             </Box>
             <Spacer />
-            {size === SCREEN_SIZE.LG
+            {size >= SCREEN_SIZE.LG
                 ? (
                     <SearchMenu showUser />
                 )

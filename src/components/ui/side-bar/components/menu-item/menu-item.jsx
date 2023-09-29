@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import {
     Flex,
     Text,
@@ -8,10 +9,20 @@ import {
     MenuButton
     // MenuList
 } from '@chakra-ui/react';
-// import MenuHoverBox from '../menu-hover-box/menu-hover-box';
+import useScreenSize from '../../../../../hooks/screen-size';
+import { SCREEN_SIZE } from '../../../../../types/screen';
 import { NavLink } from 'react-router-dom';
 
+
+
 export default function MenuItem ({ icon, title, description, active, navSize, path, choices }) {
+    const screenSize = useScreenSize();
+    const [isMedScreen, setIsMedScreen] = useState(screenSize <= SCREEN_SIZE.LG);
+
+    useEffect(() => {
+      setIsMedScreen(!(screenSize <= SCREEN_SIZE.LG));
+    }, [screenSize]);
+
     return (
         <Flex
             flexDir="column"
@@ -36,7 +47,7 @@ export default function MenuItem ({ icon, title, description, active, navSize, p
                                 fontSize="2xl"
                                 color={active ? 'text.secondary' : 'text.primary'}
                             />
-                            <Text color={active ? 'text.secondary' : 'text.primary'} ml={5} display={navSize === 'small' ? 'none' : 'flex'}>
+                            <Text color={active ? 'text.secondary' : 'text.primary'} ml={5} fontSize={isMedScreen ? '16px' : '11px'} display={navSize === 'small' ? 'none' : 'flex'}>
                                 {title}
                             </Text>
                         </Flex>

@@ -30,7 +30,7 @@ function AvatarCard ({ title, subtitle, list1, list2, clickable, navigation, dev
     return (
         <Box
             onClick={navigation ? redirectToDevice : null}
-            flexWrap={size === SCREEN_SIZE.LG ? 'nowrap' : 'wrap'}
+            flexWrap={size >= SCREEN_SIZE.LG ? 'nowrap' : 'wrap'}
             w={'100%'}
             cursor={clickable && navigation ? 'pointer' : 'unset'}
             _hover={{ backgroundColor: clickable ? 'card.100' : 'primary.80' }}

@@ -49,10 +49,10 @@ export default function SideBar ({ updateNavSize }) {
     }, []);
     return (
         <>
-            {size === SCREEN_SIZE.LG &&             
+            {size >= SCREEN_SIZE.LG &&             
             <Box
-                w={"100%"}
-                h= "100vh"
+                maxW={'18%'}
+                height= {"100vh"}
                 p={2}
                 bg={'primary.80'}
                 position="sticky" // Set the position to sticky
@@ -60,7 +60,7 @@ export default function SideBar ({ updateNavSize }) {
 
             >
                 <Flex
-                    p="5%"
+                    p="0"
                     flexDir="column"
                     w="100%"
                     alignItems={'center'}
@@ -80,7 +80,6 @@ export default function SideBar ({ updateNavSize }) {
                                 key={ele.id}
                                 navSize={navSize}
                                 icon={ele.icon}
-
                                 title={ele.name}
                                 path={ele.path}
                                 active={location.pathname === ele.path}

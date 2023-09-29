@@ -9,14 +9,15 @@
     z-index: 1;
     position: relative;
     margin-bottom: 5px;
-    min-width: 82% ;
+    min-width: calc(100% - 18%);
+    max-width: 100%;
 }
 
 .main-app {
     margin: 4px;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1440px) {
     .app-container {
         margin: 0;
         min-width: calc( 100%  );

@@ -13,8 +13,11 @@ function useScreenSize () {
             if (windowSize <= SCREEN_SIZE.MD && windowSize > SCREEN_SIZE.SM) {
                 setScreenSize(SCREEN_SIZE.MD);
             }
-            if (windowSize > SCREEN_SIZE.MD) {
+            if (windowSize >= SCREEN_SIZE.MD && windowSize <= SCREEN_SIZE.LG) {
                 setScreenSize(SCREEN_SIZE.LG);
+            }
+            if (windowSize > SCREEN_SIZE.LG) {
+                setScreenSize(SCREEN_SIZE.XL);
             }
         };
 

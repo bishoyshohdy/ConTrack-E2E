@@ -54,7 +54,7 @@ function StatCard (props) {
             w={width}
             h={'fit-content'}
             minH={minH || ''}
-            minW={size === SCREEN_SIZE.LG ? 'fit-content' : '100%'}
+            minW={size >= SCREEN_SIZE.LG ? 'fit-content' : '100%'}
             onClick={() => {
                 handleClick ? handleClick(title) : null;
                 console.log('STATCARF');
