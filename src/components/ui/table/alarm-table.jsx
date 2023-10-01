@@ -386,7 +386,7 @@ function AlarmTable({
                    >
                     
                     
-                      
+                    
                       <CardHeader
                       pb={'10px'} >
                       <Flex justifyContent={'flex-end'}>
@@ -406,14 +406,25 @@ function AlarmTable({
                       <hr style={{ width: '60%', color: 'blue' }} />
                       
                       </CardHeader>
-                           
+                      
                     <CardBody mb={0}>
-
+                    
                         <Text as={'abbr'}> Entity: {entity}  <br/>
-                        { min !== '-' || max !== '-' ? 
+                        { min !== '-' || max !== '-' && type === "CyTag Battery : Battery" ? 
                          <Text as={'abbr'}>
-                        Min: {min} 
-                        Max:{max}
+                        Battery's Max Range: {max}
+                        
+                        <br/>
+                        </Text>  
+                       :
+                        <Text></Text>
+                        
+                   }
+                   
+                    { min !== '-' || max !== '-' && type !== "CyTag Battery : Battery" ? 
+                         <Text as={'abbr'}>
+                       Normal Range:{min},{max}
+                       
                         <br/>
                         </Text>
                         :<Text></Text>
@@ -422,11 +433,12 @@ function AlarmTable({
                       
                       
                          </Text>
+                         
                     </CardBody>
 
                       <CardFooter as={'Flex'} p={'5%'}   >
                       <Flex alignItems={'right'} w={'100%'}>
-                        <Text as={'abbr'}>Start Time:{startTime} <br/>
+                        <Text as={'abbr'}>
                         Updated Time:{updatedTime} 
                         </Text>
                         <Spacer/>
