@@ -17,7 +17,7 @@ function LineChart ({ ops, data }) {
                         />
                     )
                     : (
-                        <Center mt={10} color={'text.primary'}>There are no data to display</Center>
+                        <Center mt={10} color={'text.primary'}></Center>
                     )
             }
         </>

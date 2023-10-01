@@ -118,7 +118,8 @@ function Dashboard() {
 
   const [activeTab, setActiveTab] = useState(0);
   const [isHovered, setIsHovered] = useState(0);
-
+  const [isLoading, setIsLoading] = useState(true); 
+  
   const refAlarm = useRef(null);
   const refDevices = useRef(null);
   const refTags = useRef(null);
@@ -178,16 +179,24 @@ function Dashboard() {
     return alarmss;
   };
 
+
+
   const getAlarmsCall = (filters) => {
-    getAlarms(filters).then((res) => {
-      setAlarms(setupAlarms(res.data));
-      setAlarmsData(
-        setupAlarms(res.data).map((oneAlarm) => {
-          delete oneAlarm.Acknowledge;
-          return oneAlarm;
-        })
-      );
-    });
+    setIsLoading(true);
+    getAlarms(filters)
+      .then((res) => {
+        setIsLoading(false);
+        setAlarms(setupAlarms(res.data));
+        setAlarmsData(
+          setupAlarms(res.data).map((oneAlarm) => {
+            delete oneAlarm.Acknowledge;
+            return oneAlarm;
+          })
+        );
+      })
+      .catch((error) => {
+        setIsLoading(false);
+      });
   };
 
   const handleFilter = (reset) => {
@@ -483,6 +492,7 @@ function Dashboard() {
                       />
                     }
                     data={[...alarms]}
+                    isLoading={isLoading}
                   >
                   </AlarmTable>
                 </Box>

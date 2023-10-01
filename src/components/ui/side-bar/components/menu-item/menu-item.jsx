@@ -7,7 +7,6 @@ import {
     Link,
     Menu,
     MenuButton
-    // MenuList
 } from '@chakra-ui/react';
 import useScreenSize from '../../../../../hooks/screen-size';
 import { SCREEN_SIZE } from '../../../../../types/screen';

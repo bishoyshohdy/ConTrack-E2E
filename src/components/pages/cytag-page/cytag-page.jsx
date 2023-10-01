@@ -499,6 +499,7 @@ function CytagPage() {
           title={"Alarms"}
           icon={<Icon as={BiAlarm} boxSize={"30px"} color={"action.100"} />}
           data={alarms}
+          isLoading={Boolean(alarms.length === 0)}
         />
       </Box>
       <Box margin={"0.5%"}>

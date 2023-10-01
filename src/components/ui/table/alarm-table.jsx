@@ -12,22 +12,28 @@ import {
     TableCaption,
     TableContainer,
     SimpleGrid,
-  Box,
-  IconButton,
-  Input,
-  Text,
-  Flex,
-  Stack,
-  Button,
-  Center,
-  Spacer,
-  Heading,
-  Tag,
-  TagLabel,
-  FormLabel,
-  Card, CardHeader, CardBody, CardFooter,
-  Image,
-  CloseButton
+    Box,
+    IconButton,
+    Input,
+    Text,
+    Flex,
+    Stack,
+    Button,
+    Center,
+    Spacer,
+    Heading,
+    Tag,
+    TagLabel,
+    FormLabel,
+    Card, CardHeader, CardBody, CardFooter,
+    Image,
+    CloseButton,
+    Spinner,
+    Skeleton,
+    SkeletonCircle,
+    SkeletonText,
+    Grid,
+    GridItem,
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -91,7 +97,8 @@ function AlarmTable({
   setPageNumber,
   pageNumber,
   CreateDevice,
-  allCytags
+  allCytags,
+  isLoading,
 
 }) {
   const [flatData, setFlatData] = useState(data);
@@ -108,7 +115,7 @@ function AlarmTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
-  // hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
+{  // hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
   // const themeCtx = useContext(ThemeContext);
   // const columns = React.useMemo(
   //   () =>
@@ -128,7 +135,9 @@ function AlarmTable({
   //         ],
   //   [data]
   // );
-  
+}
+
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -182,9 +191,48 @@ function AlarmTable({
 
   },[])
 
+  const [LoadingElapsed, setLoadingElapsed] = useState(true);
+  setTimeout(() => {
+    setLoadingElapsed(false);
+  }, 1200);
+
+
+
+
+// console.log("Loading", isLoading)
 
   return (
     <>
+      {isLoading || LoadingElapsed ? (
+        <Grid templateColumns='repeat(4, 1fr)' gap={4} mx={6}>
+        {Array.from({ length: 7 }, (_, index) => (
+        //Alarm Card Skeleton
+        <GridItem>
+        <Box 
+        w={'100%'}
+        border='2px'
+        borderColor='grey'
+        borderRadius='10px'
+        p={3}
+        m={'2'}
+        >
+        <SkeletonCircle size={12}/>
+        <Skeleton my={2}>
+          <Box h={'25px'}></Box>
+        </Skeleton>
+        <hr />
+        <SkeletonText my={3} />
+        <SkeletonText my={3} />
+        <Flex justifyContent={'end'}>
+        <SkeletonCircle size={12}/>
+        </Flex>
+        <SkeletonText my={3}/>
+        </Box>
+        </GridItem>
+        ))}
+        </Grid>
+// END OF LOADING
+    ) : (
       <Box
         backgroundColor={"primary.80"}
         borderRadius={"5px"}
@@ -329,24 +377,9 @@ function AlarmTable({
 
                     cursor={redirectToDevice ? "pointer" : "default"}
 
-
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   e.stopPropagation();
-                    //   cytagsBtn(
-                    //     row.cells.find(
-                    //       (col) => col.column.Header === "IMEI"
-                    //     ).value
-                    //   );
-                    // }}
-
-
-
                     onClick={() =>
                       redirectToDevice ? redirectToDevice(row.cells) : null
                     }
-
-
 
                     key={index}
                     {...row.getRowProps()}
@@ -526,6 +559,7 @@ function AlarmTable({
           <Center color={"text.primary"}>There are no data to display</Center>
         )}
       </Box>
+    )}
     </>
   );
 }

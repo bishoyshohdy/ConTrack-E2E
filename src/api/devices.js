@@ -31,8 +31,7 @@ export async function getDevices() {
     return response;
   } catch (error) {
     // Check if the error is due to the API being down
-    if (error.response && error.response.status >= 500) {
-      // Try to retrieve cached data from local storage
+    // Try to retrieve cached data from local storage
       const cachedData = localStorage.getItem('getDevice');
       if (cachedData) {
         // Parse the cached data and return it as a resolved promise
@@ -41,18 +40,10 @@ export async function getDevices() {
         return Promise.resolve(parsedData);
       } else {
         // If there is no cached data, show an error message and call the global error handler
-        showErrorMainMenu("Error retrieving data from API and no cached data available.");
-        // globalErrorHandler();
+        showerrorMainMenu("Error retrieving data from API and no cached data available.");
       }
-    } else {
-      // If the error is not due to the API being down, show an error message and call the global error handler
-      showErrorMainMenu("Error retrieving data from API.");
-      // globalErrorHandler();
-    }
   }
 }
-
-
 
 export function getTelemetry(imei, startDate, endDate, offset, limit) {
   const startDateISO = formatLocalToISOUTC(startDate);

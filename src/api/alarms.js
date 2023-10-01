@@ -8,6 +8,8 @@ const baseUrl = 'alarms';
 const settingsUrl = 'settings';
 const assignUrl = 'assign/';
 
+
+//Needs caching implementation!
 export function getAlarms (filters) {
     setAuthToken(getToken());
     let filterStr = '/';
