@@ -29,8 +29,8 @@ function CytagAssign ({ cycollectorId, assignAction }) {
         <> {hasPermission(PERMISSIONS.ASSIGN_TAGS) && (
             <FunctionalModal
                 modalTitle={'Assign Cytags'}
-                iconBtn={BsPlusCircle}
-                btnColor={'chart.80'}
+                iconBtn={BsPlusCircle }
+                btnColor={'card.100'}
                 btnMinH={'20px'}
                 modalMinH={'500px'}
                 btnAction={

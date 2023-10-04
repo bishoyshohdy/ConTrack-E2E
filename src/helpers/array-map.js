@@ -172,6 +172,14 @@ export function switchMainHeader(key, props) {
             unAssignAction={unAssignCytag}
           />
         );
+        case "myCytags":
+          return (
+            <CytagChip
+              cycollectorId={props}
+              assignAction={assignCytag}
+              unAssignAction={unAssignCytag}
+            />
+          );
       case "Lock feedback":
         return String(props.value === "1" ? "Locked" : "Unlocked");
       case "lock_status":

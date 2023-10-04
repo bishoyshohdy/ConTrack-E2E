@@ -26,7 +26,8 @@ import {
   AccordionPanel,
   AccordionIcon,
   Grid, 
-  GridItem 
+  GridItem ,
+  Collapse
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -37,6 +38,7 @@ import {
   ArrowUpIcon,
   MinusIcon,
   DeleteIcon,
+  AddIcon
 } from "@chakra-ui/icons";
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
 import {
@@ -55,9 +57,11 @@ import DeviceForm from "../../pages/device-management/device-form/device-form";
 import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
+import {switchMainHeader} from "../../../helpers/array-map" /* makes cytag chip*/
+import './accordion-table.css'
 
 
-function ComplexTable({
+function AccordionTable({
   reverse = false,
   minHEmpty = "150px",
   flatten = false,
@@ -162,7 +166,8 @@ function ComplexTable({
         borderRadius={"5px"}
         w={"100%"}
         p={2}
-        minH={columns.length !== 0 ? "555px" : minHEmpty}
+        
+        // minH={columns.length !== 0 ? "200px" : minHEmpty}
         minW={minW}
       >
         <Flex
@@ -194,9 +199,9 @@ function ComplexTable({
         </Flex>
         {columns.length !== 0 ? (
           <>
-            <Box overflowX={"scroll"} overflowY={"scroll"} h={"430px"}>
+            <Box overflowX={"scroll"} overflowY={"scroll"} h={"100%"}>
               <Table
-                h={"100%"}
+                // h={"%"}
                 color={"secondary.100"}
                 {...getTableProps()}
                 variant={"unstyled"}
@@ -262,46 +267,111 @@ function ComplexTable({
                 </Table>
                 {/* start */}
                 <Accordion {...getTableBodyProps()}
-                defaultIndex={[0]} allowMultiple>
+                defaultIndex={[0]} 
+                allowMultiple
+                allowToggle
+                >
                   {page.map((row, index) => {
                     prepareRow(row);
                     return (
-                      <AccordionItem 
-                        // onClick={() =>
-                        //   redirectToDevice ? redirectToDevice(row.cells) : null
-                        // }
-                        key={index}
-                        {...row.getRowProps()}
-                      >
+                    <>
 
-                        {row.cells.map((cell, index) => {
-                          return (
-                            <AccordionButton
-                              p={1}
-                              key={index}
-                              {...cell.getCellProps()}
-                              minWidth={"200px"}
-                            >
-                                {/* <Box
-                                  p={2}
-                                  w={"100%"}
-                                  display={"flex"}
-                                  justifyContent={"space-evenly"}
-                                  textAlign={"start"}
-                                  fontSize={"sm"}
-                                > */}
-                                
-                                  {/* {cell.render("Cell")} */}
-                                  {/* render only the first cell of each column */}
-                                  {/* {cell.render("Cell") && index === 0 (
-                                    console.log("cell", cell.render("Cell")))}
-                                </Box> */}
-                            
-                            </AccordionButton>
-                          );
-                        })}
- 
-                      </AccordionItem>
+                    {/* Access Normally */}
+                    {/* name  .cells[0].column.Header*/}
+                    {console.log("test0",row)}
+                    {/* gps */}
+                    {console.log("test1",row.cells[1].value)}
+                    {/* id */}
+                    {console.log("test2",row.cells[2].value)}
+                    {/*  */}
+                    {console.log("test3",row.cells[3].value[0])}
+                    {/*  */}
+                    { row.cells[4].value===null ? console.log("null") : console.log("test4",row.cells[4].value)}  
+                    
+                    <AccordionItem 
+                            key={index}
+                            rounded={5}
+                            // {...cell.getCellProps()}
+                            {...row.getRowProps()}
+                          >
+
+                    {({ isExpanded }) => (
+                          <>
+                    <AccordionButton 
+                    rounded={5}
+                    
+                      _expanded={{ bg: 'card.100', color: 'white', p:'20px', }}
+                     >
+
+                      
+                      {isExpanded ? (
+                        <>
+                        <Box  as="span" flex='1' textAlign='left' className="slide-right-animation ">
+                          {row.cells[0].value}
+                        </Box>
+                        <MinusIcon fontSize='20px' />
+                        </>
+                      ) : (
+                        <>
+                        <Box fontSize='20px' as="span" flex='1' textAlign='left' className="slide-left-animation" p={"5px"} >
+                          {row.cells[0].value}
+                        </Box>
+                        <AddIcon fontSize='12px' />
+                        </>
+                      )}
+                    </AccordionButton>
+                    <AccordionPanel 
+                    p={10}
+                    key={index}
+                    py={4}>
+                      <Grid
+                        h='200px'
+                        templateRows='repeat(2, 1fr)'
+                        templateColumns='repeat(5, 1fr)'
+                        gap={4}
+                      >
+                        <GridItem rowSpan={2} colSpan={1} bg='primary.100' p={2} rounded={5}>
+                          <Text>
+                            {row.cells[4].column.Header}
+                          </Text>
+                          <Text>
+                            {row.cells[4].value}
+                          </Text>
+                        </GridItem>
+                        <GridItem colSpan={2} bg='primary.100' p={2} rounded={5}>
+                        <Text>
+                            {row.cells[1].column.Header}
+                          </Text>
+                          <Text>
+                            {row.cells[1].value}
+                          </Text>
+                        </GridItem>
+                        <GridItem colSpan={2} bg='primary.100' p={2} rounded={5}>
+                          <Text>
+                            {row.cells[2].column.Header}
+                          </Text>
+                          <Text>
+                            {row.cells[2].value}
+                          </Text>
+                        </GridItem>
+                        <GridItem colSpan={4} bg='primary.100' p={2} rounded={5}>
+                        <Text>
+                            {row.cells[3].column.Header}
+                          </Text>
+                          {switchMainHeader('myCytags', row.original.id )}
+                         </GridItem>
+                      </Grid>
+                    </AccordionPanel >  
+                    </>
+                    )}
+
+
+                    
+                    </AccordionItem>
+
+
+                    </>
+  
                     );
                   })}
                   <Box h={"-moz-available"}></Box>
@@ -412,4 +482,4 @@ function ComplexTable({
   );
 }
 
-export default ComplexTable;
+export default AccordionTable;
