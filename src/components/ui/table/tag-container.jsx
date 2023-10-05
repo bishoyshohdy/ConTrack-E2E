@@ -310,7 +310,7 @@ function ComplexTable({
                               
                               <Box style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                   {typeof cell.value !== "undefined" && index === 0 ? (
-                                    <Box marginTop={"2%"}>
+                                    <Box marginTop={"5%"}>
                                       <h2>{cell.render("Cell")}</h2>
                                       
                                     </Box>
