@@ -301,7 +301,7 @@ function ComplexTable({
                               p={1}
                               key={index}
                               {...cell.getCellProps()}
-                              width={"172px"}
+                              width={"174px"}
                               alignContent={"center"}
                               display= {"flex"}
                               flexDirection= {"column"}
