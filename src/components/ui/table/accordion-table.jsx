@@ -47,6 +47,7 @@ import {
   useGlobalFilter,
   useTable,
 } from "react-table";
+import CyLockIcon from "../../ui/icon/cylock-icon";
 import GlobalFilter from "./components/global-filter/global-filter";
 import StyledSelect from "../styled-select/styled-select";
 import { BsArrowDownUp, BsDoorOpen } from "react-icons/bs";
@@ -306,6 +307,7 @@ function AccordionTable({
                       
                       {isExpanded ? (
                         <>
+
                         <Box  as="span" flex='1' textAlign='left' className="slide-right-animation ">
                           {row.cells[0].value}
                         </Box>
@@ -313,10 +315,20 @@ function AccordionTable({
                         </>
                       ) : (
                         <>
+                        {/* <CyLockIcon
+                        margin={"auto"}
+                        mx={"5px"}
+                        p={"auto"}
+                        w={"20px"}
+                        color={themeCtx.theme.colors && themeCtx.theme.colors.text.primary}
+                      /> */}
                         <Box fontSize='20px' as="span" flex='1' textAlign='left' className="slide-left-animation" p={"5px"} >
                           {row.cells[0].value}
                         </Box>
-                        <AddIcon fontSize='12px' />
+                        <Box>
+                          <AddIcon fontSize='12px' />
+                          <Text fontSize='xs'> View More Info </Text>
+                        </Box>
                         </>
                       )}
                     </AccordionButton>
@@ -327,39 +339,61 @@ function AccordionTable({
                       <Grid
                         h='200px'
                         templateRows='repeat(2, 1fr)'
-                        templateColumns='repeat(5, 1fr)'
-                        gap={4}
+                        templateColumns='repeat(11, 1fr)'
+                        gap={5}
                       >
-                        <GridItem rowSpan={2} colSpan={1} bg='primary.100' p={2} rounded={5}>
-                          <Text>
-                            {row.cells[4].column.Header}
-                          </Text>
-                          <Text>
-                            {row.cells[4].value}
-                          </Text>
+                        <GridItem rowSpan={2} colSpan={2} p={2} rounded={5} >
+                        <Flex justify="center" align="center" h="100%">
+                          <CyLockIcon
+                            margin={"auto"}
+                            p={"auto"}
+                            w={"100px"}
+                            className={isExpanded ? "slide-in-animation" : ""}
+                            color={themeCtx.theme.colors && themeCtx.theme.colors.text.primary}
+                            transform="rotate(20deg)"
+                          />
+                        </Flex>
                         </GridItem>
-                        <GridItem colSpan={2} bg='primary.100' p={2} rounded={5}>
-                        <Text>
-                            {row.cells[1].column.Header}
-                          </Text>
-                          <Text>
-                            {row.cells[1].value}
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2} bg='primary.100' p={2} rounded={5}>
-                          <Text>
+                        <GridItem colSpan={3} bg='primary.100' p={2} rounded={5}>
+                        <Stack spacing={0}> 
+                        <Text as={'samp'}>
                             {row.cells[2].column.Header}
                           </Text>
-                          <Text>
+                          <Text  as='abbr' textAlign={'center'} fontSize='3xl'>
                             {row.cells[2].value}
                           </Text>
+                        </Stack>
                         </GridItem>
-                        <GridItem colSpan={4} bg='primary.100' p={2} rounded={5}>
-                        <Text>
-                            {row.cells[3].column.Header}
+                        <GridItem colSpan={3} bg='primary.100' p={2} rounded={5}>
+                        <Stack spacing={0}> 
+                          <Text as={'samp'}>
+                            {row.cells[1].column.Header}
                           </Text>
-                          {switchMainHeader('myCytags', row.original.id )}
-                         </GridItem>
+                          <Text  as='abbr' textAlign={'center'} fontSize='3xl'>
+                            {row.cells[1].value}
+                          </Text>
+                        </Stack>
+                        </GridItem>
+                        <GridItem colSpan={3} bg='primary.100' p={2} rounded={5}>
+                        <Stack spacing={0}> 
+                        <Text as={'samp'}>
+                            {row.cells[4].column.Header}
+                          </Text>
+                          <Text  as='abbr' textAlign={'center'} fontSize='3xl'>
+                            {row.cells[4].value || "-"}
+                          </Text>
+                        </Stack>
+                        </GridItem>
+                        <GridItem colSpan={9} bg='primary.100' p={2} rounded={5}>
+                          <Stack spacing={2}>
+                          <Text as={'samp'}>
+                              {row.cells[3].column.Header}
+                          </Text >
+                          <Box  px={10}>
+                            {switchMainHeader('myCytags', row.original.id )}
+                          </Box>
+                          </Stack>
+                        </GridItem>
                       </Grid>
                     </AccordionPanel >  
                     </>
