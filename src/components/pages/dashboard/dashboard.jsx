@@ -38,6 +38,8 @@ import GeneralAccordion from "../../ui/general-accordion/general-accordion";
 import { GiCargoCrate } from "react-icons/gi";
 import { hasPermission } from "../../../helpers/permissions-helper";
 import { PERMISSIONS } from "../../../types/devices";
+import TagContainer from "../../ui/table/tag-container";
+
 
 export function AlarmAction({
   actionPerformed,
@@ -563,7 +565,7 @@ function Dashboard() {
                   <Box mt={5}>
                   {cytags.length !== 0 && (
                       <div id="connected_cytags" >
-                        <ComplexTable
+                        <TagContainer
 
                           redirectToDevice={redirectToCytag}
                           data={selectedCytags}
@@ -589,7 +591,7 @@ function Dashboard() {
               <Box mt={5}>
                 {cytags.length !== 0 && (
                   <Box mt={1} w={"100%"} ref={refTags}>
-                    <ComplexTable
+                    <TagContainer
                       pageNumber={tagsTablePage}
                       setPageNumber={setTagsTablePage}
                       redirectToDevice={redirectToCytag}
@@ -615,7 +617,7 @@ function Dashboard() {
                           data={prepareExportDataCyTag([...cytags])}
                         />
                       </Box>
-                    </ComplexTable>
+                    </TagContainer>
                   </Box>
                 )}
                 </Box>
