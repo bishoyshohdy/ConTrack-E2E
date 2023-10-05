@@ -397,7 +397,8 @@ function AlarmTable({
                       <Flex alignItems={'center'} >
                       <WarningTwoIcon color={alarmColor} fontSize={'25px'} m={'10px'}/>
                         <Heading size='md' mb={'10px'}> 
-                            {type} <br/>
+                        {console.log("severity",type)}
+                           {type} <br/>
                             <Text as='cite' fontSize={'14px'} fontWeight="normal"> {severity} severity</Text>
                         </Heading>
                         
@@ -429,7 +430,7 @@ function AlarmTable({
                         </Text>
                         :<Text></Text>
                    }
-                        Details: {details}
+                        {details}
                       
                       
                          </Text>

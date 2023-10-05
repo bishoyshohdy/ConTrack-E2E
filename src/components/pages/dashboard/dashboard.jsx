@@ -64,7 +64,7 @@ export function AlarmAction({
       {!actionPerformed ? (
         <FunctionalModal
           modalTitle={acknowldgeAction ? "Acknowledge alarm" : "Clear alarm"}
-          iconBtn={zzz}
+          // iconBtn={zzz}  //this made an error when not commented since zzz is not defined
           modalMinW={"70%"}
           modalMinH={"200px"}
           btnColor={"action.100"}
@@ -140,9 +140,10 @@ function Dashboard() {
         newObj.entity = entity ? entity.name : "";
         if (alarm.alarm_settings.configurations.telemetry_type) {
           newObj.type =
-            alarm.alarm_settings.alarm_type.name +
-            " : " +
-            alarm.alarm_settings.configurations.telemetry_type;
+            alarm.alarm_settings.alarm_type.name 
+            //  +
+            // " : " +
+            // alarm.alarm_settings.configurations.telemetry_type;
         } else {
           newObj.type = alarm.alarm_settings.alarm_type.name;
         }
@@ -158,7 +159,7 @@ function Dashboard() {
         }
         let details = "";
         Object.keys(alarm.details).forEach((key) => {
-          details += `${key}:${alarm.details[key]}`;
+          details += `${key} : ${alarm.details[key]}`;
         });
         newObj.details = details;
         newObj.start_time = alarm.start_time;
@@ -175,7 +176,9 @@ function Dashboard() {
         }
         newObj.current_status = alarm.current_status;
         delete newObj.alarm_settings;
+        if(details.split(" : ")[0] !== "Undetected tag"){ //temporarily to hide undetected tag alarms
         alarmss.push(newObj);
+        }
       }
     });
     return alarmss;

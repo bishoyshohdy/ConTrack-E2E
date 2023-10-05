@@ -167,6 +167,7 @@ function CytagPage() {
     return alarmss;
   };
   const getAlarmsCall = (filters) => {
+    console.log("filters in cytag", filters);
     getAlarms(filters).then((res) => {
       setAlarms(setupAlarms(res.data));
     });
