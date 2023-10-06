@@ -1,38 +1,25 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
-import {mapThreatToColor} from "../../../helpers/array-map"
 import {
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer,
-    SimpleGrid,
-    Box,
-    IconButton,
-    Input,
-    Text,
-    Flex,
-    Stack,
-    Button,
-    Center,
-    Spacer,
-    Heading,
-    Tag,
-    TagLabel,
-    FormLabel,
-    Card, CardHeader, CardBody, CardFooter,
-    Image,
-    CloseButton,
-    Spinner,
-    Skeleton,
-    SkeletonCircle,
-    SkeletonText,
-    Grid,
-    GridItem,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Box,
+  IconButton,
+  Input,
+  Text,
+  Flex,
+  Stack,
+  Button,
+  Center,
+  Spacer,
+  Heading,
+  Tag,
+  TagLabel,
+  FormLabel,
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -43,10 +30,7 @@ import {
   ArrowUpIcon,
   MinusIcon,
   DeleteIcon,
-  WarningTwoIcon
 } from "@chakra-ui/icons";
-import { Icon,  CheckCircleIcon  } from "@chakra-ui/icons";
-
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
 import {
   usePagination,
@@ -54,7 +38,6 @@ import {
   useGlobalFilter,
   useTable,
 } from "react-table";
-
 import GlobalFilter from "./components/global-filter/global-filter";
 import StyledSelect from "../styled-select/styled-select";
 import { BsArrowDownUp, BsDoorOpen } from "react-icons/bs";
@@ -65,12 +48,10 @@ import DeviceForm from "../../pages/device-management/device-form/device-form";
 import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
-import { FiUnlock, FiLock } from 'react-icons/fi';
+import cypod from "../../../assets/images/logo/cypod.png"
 
 
-
-
-function AlarmTable({
+function ComplexTable({
   reverse = false,
   minHEmpty = "150px",
   flatten = false,
@@ -95,9 +76,7 @@ function AlarmTable({
   setPage,
   setPageNumber,
   pageNumber,
-  CreateDevice,
-  allCytags,
-  isLoading,
+  CreateDevice
 
 }) {
   const [flatData, setFlatData] = useState(data);
@@ -114,29 +93,8 @@ function AlarmTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
-{  // hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
-  // const themeCtx = useContext(ThemeContext);
-  // const columns = React.useMemo(
-  //   () =>
-  //     reverse
-  //       ? [...extractFn(data, hiddenCols).reverse()]
-  //       : [
-  //           ...extractFn(data, hiddenCols),
-  //           {
-  //             Header: "Cytag",
-  //             accessor: "cytag", // Assuming "cytag" is the property containing Cytag information
-  //             Cell: ({ value }) => (
-  //               <Tag size="md" colorScheme="teal">
-  //                 <TagLabel>{value}</TagLabel>
-  //               </Tag>
-  //             ),
-  //           },
-  //         ],
-  //   [data]
-  // );
-}
-
-
+  hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
+  const themeCtx = useContext(ThemeContext);
   const {
     getTableProps,
     getTableBodyProps,
@@ -177,9 +135,12 @@ function AlarmTable({
   );
   useEffect(() => {
     if (pageNumber != undefined) {
+      console.log("page is now", pageNumber);
       if (pageIndex) {
         setPageNumber(pageIndex);
       }
+    } else {
+      console.log("PAGE IS UNDIFINED");
     }
   }, [pageIndex]);
   
@@ -187,44 +148,9 @@ function AlarmTable({
 
   },[])
 
-  const [LoadingElapsed, setLoadingElapsed] = useState(true);
-  setTimeout(() => {
-    setLoadingElapsed(false);
-  }, 1200);
-
 
   return (
     <>
-      {isLoading || LoadingElapsed ? (
-        <Grid templateColumns='repeat(4, 1fr)' gap={4} mx={6}>
-        {Array.from({ length: 7 }, (_, index) => (
-        //Alarm Card Skeleton
-        <GridItem>
-        <Box 
-        w={'100%'}
-        border='2px'
-        borderColor='grey'
-        borderRadius='10px'
-        p={3}
-        m={'2'}
-        >
-        <SkeletonCircle size={12}/>
-        <Skeleton my={2}>
-          <Box h={'25px'}></Box>
-        </Skeleton>
-        <hr />
-        <SkeletonText my={3} />
-        <SkeletonText my={3} />
-        <Flex justifyContent={'end'}>
-        <SkeletonCircle size={12}/>
-        </Flex>
-        <SkeletonText my={3}/>
-        </Box>
-        </GridItem>
-        ))}
-        </Grid>
-// END OF LOADING
-    ) : (
       <Box
         backgroundColor={"primary.80"}
         borderRadius={"5px"}
@@ -262,16 +188,17 @@ function AlarmTable({
         </Flex>
         {columns.length !== 0 ? (
           <>
-            <Box  overflowY={"scroll"} h={"430px"}>
-            <Table
-                mb={'10px'}
+            <Box overflowX={"scroll"} overflowY={"scroll"} h={"430px"}>
+              <Table
+                h={"100%"}
                 color={"secondary.100"}
                 {...getTableProps()}
                 variant={"unstyled"}
               >
-                <Thead pos={"sticky"} top={"0"} bg={"primary.80"}>
+                <Thead top={"0"} bg={"primary.80"}>
                   {headerGroups.map((headerGroup, index) => (
                     <Tr
+                    
                       bg={"primary.100"}
                       key={index}
                       {...headerGroup.getHeaderGroupProps()}
@@ -327,153 +254,95 @@ function AlarmTable({
                     </Tr>
                   ))}
                 </Thead>
-            </Table>
-
-            {/* Card Grid */}
-            <SimpleGrid 
-            spacing={4} 
-            templateColumns='repeat(auto-fill, minmax( 260px, 24% ))'
-            {...getTableBodyProps()}>
                 
-                   {page.map((row, index) => {
+                <Tbody {...getTableBodyProps()}>
+                  {page.map((row, index) => {
                     prepareRow(row);
-                    let severity, entity, type, min, max, details,startTime,updatedTime,ack,clear; // Declare variables here
-                    row.cells.forEach((cell, cellIndex) => {
-                      switch (cellIndex) {
-                        case 0: severity = cell.value; break;
-                        case 1: entity = cell.value; break;
-                        case 2: type = cell.value; break;
-                        case 3: min = cell.value; break;
-                        case 4: max = cell.value; break;
-                        case 5: details = cell.value; break;
-                        case 6: startTime = cell.value; break;
-                        case 7: updatedTime = cell.value; break;
-                        case 8: ack = cell.value; break;
-                        case 9: clear = cell.value; break;
-                      }
-                    });
-
-                    let alarmColor= mapThreatToColor(severity);
-                    
-                  return(
-                    <Card 
-                    bg={'#2d3748'}
-                    color="secondary.100"
-                    width={'100%'}
-                    border="2px solid " 
-                    borderColor={alarmColor}
-
-                    _hover={{
-                      backgroundColor: "primary.100",
-                    }}
-
-                    cursor={redirectToDevice ? "pointer" : "default"}
-
-                    onClick={() =>
-                      redirectToDevice ? redirectToDevice(row.cells) : null
-                    }
-
-                    key={index}
-                    {...row.getRowProps()}
-                   >
-                    
-                    
-                    
-                      <CardHeader
-                      pb={'10px'} >
-                      <Flex justifyContent={'flex-end'}>
-                      {/* <CloseButton onClick={actionAlarmCall}/> */}
-                      </Flex>
-
-
-                      <Flex alignItems={'center'} >
-                      <WarningTwoIcon color={alarmColor} fontSize={'25px'} m={'10px'}/>
-                        <Heading size='md' mb={'10px'}> 
-                        {console.log("severity",type)}
-                           {type} <br/>
-                            <Text as='cite' fontSize={'14px'} fontWeight="normal"> {severity} severity</Text>
-                        </Heading>
+                    return (
+                      <Tr
+                        bg={"table.cell"}
+                        className="tag-container"
+                        h={"200px"}
+                        cursor={redirectToDevice ? "pointer" : "default"}
+                        borderColor={"transparent"}
                         
-                      </Flex>
-                      
-                      <hr style={{ width: '60%', color: 'blue' }} />
-                      
-                      </CardHeader>
-                      
-                    <CardBody mb={0}>
-                    
-                        <Text as={'abbr'}> Entity: {entity}  <br/>
-                        { min !== '-' || max !== '-' && type === "CyTag Battery : Battery" ? 
-                         <Text as={'abbr'}>
-                        Battery's Max Range: {max}
-                        
-                        <br/>
-                        </Text>  
-                       :
-                        <Text></Text>
-                        
-                   }
-                   
-                    { min !== '-' || max !== '-' && type !== "CyTag Battery : Battery" ? 
-                         <Text as={'abbr'}>
-                       Normal Range:{min},{max}
-                       
-                        <br/>
-                        </Text>
-                        :<Text></Text>
-                   }
-                        {details}
-<<<<<<< HEAD
-=======
-                      
-                      
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0
-                         </Text>
-                         
-                    </CardBody>
+                        _hover={{
+                          backgroundColor: "rgb(12,12,15)",
+                          borderColor: "action.100",
+                          transform: "perspective(1000px) rotateY(5deg)", // Add a 3D rotation effect on hover
+                          transition: "transform 0.3s", // Add a smooth transition effect
+                          borderBottom:"0px",
+                          boxShadow: "0 0 10px rgba(155, 40,231, 0.7)", // Add a glowing box-shadow on hover
 
-                      <CardFooter as={'Flex'} p={'5%'}   >
-                      <Flex alignItems={'right'} w={'100%'}>
-                        <Text as={'abbr'}>
-                        Updated Time:{updatedTime} 
-                        </Text>
-                        <Spacer/>
-                        <Box
-                                as={'Flex'}
-                                justifyContent={'center'}
-                                alignItems= {'center'}
-                                size={"sm"}
-                                bg={alarmColor}
-                                rounded={"full"}
-                                w = {'50px'}
-                                h = {'50px'}
-                                title={"Acknowledge Alert"}
-                                p={"5px"}
-                              >
-                                <MdVerified color={"white"} fontSize={"40px"}  />
-                        
-                        </Box>
-                        
-                      </Flex>
+                        }}
+                        onClick={() =>
+                          redirectToDevice ? redirectToDevice(row.cells) : null
+                        }
+                        key={index}
+                        {...row.getRowProps()}
+                        width={"fit-content"}
+                        margin={'5'}
+                        style={{
+                          perspective: "800px", 
+                          marginBottom: "10px", 
+                          transformStyle: "preserve-3d",
+                          transition: "transform 0.3s", 
+                          borderRadius: "40px", 
+                          position:"relative", 
+                          borderBottom:'18px solid rgb(12,12,15)'
+                          
 
-                      </CardFooter>
-                      
-                    </Card>
-                  )
-  
-                })}
-            </SimpleGrid>
-             {/* /Card Grid */}
+                        }}
+                      >
+                        {/* Connected Cytags */}
+                        {row.cells.map((cell, index) => {
+                          return (
+                            <Td
+                              p={1}
+                              key={index}
+                              {...cell.getCellProps()}
+                              width={"174px"}
+                              alignContent={"center"}
+                              display= {"flex"}
+                              flexDirection= {"column"}
+                              
+                            >
+                              
+                              <Box style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                  {typeof cell.value !== "undefined" && index === 0 ? (
+                                    <Box marginTop={"5%"}>
+                                      <h2>{cell.render("Cell")}</h2>
+                                      
+                                    </Box>
+                                  ) : (
+                                    <Box style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                      <img src={cypod} alt="logo" style={{ width: "50%",padding:"20px" }} />
+                                      ID: {cell.render("Cell")}
+                                      
+                                    </Box>
+                                  )}
+                                </Box>  
 
-             
+                              
+                            </Td>
+                          );
+                        })}
+                      </Tr>
+                    );
+                  })}
+                  <Box h={"-moz-available"}></Box>
+                  </Tbody>
+
+
+              </Table>
             </Box>
             <Stack
               pos={"relative"}
               bottom={0}
               direction="row"
-              padding={"10px"}
+            //   padding={"10px"}
               justifyContent={"space-between"}
-              borderTopWidth={2}
+              // borderTopWidth={2}
               borderColor={"secondary.100"}
             >
               <Stack direction="row" justifyContent={"space-between"}>
@@ -530,7 +399,7 @@ function AlarmTable({
                   color={"secondary.100"}
                   defaultValue={pageIndex + 1}
                   borderWidth={"0px"}
-                  borderRadius={"10px"}
+                  // borderRadius={"10px"}
                   onChange={(e) => {
                     const page = e.target.value
                       ? Number(e.target.value) - 1
@@ -567,9 +436,8 @@ function AlarmTable({
           <Center color={"text.primary"}>There are no data to display</Center>
         )}
       </Box>
-    )}
     </>
   );
 }
 
-export default AlarmTable;
+export default ComplexTable;

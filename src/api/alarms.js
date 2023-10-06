@@ -15,7 +15,11 @@ export async function getAlarms (filters) {
     let filterStr = '/';
     if (filters) {
         filterStr += '?';
+        console.log("in the condition of alarms");
         Object.keys(filters).forEach((key, index) => {
+            console.log("key", key);
+            console.log("filter[key]", filters[key]);
+            console.log("filterStr", filterStr);
             if (filters[key]) {
                 filterStr += `${key}=${filters[key]}`;
                 if (index < Object.keys(filters).length - 1) {

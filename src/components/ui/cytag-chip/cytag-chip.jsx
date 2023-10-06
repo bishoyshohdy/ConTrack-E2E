@@ -16,10 +16,7 @@ function CytagChip ({ cycollectorId, assignAction, unAssignAction }) {
     return (
         <>
             <HStack minW={'max-content'} spacing={4}>
-                    <CytagAssign
-                        assignAction={assignAction}
-                        cycollectorId={cycollectorId}
-                    />
+
                     {cytags.map(
                         (cytag) =>
                             cytag && (
@@ -28,9 +25,10 @@ function CytagChip ({ cycollectorId, assignAction, unAssignAction }) {
                                     key={cytag.id}
                                     borderRadius="full"
                                     variant="solid"
-                                    bg="chart.80"
+                                    bg="card.100"
                                     gap={1}
                                     minW={'fit-content'}
+                                    p={2}
                                 >
                                     <TagLabel>{cytag.name}</TagLabel>
                                     <FunctionalModal
@@ -66,6 +64,10 @@ function CytagChip ({ cycollectorId, assignAction, unAssignAction }) {
                                 </Tag>
                             )
                     )}
+                    <CytagAssign
+                        assignAction={assignAction}
+                        cycollectorId={cycollectorId}
+                    />
             </HStack>
         </>
     );

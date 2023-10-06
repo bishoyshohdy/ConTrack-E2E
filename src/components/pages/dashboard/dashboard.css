@@ -20,3 +20,18 @@
     gap: 5px;
  }
 
+ .tag-container {
+   display: inline-block;
+   padding: 5px 15px; /* Adjust padding as needed */
+   color: #fff; /* Set the text color */
+   border-radius: 0; /* Remove border-radius to have sharp edges */
+   font-weight: bold; /* Set font-weight as needed */
+   position: relative; /* Add position relative */
+   margin-right: 3px; /* Add some spacing between tags */
+   cursor: pointer; /* Change cursor style if needed */
+}
+
+.tag-container p {
+   margin: 0;
+}
+

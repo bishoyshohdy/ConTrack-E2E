@@ -1,0 +1,17 @@
+.tag-container {
+   display: inline-block;
+   color: #fff; /* Set the text color */
+   border-radius: 0; /* Remove border-radius to have sharp edges */
+   font-weight: bold; /* Set font-weight as needed */
+   position: relative; /* Add position relative */
+   margin-right: 5px; /* Add some spacing between tags */
+   cursor: pointer; /* Change cursor style if needed */
+   height: 100px;
+   width: fit-content;
+   margin: 200px; /* Add margin here */
+}
+
+.tag-container p {
+   margin: 0;
+}
+
