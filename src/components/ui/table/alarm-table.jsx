@@ -423,11 +423,6 @@ function AlarmTable({
                         :<Text></Text>
                    }
                         {details}
-<<<<<<< HEAD
-=======
-                      
-                      
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0
                          </Text>
                          
                     </CardBody>

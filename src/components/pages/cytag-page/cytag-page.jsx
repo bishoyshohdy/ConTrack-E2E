@@ -167,12 +167,7 @@ function CytagPage() {
     return alarmss;
   };
   const getAlarmsCall = (filters) => {
-<<<<<<< HEAD
       getAlarms(filters).then((res) => {
-=======
-    console.log("filters in cytag", filters);
-    getAlarms(filters).then((res) => {
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0
       setAlarms(setupAlarms(res.data));
     });
   };

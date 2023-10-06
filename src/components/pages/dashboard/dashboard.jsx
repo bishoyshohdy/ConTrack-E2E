@@ -37,11 +37,8 @@ import GeneralAccordion from "../../ui/general-accordion/general-accordion";
 import { GiCargoCrate } from "react-icons/gi";
 import { hasPermission } from "../../../helpers/permissions-helper";
 import { PERMISSIONS } from "../../../types/devices";
-<<<<<<< HEAD
 import { set } from "react-hook-form";
 import { debounce } from 'lodash';
-=======
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0
 import TagContainer from "../../ui/table/tag-container";
 
 
@@ -68,10 +65,6 @@ export function AlarmAction({
       {!actionPerformed ? (
         <FunctionalModal
           modalTitle={acknowldgeAction ? "Acknowledge alarm" : "Clear alarm"}
-<<<<<<< HEAD
-=======
-          // iconBtn={zzz}  //this made an error when not commented since zzz is not defined
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0
           modalMinW={"70%"}
           modalMinH={"200px"}
           btnColor={"action.100"}
@@ -152,11 +145,7 @@ function Dashboard() {
         newObj.entity = entity ? entity.name : "";
         if (alarm.alarm_settings.configurations.telemetry_type) {
           newObj.type =
-<<<<<<< HEAD
             alarm.alarm_settings.alarm_type.name
-=======
-            alarm.alarm_settings.alarm_type.name 
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0
             //  +
             // " : " +
             // alarm.alarm_settings.configurations.telemetry_type;
@@ -192,11 +181,7 @@ function Dashboard() {
         }
         newObj.current_status = alarm.current_status;
         delete newObj.alarm_settings;
-<<<<<<< HEAD
         if(details.split(" : ")[0] !== "Undetected tag"){
-=======
-        if(details.split(" : ")[0] !== "Undetected tag"){ //temporarily to hide undetected tag alarms
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0
         alarmss.push(newObj);
         }
       }
@@ -615,10 +600,7 @@ function Dashboard() {
                 {cytags.length !== 0 && (
                   <Box mt={1} w={"100%"} ref={refTags}>
                     <TagContainer
-<<<<<<< HEAD
                       isLoading={deviceCtx.isLoadingCytags}
-=======
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0
                       pageNumber={tagsTablePage}
                       setPageNumber={setTagsTablePage}
                       redirectToDevice={redirectToCytag}

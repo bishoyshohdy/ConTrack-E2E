@@ -515,8 +515,4 @@ function AccordionTable({
   );
 }
 
-<<<<<<< HEAD
 export default AccordionTable;
-=======
-export default AccordionTable;
->>>>>>> 6eb4df01bcb12aad1b5652472b8db66fd2d176c0

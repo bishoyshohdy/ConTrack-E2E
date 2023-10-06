@@ -65,6 +65,7 @@ export default function SideBar ({ updateNavSize }) {
                     alignItems={'center'}
                     as="nav"
                     gap={2}
+                    p={2}
                 >
                     {navSize === 'small'
                         ? (<Logo h={'17%'} mt={4} mb={4} pl={2} pr={2} _hover={{ background: 'none' }} logo={darkMode ? LightLogoSm : DarkLogoSm} />)
