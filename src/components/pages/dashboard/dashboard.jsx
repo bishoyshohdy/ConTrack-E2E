@@ -1,4 +1,3 @@
-
 import { Icon, CheckCircleIcon } from "@chakra-ui/icons";
 import {
   Box, Button, Flex, Heading, Text,
@@ -38,6 +37,10 @@ import GeneralAccordion from "../../ui/general-accordion/general-accordion";
 import { GiCargoCrate } from "react-icons/gi";
 import { hasPermission } from "../../../helpers/permissions-helper";
 import { PERMISSIONS } from "../../../types/devices";
+import { set } from "react-hook-form";
+import { debounce } from 'lodash';
+import TagContainer from "../../ui/table/tag-container";
+
 
 export function AlarmAction({
   actionPerformed,
@@ -62,7 +65,6 @@ export function AlarmAction({
       {!actionPerformed ? (
         <FunctionalModal
           modalTitle={acknowldgeAction ? "Acknowledge alarm" : "Clear alarm"}
-          iconBtn={zzz}
           modalMinW={"70%"}
           modalMinH={"200px"}
           btnColor={"action.100"}
@@ -92,6 +94,8 @@ export function AlarmAction({
   );
 }
 
+
+
 function Dashboard() {
   const deviceCtx = useContext(DevicesContext);
   const themeCtx = useContext(ThemeContext);
@@ -118,7 +122,10 @@ function Dashboard() {
 
   const [activeTab, setActiveTab] = useState(0);
   const [isHovered, setIsHovered] = useState(0);
-  const [isLoading, setIsLoading] = useState(true); 
+
+  
+  const [isLoadingAlarms, setIsLoadingAlarms] = useState(true);
+
   
   const refAlarm = useRef(null);
   const refDevices = useRef(null);
@@ -138,9 +145,10 @@ function Dashboard() {
         newObj.entity = entity ? entity.name : "";
         if (alarm.alarm_settings.configurations.telemetry_type) {
           newObj.type =
-            alarm.alarm_settings.alarm_type.name +
-            " : " +
-            alarm.alarm_settings.configurations.telemetry_type;
+            alarm.alarm_settings.alarm_type.name
+            //  +
+            // " : " +
+            // alarm.alarm_settings.configurations.telemetry_type;
         } else {
           newObj.type = alarm.alarm_settings.alarm_type.name;
         }
@@ -173,19 +181,18 @@ function Dashboard() {
         }
         newObj.current_status = alarm.current_status;
         delete newObj.alarm_settings;
+        if(details.split(" : ")[0] !== "Undetected tag"){
         alarmss.push(newObj);
+        }
       }
     });
     return alarmss;
   };
 
-
-
   const getAlarmsCall = (filters) => {
-    setIsLoading(true);
     getAlarms(filters)
       .then((res) => {
-        setIsLoading(false);
+        setIsLoadingAlarms(false);
         setAlarms(setupAlarms(res.data));
         setAlarmsData(
           setupAlarms(res.data).map((oneAlarm) => {
@@ -193,11 +200,8 @@ function Dashboard() {
             return oneAlarm;
           })
         );
-      })
-      .catch((error) => {
-        setIsLoading(false);
-      });
-  };
+      })}
+
 
   const handleFilter = (reset) => {
     const filters = {};
@@ -268,6 +272,7 @@ function Dashboard() {
   lastMonth.setMonth(today.getMonth() - 1);
   useEffect(() => {
     if (deviceCtx && deviceCtx.devicesObj.devices) {
+
       setCycollects(
         deviceCtx.devicesObj.devices.cycollector
           ? deviceCtx.devicesObj.devices.cycollector
@@ -279,7 +284,7 @@ function Dashboard() {
           : []
       );
 
-      getAlarmsCall({});
+        getAlarmsCall({});
     }
     if (deviceCtx) {
       setStatToday(deviceCtx.statToday);
@@ -360,34 +365,15 @@ function Dashboard() {
     setActiveTab(index);
   }
 
+
+  
+
   return (
     <>
-      <Box w={"100%"} mb={2}>
-        <GeneralAccordion
-          title={
-            <Box p={"1%"} w={"100%"} gap={1} as={Flex}>
-              <Icon as={FaMapMarkedAlt} fontSize="2xl" color={"action.100"} />
-              <Heading w={"100%"} color={"text.primary"} fontSize={"2xl"}>
-                CyLocks Map
-              </Heading>
-            </Box>
-          }
-        >
-          <Box
-            backgroundColor={"primary.80"}
-            w={"100%"}
-            minH={"480px"}
-            h={"100%"}
-            mt={1}
-            borderRadius={"5px"}
-          >
-            <Map minH={"450px"} trips={false} markers={markers} />
-          </Box>
-        </GeneralAccordion>
-      </Box>
+
 
       <Box position="relative" h="100vh">
-          <Tabs isFitted variant='solid-rounded' size="sm" m={5}>
+          <Tabs isFitted variant='solid-rounded' size="sm" m={5} defaultIndex={1}>
             <TabList>
               <Tab 
                 mx={2}
@@ -412,61 +398,85 @@ function Dashboard() {
                 </Box>
                 <Text fontSize='4xl' > {alarms && alarms.length} Alarms</Text>
               </Tab>
-              {cycollects.length !== 0 && (
-                <Tab    
-                  mx={2}
-                  _selected={{ color: 'white', bg: 'card.100'}}
-                  _hover={{bg: 'card.80'}}
-                >
-                  <Box>
-                    <Circle
-                      size="80px"
-                      borderRadius={'40%'}
-                      position={'relative'}
-                      top={'25%'}
-                      bg={'transparent'}
-                      margin={"5px"}
+              
+              <Tab    
+                mx={2}
+                _selected={{ color: 'white', bg: 'card.100'}}
+                _hover={{bg: 'card.80'}}
+              >
+                <Box>
+                  <Circle
+                    size="80px"
+                    borderRadius={'40%'}
+                    position={'relative'}
+                    top={'25%'}
+                    bg={'transparent'}
+                    margin={"5px"}
 
-                    >
-                      <CyLockIcon
-                        margin={"auto"}
-                        p={"auto"}
-                        color={themeCtx.theme.colors && themeCtx.theme.colors.text.primary}
-                      />
-                    </Circle>
-                  </Box>
-                  <Text fontSize='4xl'> {cycollects && cycollects.length} CyLocks</Text>
-                </Tab>
-              )}
+                  >
+                    <CyLockIcon
+                      margin={"auto"}
+                      p={"auto"}
+                      color={themeCtx.theme.colors && themeCtx.theme.colors.text.primary}
+                    />
+                  </Circle>
+                </Box>
+                <Text fontSize='4xl'> {cycollects && cycollects.length} CyLocks</Text>
+              </Tab>
+        
+              <Tab 
+                mx={2}
+                _selected={{ color: 'white', bg: 'card.100'}}
+                _hover={{bg: 'card.80'}}
+              >
+                <Box>
+                  <Circle
+                    size="80px"
+                    borderRadius={'40%'}
+                    position={'relative'}
+                    top={'25%'}
+                    margin={"5px"}
+                    bg={'transparent'}
+                  >
+                    <CyTagIcon
+                      margin={"auto"}
+                      p={"15%"}
+                      color={
+                        themeCtx.theme.colors && themeCtx.theme.colors.text.primary
+                      }
+                    />
+                  </Circle>
+                </Box>
+                <Text fontSize='4xl'> {cytags && cytags.length} Cytags</Text>
+              </Tab>
+         
+              </TabList>
 
-              {cytags.length !== 0 && (
-                <Tab 
-                  mx={2}
-                  _selected={{ color: 'white', bg: 'card.100'}}
-                  _hover={{bg: 'card.80'}}
-                >
-                  <Box>
-                    <Circle
-                      size="80px"
-                      borderRadius={'40%'}
-                      position={'relative'}
-                      top={'25%'}
-                      margin={"5px"}
-                      bg={'transparent'}
-                    >
-                      <CyTagIcon
-                        margin={"auto"}
-                        p={"15%"}
-                        color={
-                          themeCtx.theme.colors && themeCtx.theme.colors.text.primary
-                        }
-                      />
-                    </Circle>
-                  </Box>
-                  <Text fontSize='4xl'> {cytags && cytags.length} Cytags</Text>
-                </Tab>
-              )}
-            </TabList>
+             {/*  */}
+            <Box w={"100%"} mb={2} mt={5}>
+        <GeneralAccordion
+          title={
+            <Box p={"1%"} w={"100%"} gap={1} as={Flex}>
+              <Icon as={FaMapMarkedAlt} fontSize="2xl" color={"action.100"} />
+              <Heading w={"100%"} color={"text.primary"} fontSize={"2xl"}>
+                CyLocks Map
+              </Heading>
+            </Box>
+          }
+        >
+          <Box
+            backgroundColor={"primary.80"}
+            w={"100%"}
+            minH={"480px"}
+            h={"100%"}
+            mt={1}
+            borderRadius={"5px"}
+          >
+            <Map minH={"450px"} trips={false} markers={markers} />
+          </Box>
+        </GeneralAccordion>
+              </Box>
+
             <TabPanels>
               <TabPanel p={"0px"}>
                 <Box mb={1} ref={refAlarm} mt={5}>
@@ -483,7 +493,6 @@ function Dashboard() {
                     setPageNumber={setAlarmTablePage}
                     extractFn={extractAlarmHeaders}
                     title={"Alarms"}
-                    //setPage={setAlarmPage}
                     icon={
                       <AlarmIcon
                         boxSize={"30px"}
@@ -492,7 +501,7 @@ function Dashboard() {
                       />
                     }
                     data={[...alarms]}
-                    isLoading={isLoading}
+                    isLoading={isLoadingAlarms}
                   >
                   </AlarmTable>
                 </Box>
@@ -503,7 +512,7 @@ function Dashboard() {
                   {/* DEVICES TABLE */}
                   <Box mt={5}>
                   <CardTable
-
+                    isLoading={deviceCtx.isLoadingCylocks}
                     pageNumber={deviceTablePage}
                     setPageNumber={setDeviceTablePage}
                     redirectToDevice={redirectToDevice}
@@ -542,6 +551,7 @@ function Dashboard() {
                         boxSize={"30px"}
                         margin={"auto"}
                         color={themeCtx.theme.colors && themeCtx.theme.colors.action[100]}
+                        
                       />
                     }
                   >
@@ -563,7 +573,7 @@ function Dashboard() {
                   <Box mt={5}>
                   {cytags.length !== 0 && (
                       <div id="connected_cytags" >
-                        <ComplexTable
+                        <TagContainer
 
                           redirectToDevice={redirectToCytag}
                           data={selectedCytags}
@@ -589,7 +599,8 @@ function Dashboard() {
               <Box mt={5}>
                 {cytags.length !== 0 && (
                   <Box mt={1} w={"100%"} ref={refTags}>
-                    <ComplexTable
+                    <TagContainer
+                      isLoading={deviceCtx.isLoadingCytags}
                       pageNumber={tagsTablePage}
                       setPageNumber={setTagsTablePage}
                       redirectToDevice={redirectToCytag}
@@ -602,6 +613,7 @@ function Dashboard() {
                           color={
                             themeCtx.theme.colors && themeCtx.theme.colors.action[100]
                           }
+                          
                         />
                       }
                     >
@@ -615,7 +627,7 @@ function Dashboard() {
                           data={prepareExportDataCyTag([...cytags])}
                         />
                       </Box>
-                    </ComplexTable>
+                    </TagContainer>
                   </Box>
                 )}
                 </Box>
@@ -624,383 +636,6 @@ function Dashboard() {
           </Tabs>
       </Box>
 
-
-
-      {/* <Box w={"100%"} mb={1}>
-        <Flex mb={1} gap={1} flexWrap={"wrap"}>
-        <StatCard
-            icon={
-              <AlarmIcon
-                boxSize={"40px"}
-                display={"block"}
-                margin={"auto"}
-                p={"15%"}
-                color={
-                  themeCtx.theme.colors && themeCtx.theme.colors.text.primary
-                }
-              />
-            }
-            title="Alarms"
-            subTitle={alarms.length}
-            bgColor={"primary.80"}
-            textColor={"secondary.100"}
-            minH={"100px"}
-            maxW={"100%"}
-            width={"33.1%"}
-            handleClickScroll={() => handleClickToScroll(refAlarm)}
-          />
-          {cycollects.length !== 0 && (
-            <StatCard
-              icon={
-                <CyLockIcon
-                  boxSize={"40px"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"15%"}
-                  color={
-                    themeCtx.theme.colors && themeCtx.theme.colors.text.primary
-                  }
-                />
-              }
-              title="CyLocks"
-              subTitle={cycollects && cycollects.length}
-              bgColor={"primary.80"}
-              textColor={"secondary.100"}
-              minH={"100px"}
-              maxW={"100%"}
-              width={"33.1%"}
-              handleClickScroll={() => handleClickToScroll(refDevices)}
-            />
-          )}
-          {cytags.length !== 0 && (
-            <StatCard
-              icon={
-                <CyTagIcon
-                  boxSize={"40px"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"15%"}
-                  color={
-                    themeCtx.theme.colors && themeCtx.theme.colors.text.primary
-                  }
-                />
-              }
-              title="CyTags"
-              subTitle={cytags && cytags.length}
-              bgColor={"primary.80"}
-              textColor={"secondary.100"}
-              minH={"100px"}
-              maxW={"100%"}
-              width={"33.1%"}
-              handleClickScroll={() => handleClickToScroll(refTags)}
-            />
-          )}
-
-        </Flex>
-        {hasPermission(PERMISSIONS.GET_REPORTS_STATS) && (
-          <Flex mb={1} gap={1} flexWrap={"wrap"}>
-            {statToday && (
-              <StatCard
-                icon={
-                  <Icon
-                    as={GiCargoCrate}
-                    boxSize={"40px"}
-                    display={"block"}
-                    margin={"auto"}
-                    p={"15%"}
-                    color={
-                      themeCtx.theme.colors &&
-                      themeCtx.theme.colors.text.primary
-                    }
-                  />
-                }
-                title="Today"
-                subTextObject={{
-                  "Containers at dawn":
-                    statToday.empty_containers_before_given_period +
-                    statToday.full_containers_before_given_period,
-                  "New assigned": statToday.assign,
-                  Released: statToday.release,
-                  "Full containers":
-                    statToday.full_containers_after_given_period,
-                  "Empty containers":
-                    statToday.empty_containers_after_given_period,
-                }}
-                subTitle={today.toISOString().split("T")[0]}
-                bgColor={"primary.80"}
-                textColor={"secondary.100"}
-                minH={"300px"}
-                width={"355px"}
-              />
-            )}
-            {statYesterday && (
-              <StatCard
-                icon={
-                  <Icon
-                    as={GiCargoCrate}
-                    boxSize={"40px"}
-                    display={"block"}
-                    margin={"auto"}
-                    p={"15%"}
-                    color={
-                      themeCtx.theme.colors &&
-                      themeCtx.theme.colors.text.primary
-                    }
-                  />
-                }
-                title="Last Day"
-                subTextObject={{
-                  "Containers at dawn":
-                    statYesterday.empty_containers_before_given_period +
-                    statYesterday.full_containers_before_given_period,
-                  "New assigned": statYesterday.assign,
-                  Released: statYesterday.release,
-                  "Full containers":
-                    statYesterday.full_containers_after_given_period,
-                  "Empty containers":
-                    statYesterday.empty_containers_after_given_period,
-                }}
-                subTitle={`${yesterday.toISOString().split("T")[0]} - ${
-                  today.toISOString().split("T")[0]
-                }`}
-                bgColor={"primary.80"}
-                textColor={"secondary.100"}
-                minH={"300px"}
-                width={"355px"}
-              />
-            )}
-            {statLastWeek && (
-              <StatCard
-                icon={
-                  <Icon
-                    as={GiCargoCrate}
-                    boxSize={"40px"}
-                    display={"block"}
-                    margin={"auto"}
-                    p={"15%"}
-                    color={
-                      themeCtx.theme.colors &&
-                      themeCtx.theme.colors.text.primary
-                    }
-                  />
-                }
-                title="Last Week"
-                subTextObject={{
-                  "Containers at dawn":
-                    statLastWeek.empty_containers_before_given_period +
-                    statLastWeek.full_containers_before_given_period,
-                  "New assigned": statLastWeek.assign,
-                  Released: statLastWeek.release,
-                  "Full containers":
-                    statLastWeek.full_containers_after_given_period,
-                  "Empty containers":
-                    statLastWeek.empty_containers_after_given_period,
-                }}
-                subTitle={`${lastWeek.toISOString().split("T")[0]} - ${
-                  today.toISOString().split("T")[0]
-                }`}
-                bgColor={"primary.80"}
-                textColor={"secondary.100"}
-                minH={"300px"}
-                width={"355px"}
-              />
-            )}
-            {statLastMonth && (
-              <StatCard
-                icon={
-                  <Icon
-                    as={GiCargoCrate}
-                    boxSize={"40px"}
-                    display={"block"}
-                    margin={"auto"}
-                    p={"15%"}
-                    color={
-                      themeCtx.theme.colors &&
-                      themeCtx.theme.colors.text.primary
-                    }
-                  />
-                }
-                title="Last Month"
-                subTextObject={{
-                  "Containers at dawn":
-                    statLastMonth.empty_containers_before_given_period +
-                    statLastMonth.full_containers_before_given_period,
-                  "New assigned": statLastMonth.assign,
-                  Released: statLastMonth.release,
-                  "Full containers":
-                    statLastMonth.full_containers_after_given_period,
-                  "Empty containers":
-                    statLastMonth.empty_containers_after_given_period,
-                }}
-                subTitle={`${lastMonth.toISOString().split("T")[0]} - ${
-                  today.toISOString().split("T")[0]
-                }`}
-                bgColor={"primary.80"}
-                textColor={"secondary.100"}
-                minH={"300px"}
-                width={"355px"}
-              />
-            )}
-          </Flex>
-        )}
-        <GeneralAccordion
-          title={
-            <Box p={"1%"} w={"100%"} gap={1} as={Flex}>
-              <Icon as={FaMapMarkedAlt} fontSize="xl" color={"action.100"} />
-              <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
-                CyLocks Map
-              </Heading>
-            </Box>
-          }
-        >
-          <Box
-            backgroundColor={"primary.80"}
-            w={"100%"}
-            minH={"480px"}
-            h={"100%"}
-            mt={1}
-            borderRadius={"5px"}
-          >
-            <Map minH={"450px"} trips={false} markers={markers} />
-          </Box>
-        </GeneralAccordion>
-      </Box>   */}
-      {/* ALARM TABLE */}
-      {/* <Box mb={1} ref={refAlarm}>
-        <AlarmTable
-          hiddenCols={[
-            "id",
-            "current_status",
-            "description",
-            "resolved_time",
-            "notified",
-            "entity_id",
-          ]}
-          pageNumber={alarmTablePage}
-          setPageNumber={setAlarmTablePage}
-          extractFn={extractAlarmHeaders}
-          title={"Alarms"}
-          //setPage={setAlarmPage}
-          icon={
-            <AlarmIcon
-              boxSize={"30px"}
-              margin={"auto"}
-              color={themeCtx.theme.colors && themeCtx.theme.colors.action[100]}
-            />
-          }
-          data={[...alarms]}
-        >
-
-        </AlarmTable>
-      </Box> */}
-      {/* <div 
-      ref={refDevices}
-      >
-        
-        <CardTable
-          pageNumber={deviceTablePage}
-          setPageNumber={setDeviceTablePage}
-          redirectToDevice={redirectToDevice}
-          cytagsBtn={
-            cytags.length !== 0
-              ? (rows) =>
-                  setSelectedCytags(
-                    cytags.filter((cytag) => cytag.cycollector_id === rows)
-                  )
-              : null
-          }
-          data={
-            hasPermission(PERMISSIONS.GET_DEVICE_DETAILS) &&
-            hasPermission(PERMISSIONS.GET_DEVICE) &&
-            hasPermission(PERMISSIONS.GET_ALL_DEVICES) &&
-            hasPermission(PERMISSIONS.GET_DEVICES_REQUESTS) &&
-            hasPermission(PERMISSIONS.GET_DEVICES_TELEMETRY) &&
-            hasPermission(PERMISSIONS.GET_DEVICES_SPATIAL)
-              ? cycollects.map((lock) => {
-                  return { ...lock, imei: lock.id };
-                })
-              : []
-          }
-          hiddenCols={[
-            "pccw_iccid",
-            "satcom_iccid",
-            "cytags",
-            "latest_values",
-            "id",
-            "lat",
-            "lng",
-          ]}
-          title={"CyLocks"}
-          icon={
-            <CyLockIcon
-              boxSize={"30px"}
-              margin={"auto"}
-              color={themeCtx.theme.colors && themeCtx.theme.colors.action[100]}
-            />
-          }
-        >
-          <Box as={Flex} gap={1}>
-            <PdfExport
-              title={"CyLocks"}
-              data={prepareExportDataCyLock([...cycollects])}
-            />
-            <ExcelExport
-              title={"CyLocks"}
-              data={prepareExportDataCyLock([...cycollects])}
-            />
-          </Box>
-        </CardTable>
-        
-        {cytags.length !== 0 && (
-          <div id="connected_cytags">
-          <ComplexTable 
-            redirectToDevice={redirectToCytag}
-            data={selectedCytags}
-            title={"Connected CyTags"}
-            icon={
-              <CyTagIcon
-                boxSize={"30px"}
-                margin={"auto"}
-                color={
-                  themeCtx.theme.colors && themeCtx.theme.colors.action[100]
-                }
-              />
-            }
-          />
-        </div>
-        )}
-      </div> */}
-      {/* {cytags.length !== 0 && (
-        <Box mt={1} w={"100%"} ref={refTags}>
-          <ComplexTable
-            pageNumber={tagsTablePage}
-            setPageNumber={setTagsTablePage}
-            redirectToDevice={redirectToCytag}
-            data={cytags}
-            title={"CyTags"}
-            icon={
-              <CyTagIcon
-                boxSize={"30px"}
-                margin={"auto"}
-                color={
-                  themeCtx.theme.colors && themeCtx.theme.colors.action[100]
-                }
-              />
-            }
-          >
-            <Box as={Flex} gap={1}>
-              <PdfExport
-                title={"CyTags"}
-                data={prepareExportDataCyTag([...cytags])}
-              />
-              <ExcelExport
-                title={"CyTags"}
-                data={prepareExportDataCyTag([...cytags])}
-              />
-            </Box>
-          </ComplexTable>
-        </Box>
-      )} */}
     </>
   );
 }

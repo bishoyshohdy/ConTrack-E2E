@@ -20,6 +20,11 @@ import {
   Tag,
   TagLabel,
   FormLabel,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -75,9 +80,11 @@ function ComplexTable({
   setPage,
   setPageNumber,
   pageNumber,
-  CreateDevice
+  CreateDevice,
+  isLoading,
 
 }) {
+
   const [flatData, setFlatData] = useState(data);
 
   useEffect(() => {
@@ -134,12 +141,9 @@ function ComplexTable({
   );
   useEffect(() => {
     if (pageNumber != undefined) {
-      console.log("page is now", pageNumber);
       if (pageIndex) {
         setPageNumber(pageIndex);
       }
-    } else {
-      console.log("PAGE IS UNDIFINED");
     }
   }, [pageIndex]);
   
@@ -147,9 +151,38 @@ function ComplexTable({
 
   },[])
 
+  const [LoadingElapsed, setLoadingElapsed] = useState(true);
+  setTimeout(() => {
+    setLoadingElapsed(false);
+  }, 1200);
+
+
 
   return (
     <>
+    {isLoading || LoadingElapsed ? (
+        <Grid templateColumns='repeat(1, 1fr)' gap={4} mx={6}>
+        {Array.from({ length: 3 }, (_, index) => (
+        //Alarm Card Skeleton
+        <GridItem>
+        <Box 
+        w={'100%'}
+        border='2px'
+        borderColor='grey'
+        borderRadius='10px'
+        p={2}
+        m={'2'}
+        >
+        <Skeleton my={2}>
+          <Box h={'25px'}></Box>
+        </Skeleton>
+        <hr />
+        <SkeletonText my={2} />
+        </Box>
+        </GridItem>
+        ))}
+        </Grid>
+      ) : (
       <Box
         backgroundColor={"primary.80"}
         borderRadius={"5px"}
@@ -538,6 +571,7 @@ function ComplexTable({
           <Center color={"text.primary"}>There are no data to display</Center>
         )}
       </Box>
+      )}
     </>
   );
 }

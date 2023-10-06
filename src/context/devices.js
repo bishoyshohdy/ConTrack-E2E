@@ -5,15 +5,19 @@ import {
   getContainerStat,
   getDevices,
   getTelemetry,
+  
 } from "../api/devices";
 import { getGeofences, getRoutes } from "../api/geofences";
 import { DEVICES, PERMISSIONS } from "../types/devices";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { hasPermission } from "../helpers/permissions-helper";
 
+
 const DevicesContext = createContext();
 
 const libraries = ["places", "drawing"];
+
+
 
 function DevicesProvider(props) {
   const [devicesObj, setDevices] = useState({
@@ -28,6 +32,9 @@ function DevicesProvider(props) {
   const [statYesterday, setStatYesterday] = useState();
   const [statLastWeek, setStatLastWeek] = useState();
   const [statLastMonth, setStatLastMonth] = useState();
+
+  const [isLoadingCylocks, setIsLoadingCylocks] = useState(true);
+  const [isLoadingCytags, setIsLoadingCytags] = useState(true); 
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-routes",
@@ -88,6 +95,9 @@ function DevicesProvider(props) {
   };
   const getDevicesCall = () => {
     getDevices().then((res) => {
+      setIsLoadingCylocks(false);
+      setIsLoadingCytags(false);
+
       setDevices({
         devices: res.data.devices,
         types: res.data.device_types.map((type) => {
@@ -100,6 +110,7 @@ function DevicesProvider(props) {
       });
     });
   };
+
   const getTelemetryData = (imei, startDate, endDate) => {
     getTelemetry(imei, startDate, endDate).then((res) => {
       return res.data.data;
@@ -255,6 +266,8 @@ function DevicesProvider(props) {
     }
   };
 
+  
+
   return (
     <div>
       <DevicesContext.Provider
@@ -279,6 +292,8 @@ function DevicesProvider(props) {
           location,
           getRelatedCyband,
           getRelatedPir,
+          isLoadingCylocks,
+          isLoadingCytags,
         }}
       >
         {props.children}
@@ -286,4 +301,5 @@ function DevicesProvider(props) {
     </div>
   );
 }
-export { DevicesContext, DevicesProvider };
+
+export { DevicesContext, DevicesProvider};

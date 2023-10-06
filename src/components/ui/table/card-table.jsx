@@ -25,7 +25,12 @@ import {
   TagLabel,
   FormLabel,
   Card, CardHeader, CardBody, CardFooter,
-  Image
+  Image,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -86,7 +91,8 @@ function CardTable({
   setPageNumber,
   pageNumber,
   CreateDevice,
-  allCytags
+  allCytags,
+  isLoading
 
 }) {
   const [flatData, setFlatData] = useState(data);
@@ -164,12 +170,9 @@ function CardTable({
   );
   useEffect(() => {
     if (pageNumber != undefined) {
-      console.log("page is now", pageNumber);
       if (pageIndex) {
         setPageNumber(pageIndex);
       }
-    } else {
-      console.log("PAGE IS UNDIFINED");
     }
   }, [pageIndex]);
   
@@ -177,9 +180,42 @@ function CardTable({
 
   },[])
 
+  const [LoadingElapsed, setLoadingElapsed] = useState(true);
+  setTimeout(() => {
+    setLoadingElapsed(false);
+  }, 1200);
 
   return (
     <>
+      {isLoading || LoadingElapsed ? (
+        <Grid templateColumns='repeat(4, 1fr)' gap={4} mx={6}>
+        {Array.from({ length: 7 }, (_, index) => (
+        //Alarm Card Skeleton
+        <GridItem>
+        <Box 
+        w={'100%'}
+        border='2px'
+        borderColor='grey'
+        borderRadius='10px'
+        p={3}
+        m={'2'}
+        >
+        <SkeletonCircle size={12}/>
+        <Skeleton my={2}>
+          <Box h={'25px'}></Box>
+        </Skeleton>
+        <hr />
+        <SkeletonText my={3} />
+        <SkeletonText my={3} />
+        <Flex justifyContent={'end'}>
+        <SkeletonCircle size={12}/>
+        </Flex>
+        <SkeletonText my={3}/>
+        </Box>
+        </GridItem>
+        ))}
+        </Grid>
+        ) : (
       <Box
         backgroundColor={"primary.80"}
         borderRadius={"5px"}
@@ -531,6 +567,7 @@ function CardTable({
           <Center color={"text.primary"}>There are no data to display</Center>
         )}
       </Box>
+      )}
     </>
   );
 }

@@ -53,7 +53,7 @@ export function showinfo (message) {
 
 export function showinfoMainMenu (message) {
     const currentTime= Date.now();
-    if (currentTime - lastErrorTimestamp >= 1000){    
+    if (currentTime - lastErrorTimestamp >= 5000){    
     toast.info(message,{
         position: "bottom-right",
         autoClose: 1000,
@@ -70,7 +70,7 @@ export function showinfoMainMenu (message) {
 
 export function showerrorMainMenu (message) {
     const currentTime= Date.now();
-    if (currentTime - lastErrorTimestamp>= 1000){
+    if (currentTime - lastErrorTimestamp>= 5000){
     toast.error(message, {
         position: "bottom-right",
         autoClose: false,
@@ -87,7 +87,7 @@ export function showerrorMainMenu (message) {
 
 export function showsuccessMainMenu (message) {
     const currentTime= Date.now();
-    if (currentTime - lastErrorTimestamp>= 1000){
+    if (currentTime - lastErrorTimestamp>= 5000){
     toast.success(message, {
         position: "bottom-right",
         autoClose: 1000,

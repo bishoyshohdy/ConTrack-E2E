@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import {mapThreatToColor} from "../../../helpers/array-map"
 import {
@@ -178,12 +177,9 @@ function AlarmTable({
   );
   useEffect(() => {
     if (pageNumber != undefined) {
-      console.log("page is now", pageNumber);
       if (pageIndex) {
         setPageNumber(pageIndex);
       }
-    } else {
-      console.log("PAGE IS UNDIFINED");
     }
   }, [pageIndex]);
   
@@ -196,10 +192,6 @@ function AlarmTable({
     setLoadingElapsed(false);
   }, 1200);
 
-
-
-
-// console.log("Loading", isLoading)
 
   return (
     <>
@@ -429,9 +421,7 @@ function AlarmTable({
                         </Text>
                         :<Text></Text>
                    }
-                        Details: {details}
-                      
-                      
+                        {details}
                          </Text>
                          
                     </CardBody>

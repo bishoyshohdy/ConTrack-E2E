@@ -9,8 +9,8 @@ const settingsUrl = 'settings';
 const assignUrl = 'assign/';
 
 
-//Needs caching implementation!
-export function getAlarms (filters) {
+export async function getAlarms (filters) {
+    try{
     setAuthToken(getToken());
     let filterStr = '/';
     if (filters) {
@@ -24,7 +24,22 @@ export function getAlarms (filters) {
             }
         });
     }
-    return axios.get(baseUrl + filterStr).catch(globalErrorHandler);
+    const response = await axios.get(baseUrl + filterStr)
+
+    // Store the response in local storage
+    localStorage.setItem('getAlarms', JSON.stringify(response));
+
+    return response;
+} catch (error) {
+
+  // Try to retrieve cached data from local storage
+    const cachedData = localStorage.getItem('getAlarms');
+    if (cachedData) {
+      // Parse the cached data and return it as a resolved promise
+      const parsedData = JSON.parse(cachedData);
+      return Promise.resolve(parsedData);
+    }
+}
 }
 
 export function getAlarmsTypes () {

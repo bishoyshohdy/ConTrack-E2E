@@ -17,7 +17,6 @@ import useScreenSize from '../../../hooks/screen-size';
 import { SCREEN_SIZE } from '../../../types/screen';
 import AlexPortImg from '../../../assets/images/logo/alex-port-en.png';
 import AlexPortDarkImg from '../../../assets/images/logo/alex-port-dark-en.png';
-// import BoschImg from '../../../assets/images/logo/bosch.svg';
 import { getUserInfo } from '../../../api/user';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 
@@ -53,11 +52,11 @@ export default function SideBar ({ updateNavSize }) {
             <Box
                 maxW={'18%'}
                 height= {"100vh"}
-                p={2}
+                pt={2}
                 bg={'primary.80'}
-                position="sticky" // Set the position to sticky
                 top={0}
-
+                // Set the position to sticky 
+                position="sticky" 
             >
                 <Flex
                     p="0"

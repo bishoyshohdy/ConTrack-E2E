@@ -10,8 +10,10 @@ const hotelsURL = "hotel/";
 const bandsURL = "bands";
 
 
-export async function getDevices() {
+export const getDevices = async () => {
   try {
+
+
     // Set the auth token
     setAuthToken(getToken());
 
@@ -34,6 +36,7 @@ export async function getDevices() {
     // Try to retrieve cached data from local storage
       const cachedData = localStorage.getItem('getDevice');
       if (cachedData) {
+
         // Parse the cached data and return it as a resolved promise
         const parsedData = JSON.parse(cachedData);
         showinfoMainMenu("Error retrieving data from API, Loading cached data...");
@@ -43,7 +46,8 @@ export async function getDevices() {
         showerrorMainMenu("Error retrieving data from API and no cached data available.");
       }
   }
-}
+};
+
 
 export function getTelemetry(imei, startDate, endDate, offset, limit) {
   const startDateISO = formatLocalToISOUTC(startDate);

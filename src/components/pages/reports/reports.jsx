@@ -687,6 +687,7 @@ function Reports() {
     <>
       {reportsOptions && (
         <Box
+          mx={2}
           alignItems={"start"}
           alignContent={"baseline"}
           borderRadius={"5px"}
@@ -694,7 +695,6 @@ function Reports() {
           bg={"primary.80"}
           mt={2}
           as={Flex}
-          w={"100%"}
           flexWrap={"wrap"}
         >
           <Box w={"200px"} p={1}>
@@ -780,7 +780,8 @@ function Reports() {
           </Box>
         </Box>
       )}
-      <Box mt={2} as={Flex} w={"100%"} gap={2} flexWrap={"wrap"}>
+
+      <Box mt={2} mx={2}>
         <SpinnerLoader
           loading={loading}
           body={
