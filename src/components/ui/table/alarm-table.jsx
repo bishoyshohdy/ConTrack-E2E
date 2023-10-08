@@ -194,14 +194,14 @@ function AlarmTable({
 
 
   return (
-    <>
+    <Box mb={5} >
       {isLoading || LoadingElapsed ? (
         <Grid templateColumns='repeat(4, 1fr)' gap={4} mx={6}>
         {Array.from({ length: 7 }, (_, index) => (
         //Alarm Card Skeleton
         <GridItem>
         <Box 
-        w={'100%'}
+        w={'100%'} 
         border='2px'
         borderColor='grey'
         borderRadius='10px'
@@ -262,7 +262,7 @@ function AlarmTable({
         </Flex>
         {columns.length !== 0 ? (
           <>
-            <Box  overflowY={"scroll"} h={"430px"}>
+            <Box  mb={5}>
             <Table
                 mb={'10px'}
                 color={"secondary.100"}
@@ -563,7 +563,7 @@ function AlarmTable({
         )}
       </Box>
     )}
-    </>
+    </Box>
   );
 }
 

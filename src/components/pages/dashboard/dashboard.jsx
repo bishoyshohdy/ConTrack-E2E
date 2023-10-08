@@ -476,8 +476,8 @@ function Dashboard() {
               </Box>
 
             <TabPanels>
-              <TabPanel p={"0px"}>
-                <Box mb={1} ref={refAlarm} mt={5}>
+              <TabPanel p={"0px"} mb={5}>
+                <Box mb={5} ref={refAlarm} mt={5}>
                   <AlarmTable
                     hiddenCols={[
                       "id",
