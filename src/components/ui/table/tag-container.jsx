@@ -20,6 +20,8 @@ import {
   Tag,
   TagLabel,
   FormLabel,
+  SimpleGrid,
+  
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -48,7 +50,9 @@ import DeviceForm from "../../pages/device-management/device-form/device-form";
 import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
-import cypod from "../../../assets/images/logo/cypod.png"
+import cypod from "../../../assets/images/logo/cypod.png";
+import "./tag-container.css";
+
 
 
 function ComplexTable({
@@ -135,12 +139,9 @@ function ComplexTable({
   );
   useEffect(() => {
     if (pageNumber != undefined) {
-      console.log("page is now", pageNumber);
       if (pageIndex) {
         setPageNumber(pageIndex);
       }
-    } else {
-      console.log("PAGE IS UNDIFINED");
     }
   }, [pageIndex]);
   
@@ -156,7 +157,7 @@ function ComplexTable({
         borderRadius={"5px"}
         w={"100%"}
         p={2}
-        minH={columns.length !== 0 ? "555px" : minHEmpty}
+        minH={'10px'}
         minW={minW}
       >
         <Flex
@@ -188,9 +189,9 @@ function ComplexTable({
         </Flex>
         {columns.length !== 0 ? (
           <>
-            <Box overflowX={"scroll"} overflowY={"scroll"} h={"430px"}>
+            <Box overflowY={"scroll"}>
               <Table
-                h={"100%"}
+                h={'10px'}
                 color={"secondary.100"}
                 {...getTableProps()}
                 variant={"unstyled"}
@@ -198,7 +199,9 @@ function ComplexTable({
                 <Thead top={"0"} bg={"primary.80"}>
                   {headerGroups.map((headerGroup, index) => (
                     <Tr
-                    
+                      // style={{
+                      // borderBottom:'18px solid rgb(12,12,15)'   
+                      // }}          
                       bg={"primary.100"}
                       key={index}
                       {...headerGroup.getHeaderGroupProps()}
@@ -254,25 +257,36 @@ function ComplexTable({
                     </Tr>
                   ))}
                 </Thead>
-                
-                <Tbody {...getTableBodyProps()}>
+              </Table>
+
+
+            <SimpleGrid 
+            spacing={7} 
+            templateColumns={'repeat(auto-fill, minmax( 200px, 220px ))'}
+            justifyContent={"center"}
+            alignContent={"center"}
+            my={5}
+            mx={5}
+            {...getTableBodyProps()} >
+              
                   {page.map((row, index) => {
                     prepareRow(row);
                     return (
-                      <Tr
+                      <Box
                         bg={"table.cell"}
                         className="tag-container"
-                        h={"200px"}
+                        w={'100%'}
+                        minH={"200px"}
+                        maxH={"220px"}
                         cursor={redirectToDevice ? "pointer" : "default"}
                         borderColor={"transparent"}
+                        overflowX={"hidden"}
                         
                         _hover={{
-                          backgroundColor: "rgb(12,12,15)",
-                          borderColor: "action.100",
-                          transform: "perspective(1000px) rotateY(5deg)", // Add a 3D rotation effect on hover
-                          transition: "transform 0.3s", // Add a smooth transition effect
-                          borderBottom:"0px",
-                          boxShadow: "0 0 10px rgba(155, 40,231, 0.7)", // Add a glowing box-shadow on hover
+                          transform: "perspective(1000px) rotatex(0deg) !important", // Add a 3D rotation effect on hover
+                          boxShadow: "0 0 10px rgba(155, 40,231, 0.7)",
+                          borderBottom:'15px solid rgba(0,0,0,0) !important',
+                          transition: "transform 0.3s", 
 
                         }}
                         onClick={() =>
@@ -280,24 +294,23 @@ function ComplexTable({
                         }
                         key={index}
                         {...row.getRowProps()}
-                        width={"fit-content"}
-                        margin={'5'}
                         style={{
-                          perspective: "800px", 
-                          marginBottom: "10px", 
+                          transform: "perspective(1000px) rotatex(15deg)", // Add a 3D rotation effect on hover
                           transformStyle: "preserve-3d",
                           transition: "transform 0.3s", 
                           borderRadius: "40px", 
                           position:"relative", 
-                          borderBottom:'18px solid rgb(12,12,15)'
-                          
-
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderBottom:'15px solid rgb(12,12,15)',
                         }}
                       >
                         {/* Connected Cytags */}
                         {row.cells.map((cell, index) => {
                           return (
-                            <Td
+                            <Box
                               p={1}
                               key={index}
                               {...cell.getCellProps()}
@@ -305,36 +318,34 @@ function ComplexTable({
                               alignContent={"center"}
                               display= {"flex"}
                               flexDirection= {"column"}
-                              
                             >
                               
-                              <Box style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                              <Box 
+                              style={{ display: "flex", flexDirection: "column", alignItems: "center" , padding: '0'}}
+                              >
                                   {typeof cell.value !== "undefined" && index === 0 ? (
-                                    <Box marginTop={"5%"}>
+                                    <Box >
                                       <h2>{cell.render("Cell")}</h2>
-                                      
                                     </Box>
                                   ) : (
                                     <Box style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                                      <img src={cypod} alt="logo" style={{ width: "50%",padding:"20px" }} />
+                                      <img src={cypod} alt="logo" style={{ width: "50%",padding:"16px" }} />
                                       ID: {cell.render("Cell")}
-                                      
                                     </Box>
                                   )}
                                 </Box>  
 
                               
-                            </Td>
+                            </Box>
                           );
                         })}
-                      </Tr>
+                      </Box>
                     );
                   })}
                   <Box h={"-moz-available"}></Box>
-                  </Tbody>
+                </SimpleGrid>
 
 
-              </Table>
             </Box>
             <Stack
               pos={"relative"}

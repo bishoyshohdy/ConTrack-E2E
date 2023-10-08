@@ -45,6 +45,7 @@ const tablecellGray = '#2D3748';
 const tablecelllight = '#f0f0f0';
 
 const purple1 = "#9b29e7";
+const purple2 = "#9b29e7cc";
 
 const purpleGradient = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
 
@@ -71,7 +72,8 @@ const darkModeColors = {
         100: yellowMunsell
     },
     action: {
-        100: purple1
+        100: purple1,
+        80: purple2
     },
     danger: {
         100: bigDipOruby

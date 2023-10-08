@@ -5,6 +5,7 @@
 .slide-right-animation {
     animation: slideRight 0.6s ease forwards;
     transform-origin: left;
+    overflow-y: hidden;
   }
   
   @keyframes slideRight {

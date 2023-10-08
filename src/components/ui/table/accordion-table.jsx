@@ -145,12 +145,9 @@ function AccordionTable({
   );
   useEffect(() => {
     if (pageNumber != undefined) {
-      console.log("page is now", pageNumber);
       if (pageIndex) {
         setPageNumber(pageIndex);
       }
-    } else {
-      console.log("PAGE IS UNDIFINED");
     }
   }, [pageIndex]);
   
@@ -199,9 +196,8 @@ function AccordionTable({
         </Flex>
         {columns.length !== 0 ? (
           <>
-            <Box overflowX={"scroll"} overflowY={"scroll"} h={"100%"}>
+            <Box  h={"100%"}>
               <Table
-                // h={"%"}
                 color={"secondary.100"}
                 {...getTableProps()}
                 variant={"unstyled"}
@@ -299,15 +295,14 @@ function AccordionTable({
                           <>
                     <AccordionButton 
                     rounded={5}
-                    
-                      _expanded={{ bg: 'card.100', color: 'white', p:'20px', }}
+                      _expanded={{ bg: 'card.100', color: 'white', p:'20px', maxW: '100%'}}
                      >
 
                       
                       {isExpanded ? (
                         <>
 
-                        <Box  as="span" flex='1' textAlign='left' className="slide-right-animation ">
+                        <Box  as="span" flex='1' textAlign='left' w={'20px'} className="slide-right-animation ">
                           {row.cells[0].value}
                         </Box>
                         <MinusIcon fontSize='20px' />

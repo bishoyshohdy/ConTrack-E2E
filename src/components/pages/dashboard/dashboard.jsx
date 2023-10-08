@@ -370,15 +370,13 @@ function Dashboard() {
 
   return (
     <>
-
-
-      <Box position="relative" h="100vh">
+      <Box position="relative" h="100vh" >
           <Tabs isFitted variant='solid-rounded' size="sm" m={5} defaultIndex={1}>
             <TabList>
               <Tab 
                 mx={2}
-                _selected={{ color: 'white', bg: 'card.100'}}
-                _hover={{bg: 'card.80'}}
+                _selected={{ color: 'white', bg: 'action.100'}}
+                _hover={{bg: 'action.80'}}
               >
                 <Box>
                   <Circle
@@ -401,8 +399,8 @@ function Dashboard() {
               
               <Tab    
                 mx={2}
-                _selected={{ color: 'white', bg: 'card.100'}}
-                _hover={{bg: 'card.80'}}
+                _selected={{ color: 'white', bg: 'action.100'}}
+                _hover={{bg: 'action.80'}}
               >
                 <Box>
                   <Circle
@@ -426,8 +424,8 @@ function Dashboard() {
         
               <Tab 
                 mx={2}
-                _selected={{ color: 'white', bg: 'card.100'}}
-                _hover={{bg: 'card.80'}}
+                _selected={{ color: 'white', bg: 'action.100'}}
+                _hover={{bg: 'action.80'}}
               >
                 <Box>
                   <Circle
