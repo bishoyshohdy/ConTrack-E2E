@@ -24,7 +24,7 @@ import StyledSelect from '../styled-select/styled-select';
 import Polygon from './polygon/polygon';
 import { DevicesContext } from '../../../context/devices';
 
-function Map ({ minH = '500px', draw = false, oldCenter, zoom = 3, trips, markers = [], geofences = [], drawingComplete }) {
+function Map ({ minH = '90vh', draw = false, oldCenter, zoom = 3, trips, markers = [], geofences = [], drawingComplete , GeoMap = false, ...props}) {
     const deviceCtx = useContext(DevicesContext);
     const trip1 = { value: 1, label: 'Trip 1', path: path1 };
     const trip2 = { value: 2, label: 'Trip 2', path: path2 };
@@ -44,8 +44,9 @@ function Map ({ minH = '500px', draw = false, oldCenter, zoom = 3, trips, marker
     const group = getRootProps();
     const containerStyle = {
         width: '100%',
-        height: '80%',
-        minHeight: minH
+        height: minH,
+        minHeight: minH,
+        ...props
     };
     const [center, setCenter] = useState(path1[parseInt(path1.length - 1)]);
     useEffect(() => {
@@ -205,7 +206,18 @@ function Map ({ minH = '500px', draw = false, oldCenter, zoom = 3, trips, marker
     
     
       const mapOptions = {
-        styles: darkMapStyle, // Set the dark map style here
+        styles: darkMapStyle,
+        streetViewControl : false,
+        mapTypeControl : false,
+        // center: GeoMap ? geofences[0].center : center,
+        zoom: GeoMap ? 15 : zoom,
+        draggable: GeoMap ? false : true,
+        zoomControl: GeoMap ? false : true,
+        scrollwheel: GeoMap ? false : true,
+        disableDoubleClickZoom: GeoMap ? true : false,
+        fullscreenControl: GeoMap ? false : true,
+        rotateControl: GeoMap ? false : true,
+
       };
     return (
         <>

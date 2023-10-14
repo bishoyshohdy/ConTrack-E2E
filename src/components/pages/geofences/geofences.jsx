@@ -1,10 +1,23 @@
-import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { 
+  Box, 
+  Button, 
+  Flex, 
+  Input, 
+  Text, 
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton, 
+  useDisclosure
+} from "@chakra-ui/react";
+import React, { useContext, useEffect, useState,  } from "react";
 import { createGeofence } from "../../../api/geofences";
 import { showsuccess } from "../../../helpers/toast-emitter";
 import Map from "../../ui/map/map";
-import ComplexTable from "../../ui/table/complex-table";
-import { FaMapMarkedAlt } from "react-icons/fa";
+import GeofenceTable from "../../ui/table/geofence-table";
 import { extractGeoHeaders } from "../../../helpers/array-map";
 import { Icon } from "@chakra-ui/icons";
 import FunctionalModal from "../../ui/functional-modal/functional-modal";
@@ -14,6 +27,11 @@ import { hasPermission } from "../../../helpers/permissions-helper";
 import { PERMISSIONS } from "../../../types/devices";
 
 function Geofences() {
+
+  // Geofences Drawer Controls
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = React.useRef()
+
   const [geoFences, setGeofences] = useState([]);
   const [routes, setRoutes] = useState([]);
 
@@ -71,40 +89,10 @@ function Geofences() {
       setUpdate(true);
     });
   };
+
   return (
-    <>
-      <Box
-        p={2}
-        className={"grid"}
-        w={"100%"}
-        h={"600px"}
-        bg={"primary.80"}
-        borderRadius={"5px"}
-      >
-        <Box className={"grid-item"} w={"100%"}>
-          <ComplexTable
-            title={"GeoFences"}
-            extractFn={extractGeoHeaders}
-            data={ hasPermission(PERMISSIONS.DELETE_GEOFENCES) || hasPermission(PERMISSIONS.EDIT_GEOFENCES) ?
-              geoFences.map((geo) => {
-              return {
-                val: geo.name,
-                id: geo.id,
-                Geofence_Actions: { geofence: geo, geofences: geoFences },
-              };
-            })
-          :
-          geoFences.map((geo) => {
-            return {
-              val: geo.name,
-              id: geo.id,
-            };
-          })
-          }
-            icon={
-              <Icon as={FaMapMarkedAlt} boxSize={"30px"} color={"action.100"} />
-            }
-          >
+    <>  
+            <Box zIndex={2} position={"absolute"} mx={5} my={5}>
             {hasPermission(PERMISSIONS.CREATE_GEOFENCES)&&
             (
               <FunctionalModal
@@ -155,19 +143,82 @@ function Geofences() {
               </Box>
             </FunctionalModal>
             )}
+            </Box>
 
-          </ComplexTable>
-        </Box>
-        <Box
-          className={"grid-item"}
-          w={"100%"}
-          h={"100%"}
-          bg={"primary.80"}
-          borderRadius={"5px"}
-        >
-          <Map zoom={14} trips={false} geofences={geoFences} />
-        </Box>
-      </Box>
+            
+            <Box zIndex={2} position={"absolute"} mx={5} my={14} >
+
+
+
+
+            {hasPermission(PERMISSIONS.GET_GEOFENCES)&&
+            (
+              <>
+              <Button 
+              ref={btnRef} 
+              bg={"action.100"}
+              color={"text.primary"}
+              size={"sm"}
+              onClick={onOpen}
+              >
+                View Geofences
+            </Button>
+              
+            <Drawer
+              isOpen={isOpen}
+              placement='bottom'
+              onClose={onClose}
+              finalFocusRef={btnRef}
+
+              
+            >
+              <DrawerOverlay />
+              <DrawerContent
+                bg={"primary.80"}
+                color={"text.primary"}
+                borderRadius={"10px"}
+              >
+                <DrawerCloseButton />
+                <DrawerBody >
+                <GeofenceTable
+                        title={"GeoFences"}
+                        extractFn={extractGeoHeaders}
+                        data={ hasPermission(PERMISSIONS.DELETE_GEOFENCES) || hasPermission(PERMISSIONS.EDIT_GEOFENCES) ?
+                          geoFences.map((geo) => {
+                          return {
+                            val: geo.name,
+                            id: geo.id,
+                            Geofence_Actions: { geofence: geo, geofences: geoFences },
+                          };
+                        })
+                      :
+                      geoFences.map((geo) => {
+                        return {
+                          val: geo.name,
+                          id: geo.id,
+                          
+                        };
+                      })
+                      }
+                      >
+                  </GeofenceTable>
+                </DrawerBody>
+
+                <DrawerFooter>
+
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+            </>
+            )}
+            
+            </Box>
+            
+            {/*   */}
+
+            <Box maxH={'0vh'}>
+            <Map zoom={8} trips={false} geofences={geoFences}  />
+            </Box>
     </>
   );
 }
