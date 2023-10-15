@@ -100,7 +100,7 @@ function FunctionalModal({
               {!transparent && (
                 <Button
                   color={"text.primary"}
-                  bg={"danger.100"}
+                  bg={"primary.100"}
                   mr={3}
                   onClick={() => {
                     onClose();

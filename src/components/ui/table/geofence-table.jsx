@@ -63,6 +63,7 @@ import { FiUnlock, FiLock } from 'react-icons/fi';
 import container_side from '../../../assets/images/resources/container_side.png';
 import { FaMapMarkedAlt } from "react-icons/fa";
 import Map from "../../ui/map/map";
+import { deleteGeofence } from "../../../api/geofences";
 
 
 function GeofenceTable({
@@ -237,7 +238,7 @@ function GeofenceTable({
                    {page.map((row, index) => {
                     prepareRow(row);
                     let GeofenceName, ID, Buttons, vals, loc, attached,cytagKOKO; 
-                
+                    console.log(row);
                     row.cells.forEach((cell, cellIndex) => {
                       switch (cellIndex) {
                         case 0: GeofenceName = cell.value; break;
@@ -292,21 +293,62 @@ function GeofenceTable({
 
                         
                         <Flex justifyContent={'start'}>
-                        <Button 
-                        colorScheme="blue"
-                        variant="solid"
-                        size="sm"
-                        mr={2}
+
+                        <FunctionalModal
+                              modalMinH={"500px"}
+                              iconBtn={AiFillEdit}
+                              btnColor={"action.100"}
+                              modalTitle={`Edit Geofence`}
+                              btnAction={
+                                <Button
+                                  bg={"primary.100"}
+                                  color={"text.primary"}
+                                  // onClick={editBtn}
+                                >
+                                  Edit {row.cells[0].value}
+                                </Button>
+                              }
+                            >
+                              <DeviceForm
+                                id={id}
+                                name={name}
+                                initialId={row.cells[0].value}
+                                initialName={row.cells[1].value}
+                                idLabel={idLabel}
+                                setName={setName}
+                                setId={setId}
+                              />
+                            </FunctionalModal>
+
+                        <FunctionalModal
+                          iconBtn={DeleteIcon}
+                          modalMinH={"fitContent"}
+                          btnColor={"danger.100"}
+                          modalTitle={`Delete GeoFence`}
+                          btnAction={
+                            <Button
+                              bg={"danger.100"}
+                              color={"text.primary"}
+                              onClick={() => deleteGeofence(row.cells[1].value)}
+                            >
+                              Delete
+                            </Button>
+                          }
                         >
-                            Edit
-                        </Button>
-                        <Button
-                        colorScheme="red"
-                        variant="solid"
-                        size="sm"
-                        >
-                            Delete
-                        </Button>
+                          <Text>
+                            Are you sure you want to delete "{row.cells[0].value}" geofence?
+                          </Text>
+                          <Tag
+                            size="lg"
+                            colorScheme="danger"
+                            borderRadius="full"
+                            margin={5}
+                          >
+                            <TagLabel >
+                              {row.cells[1].value} : {row.cells[0].value}
+                            </TagLabel>
+                          </Tag>
+                        </FunctionalModal>
                         <Button
                         colorScheme="green"
                         variant="solid"

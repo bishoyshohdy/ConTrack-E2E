@@ -25,6 +25,7 @@ import "./geofences.css";
 import { DevicesContext } from "../../../context/devices";
 import { hasPermission } from "../../../helpers/permissions-helper";
 import { PERMISSIONS } from "../../../types/devices";
+import { deleteGeofence } from "../../../api/geofences";
 
 function Geofences() {
 

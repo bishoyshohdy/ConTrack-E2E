@@ -32,7 +32,8 @@ export function createGeofence(name, polygon) {
     .catch(globalErrorHandler);
 }
 
-export function deleteGeofence(id) {
+export function deleteGeofence(id) {  
+  // console.log("deleteGeofence(id) ", id);
   return axios
     .delete(baseUrl + geofencesUrl + `/${id}`, { data: { customer_id: 1 } })
     .catch(globalErrorHandler);
@@ -71,11 +72,13 @@ export function addGeofenceToDevice(
 }
 
 export function deleteDeviceGeofence(deviceId, geofenceId) {
-  return axios
-    .delete(baseUrl + deviceGeofencesUrl + `/${deviceId}/${geofenceId}`, {
-      data: { customer_id: 1 },
-    })
-    .catch(globalErrorHandler);
+  console.log("deleteDeviceGeofence(deviceId, geofenceId) ", deviceId, geofenceId);
+
+  // return axios
+  //   .delete(baseUrl + deviceGeofencesUrl + `/${deviceId}/${geofenceId}`, {
+  //     data: { customer_id: 1 },
+  //   })
+  //   .catch(globalErrorHandler);
 }
 
 export function editDeviceGeofence(deviceId, geofenceId, active) {
