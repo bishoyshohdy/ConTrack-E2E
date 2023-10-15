@@ -55,7 +55,7 @@ import "./tag-container.css";
 
 
 
-function ComplexTable({
+function tagContainer({
   reverse = false,
   minHEmpty = "150px",
   flatten = false,
@@ -451,4 +451,4 @@ function ComplexTable({
   );
 }
 
-export default ComplexTable;
+export default tagContainer;

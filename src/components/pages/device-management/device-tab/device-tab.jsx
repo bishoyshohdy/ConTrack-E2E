@@ -7,6 +7,7 @@ import AccordionTable from '../../../ui/table/accordion-table.jsx';
 import { capatalizeName } from '../../../../helpers/string-operations';
 // import DeviceForm from '../device-form/device-form';
 import { getDeviceIdentifier } from '../../../../data/device-form';
+import TagContainer from "../../../ui/table/tag-container";
 
 
 function DeviceTab ({ type, deviceList, createAction, deleteAction,CreateDevice }) {
@@ -17,7 +18,7 @@ function DeviceTab ({ type, deviceList, createAction, deleteAction,CreateDevice 
         <>
             {type === 'cytag' ?    
 
-            <ComplexTable
+            <TagContainer
                 hiddenCols={['pccw_iccid', 'satcom_iccid', 'lat', 'lng', 'lock_status', 'Battery']}
                 title={capatalizeName(type) + 's'}
                 data={deviceList}
@@ -40,7 +41,7 @@ function DeviceTab ({ type, deviceList, createAction, deleteAction,CreateDevice 
                         <DeviceForm name={name} id={id} setId={setId} setName={setName} idLabel={getDeviceIdentifier(type)} />
                     </FunctionalModal>
                 </Box> */}
-            </ComplexTable>
+            </TagContainer>
             :
             // Call accordion component here
             <AccordionTable
