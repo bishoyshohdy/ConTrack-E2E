@@ -1,7 +1,24 @@
 import { Icon, CheckCircleIcon } from "@chakra-ui/icons";
 import {
-  Box, Button, Flex, Heading, Text,
-  Tabs, TabList, TabPanels, Tab, TabPanel, chackraProvider, Circle,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Text,
+  Tabs, 
+  TabList, 
+  TabPanels, 
+  Tab, 
+  TabPanel, 
+  chackraProvider, 
+  Circle,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton, 
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useContext, useRef } from "react";
 import StatCard from "../../ui/card/stat-card";
@@ -58,6 +75,7 @@ export function AlarmAction({
       callback(useAlarmId ? alarm : {});
     });
   };
+
 
 
   return (
@@ -366,6 +384,11 @@ function Dashboard() {
   }
 
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  function toggleDrawer () {
+    setIsDrawerOpen(!isDrawerOpen);
+  }
   
 
   return (
@@ -510,6 +533,7 @@ function Dashboard() {
                   {/* DEVICES TABLE */}
                   <Box mt={5}>
                   <CardTable
+                    toggleDrawer={toggleDrawer}
                     isLoading={deviceCtx.isLoadingCylocks}
                     pageNumber={deviceTablePage}
                     setPageNumber={setDeviceTablePage}
@@ -518,9 +542,9 @@ function Dashboard() {
                       cytags.length !== 0
                         ? (rows) =>
                           setSelectedCytags(
-                            cytags.filter((cytag) => cytag.cycollector_id === rows)
+                            cytags.filter((cytag) => cytag.cycollector_id === rows) 
                           )
-                        : null
+                        : null 
                     }
                     data={
                       hasPermission(PERMISSIONS.GET_DEVICE_DETAILS) &&
@@ -570,9 +594,22 @@ function Dashboard() {
                   {/* Connected Cytags */}
                   <Box mt={5}>
                   {cytags.length !== 0 && (
-                      <div id="connected_cytags" >
-                        <TagContainer
+                      <>
+                      <Drawer
+                      isOpen={isDrawerOpen}
+                      placement='bottom'
+                      onClose={toggleDrawer}
 
+                      >
+                      <DrawerOverlay />
+                      <DrawerContent
+                        bg={"primary.80"}
+                        color={"text.primary"}
+                        borderRadius={"10px"}
+                      >
+                        <DrawerCloseButton />
+                        <DrawerBody >
+                        <TagContainer
                           redirectToDevice={redirectToCytag}
                           data={selectedCytags}
                           title={"Connected CyTags"}
@@ -586,7 +623,12 @@ function Dashboard() {
                             />
                           }
                         />
-                      </div>
+                        </DrawerBody>
+                      </DrawerContent>
+                      </Drawer>
+
+                        
+                        </>
                   )}
                   </Box>
 

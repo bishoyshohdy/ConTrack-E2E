@@ -96,7 +96,7 @@ function Geofences() {
             <Box zIndex={2} position={"absolute"} mx={5} my={5}>
             {hasPermission(PERMISSIONS.CREATE_GEOFENCES)&&
             (
-              <FunctionalModal
+            <FunctionalModal
               modalTitle={"Create Geofence"}
               btnTitle={"Create Geofence"}
               btnSize={"sm"}
@@ -142,16 +142,12 @@ function Geofences() {
                   geofences={geoFences}
                 />
               </Box>
-            </FunctionalModal>
+              </FunctionalModal>
             )}
             </Box>
 
             
-            <Box zIndex={2} position={"absolute"} mx={5} my={14} >
-
-
-
-
+            <Box zIndex={2} position={"absolute"} mx={5} my={14}>
             {hasPermission(PERMISSIONS.GET_GEOFENCES)&&
             (
               <>
@@ -215,8 +211,6 @@ function Geofences() {
             
             </Box>
             
-            {/*   */}
-
             <Box maxH={'0vh'}>
             <Map zoom={8} trips={false} geofences={geoFences}  />
             </Box>

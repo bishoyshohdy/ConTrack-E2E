@@ -92,7 +92,8 @@ function CardTable({
   pageNumber,
   CreateDevice,
   allCytags,
-  isLoading
+  isLoading,
+  toggleDrawer
 
 }) {
   const [flatData, setFlatData] = useState(data);
@@ -109,27 +110,7 @@ function CardTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
-  // hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
-  // const themeCtx = useContext(ThemeContext);
-  // const columns = React.useMemo(
-  //   () =>
-  //     reverse
-  //       ? [...extractFn(data, hiddenCols).reverse()]
-  //       : [
-  //           ...extractFn(data, hiddenCols),
-  //           {
-  //             Header: "Cytag",
-  //             accessor: "cytag", // Assuming "cytag" is the property containing Cytag information
-  //             Cell: ({ value }) => (
-  //               <Tag size="md" colorScheme="teal">
-  //                 <TagLabel>{value}</TagLabel>
-  //               </Tag>
-  //             ),
-  //           },
-  //         ],
-  //   [data]
-  // );
-  
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -253,7 +234,7 @@ function CardTable({
         </Flex>
         {columns.length !== 0 ? (
           <>
-            <Box  overflowY={"scroll"} h={"430px"}>
+            <Box my={4}>
             <Table
                 mb={'10px'}
                 color={"secondary.100"}
@@ -357,15 +338,7 @@ function CardTable({
                     cursor={redirectToDevice ? "pointer" : "default"}
 
 
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   e.stopPropagation();
-                    //   cytagsBtn(
-                    //     row.cells.find(
-                    //       (col) => col.column.Header === "IMEI"
-                    //     ).value
-                    //   );
-                    // }}
+
 
 
 
@@ -410,8 +383,11 @@ function CardTable({
                         Last Location Type: {loc} <br/>
                       
                       <Box  onClick={(e) => {
+                      
+                      
                       e.preventDefault();
                       e.stopPropagation();
+
                       cytagsBtn(
                         row.cells.find(
                           (col) => col.column.Header === "IMEI"
@@ -421,11 +397,13 @@ function CardTable({
                       if (sectionElement) {
                         sectionElement.scrollIntoView({ behavior: "smooth" }); // Use smooth scrolling for a nicer effect
                       }
+
+                      toggleDrawer();
+
                     }}
                     _hover={{
                       color: "card.100",
                       textDecoration:"underline"
-                      
                     }}
                     style={{ 
                       color:"#9b29e7"
@@ -435,37 +413,23 @@ function CardTable({
                      > Connected Cytags
 
                       </Box>
-
                          </Text>
                         </CardBody>
-
                       <CardFooter
+                      mt={'5%'}
                       pb={'0px'}
                       pr={'0px'}
                       pt={'10px'}>
-                      <Flex
-                      mt={'5%'} w= {"100%"}>
                         <Text as={'abbr'}> Attached To: {attached} </Text>
                         <Spacer/>
-                        <Image
-                          objectFit='cover'
-                          src= {container_side}
-                          alt='Chakra UI'
-                          width={'60%'}
-                          p={0}
-                        />
-                      </Flex>
-
+                        <Image src= {container_side} alt='Container' width={'60%'} p={0} m={0} borderRadius={'0px 0px 4px 0px'}/>
                       </CardFooter>
                       
                     </Card>
                   )
-  
                 })}
             </SimpleGrid>
              {/* /Card Grid */}
-
-             
             </Box>
             <Stack
               pos={"relative"}
