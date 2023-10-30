@@ -244,7 +244,7 @@ function CardTable({
                 <Thead pos={"sticky"} top={"0"} bg={"primary.80"}>
                   {headerGroups.map((headerGroup, index) => (
                     <Tr
-                      bg={"primary.100"}
+                      bg={"primary.80"}
                       key={index}
                       {...headerGroup.getHeaderGroupProps()}
                     >
@@ -269,17 +269,20 @@ function CardTable({
                           </Th>
                         ) : (
                           <Th
+                          
                             textAlign={"center"}
                             h={"10px"}
                             key={i}
+
                             {...column.getSortByToggleProps()}
                           >
-                            <Flex textAlign={"center"}>
+                            <Flex justifyContent={"center"} textAlign={"center"} alignItems={'center'}>
                               {column.render("Header")}
                               <IconButton
-                                ml={1}
+                              
+                                ml={2}
                                 size={"xs"}
-                                bg={"transparent"}
+                                bg={"primary.100"}
                                 icon={
                                   column.isSorted ? (
                                     column.isSortedDesc ? (

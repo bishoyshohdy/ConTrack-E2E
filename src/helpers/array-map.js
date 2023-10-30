@@ -326,6 +326,7 @@ export function switchAlarmsTableFields(field, props) {
         />
       );
     case "Acknowledge":
+      console.log(props.value, "saskskkskks");
       return (
         <AlarmAction
           acknowldgeAction={true}

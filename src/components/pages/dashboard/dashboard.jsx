@@ -1,4 +1,5 @@
-import { Icon, CheckCircleIcon } from "@chakra-ui/icons";
+import { Icon, CheckCircleIcon , CheckIcon} from "@chakra-ui/icons";
+
 import {
   Box,
   Button,
@@ -101,8 +102,8 @@ export function AlarmAction({
         </FunctionalModal>
       ) : (
         <Icon
+          as={CheckIcon}
           borderRadius={"20px"}
-          as={CheckCircleIcon}
           boxSize={"30px"}
           color={"text.primary"}
           bg={"gray.600"}
@@ -524,6 +525,7 @@ function Dashboard() {
                     data={[...alarms]}
                     isLoading={isLoadingAlarms}
                   >
+
                   </AlarmTable>
                 </Box>
               </TabPanel>

@@ -1,5 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import {mapThreatToColor} from "../../../helpers/array-map"
+import { actionAlarm, getAlarms } from "../../../api/alarms";
+import { AlarmAction } from "../../pages/dashboard/dashboard";
+import { switchAlarmsTableFields } from "../../../helpers/array-map";
+import { showsuccess } from "../../../helpers/toast-emitter";
+
 import {
     Table,
     Thead,
@@ -43,7 +48,10 @@ import {
   ArrowUpIcon,
   MinusIcon,
   DeleteIcon,
-  WarningTwoIcon
+  WarningTwoIcon,
+  EditIcon,
+  CheckIcon,
+  SmallCloseIcon
 } from "@chakra-ui/icons";
 import { Icon,  CheckCircleIcon  } from "@chakra-ui/icons";
 
@@ -98,9 +106,9 @@ function AlarmTable({
   CreateDevice,
   allCytags,
   isLoading,
-
 }) {
   const [flatData, setFlatData] = useState(data);
+
 
   useEffect(() => {
     if (flatten) {
@@ -191,6 +199,17 @@ function AlarmTable({
   setTimeout(() => {
     setLoadingElapsed(false);
   }, 1200);
+
+  const handleAck = (ack) => {
+
+    // <AlarmAction alarm={ack} acknowldgeAction={"acknowledged"}></AlarmAction>
+
+   ack? actionAlarm(ack, "acknowledged") : null;
+   getAlarms().then((res) => {
+    showsuccess(`Alarm Acknowledged`);
+    });
+
+  }
 
 
   return (
@@ -348,13 +367,14 @@ function AlarmTable({
                         case 5: details = cell.value; break;
                         case 6: startTime = cell.value; break;
                         case 7: updatedTime = cell.value; break;
-                        case 8: ack = cell.value; break;
+                        case 8: ack = cell.value.alarm; break;
                         case 9: clear = cell.value; break;
                       }
                     });
 
                     let alarmColor= mapThreatToColor(severity);
-                    
+                    console.log("ack",{ack})
+
                   return(
                     <Card 
                     bg={'#2d3748'}
@@ -376,29 +396,38 @@ function AlarmTable({
                     key={index}
                     {...row.getRowProps()}
                    >
+                    <Flex direction="column" position="relative">
+                     
+                    <CloseButton
+                      position="absolute"
+                      top={2}
+                      right={2}
+                      onClick={() => {
+                      }}
+                       
+                      _hover={{
+                        backgroundColor: 'secondary.80',
+                        cursor: 'pointer'
+                      }}
+
+                    />
                     
-                    
-                    
-                      <CardHeader
-                      pb={'10px'} >
-                      <Flex justifyContent={'flex-end'}>
-                      {/* <CloseButton onClick={actionAlarmCall}/> */}
-                      </Flex>
+                    <CardHeader
+                    pb={'10px'} >
 
 
-                      <Flex alignItems={'center'} >
-                      <WarningTwoIcon color={alarmColor} fontSize={'25px'} m={'10px'}/>
-                        <Heading size='md' mb={'10px'}> 
-                        {console.log("severity",type)}
-                           {type} <br/>
-                            <Text as='cite' fontSize={'14px'} fontWeight="normal"> {severity} severity</Text>
-                        </Heading>
-                        
-                      </Flex>
-                      
-                      <hr style={{ width: '60%', color: 'blue' }} />
-                      
-                      </CardHeader>
+                    <Flex alignItems={'center'} >
+                    <WarningTwoIcon color={alarmColor} fontSize={'25px'} m={'10px'}/>
+                      <Heading size='md' mb={'10px'}> 
+                      {console.log("severity",type)}
+                          {type} <br/>
+                          <Text as='cite' fontSize={'14px'} fontWeight="normal"> {severity} severity</Text>
+                      </Heading>
+                    </Flex>
+                    
+                    <hr style={{ width: '60%', color: 'blue' }} />
+                    
+                    </CardHeader>
                       
                     <CardBody mb={0}>
                     
@@ -433,25 +462,46 @@ function AlarmTable({
                         Updated Time:{updatedTime} 
                         </Text>
                         <Spacer/>
+                        {/* henaaa */}
                         <Box
-                                as={'Flex'}
-                                justifyContent={'center'}
-                                alignItems= {'center'}
-                                size={"sm"}
-                                bg={alarmColor}
-                                rounded={"full"}
-                                w = {'50px'}
-                                h = {'50px'}
-                                title={"Acknowledge Alert"}
-                                p={"5px"}
-                              >
-                                <MdVerified color={"white"} fontSize={"40px"}  />
-                        
+                          as={'Flex'}
+                          justifyContent={'center'}
+                          alignItems= {'center'}
+                          size={"sm"}
+                          bg='transparent'
+                          rounded={"full"}
+                          title={"Acknowledge Alert"}
+                          opacity={ack ? 1 : 0.5}
+                          m={2}
+                          border='2px' borderColor={'white'}
+                          boxShadow='xl'
+                          
+                          _hover={
+                            ack
+                              ? {
+                                  backgroundColor: 'secondary.80',
+                                  cursor: 'pointer',
+                                }
+                              : {} 
+                          }
+                          onClick={() => {
+                            // Only trigger the handleAck function when ack is true
+                            if (ack) {
+                              handleAck(ack);
+                            }
+                          }}
+
+                        >
+                          
+                          <Center>
+                          <CheckIcon color={'white'} fontSize={"22px"}  m={2}/>
+                          </Center>
+
                         </Box>
-                        
                       </Flex>
 
                       </CardFooter>
+                    </Flex>
                       
                     </Card>
                   )
