@@ -81,7 +81,6 @@ export function editAlarmSetting (editObject) {
 }
 
 export function actionAlarm (alarmId, action) {
-    // console.log(alarmId, action, "gaatttatat");
     return axios.put(baseUrl + '/', { alarm_id: alarmId, status: action}).catch(globalErrorHandler);
 }
 

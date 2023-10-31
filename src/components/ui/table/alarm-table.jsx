@@ -38,6 +38,15 @@ import {
     SkeletonText,
     Grid,
     GridItem,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure,
+
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -74,6 +83,7 @@ import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
 import { FiUnlock, FiLock } from 'react-icons/fi';
+import { clear } from "@testing-library/user-event/dist/clear";
 
 
 
@@ -108,6 +118,9 @@ function AlarmTable({
   isLoading,
 }) {
   const [flatData, setFlatData] = useState(data);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [selectedAlarm, setSelectedAlarm] = useState({});
+
 
 
   useEffect(() => {
@@ -201,13 +214,21 @@ function AlarmTable({
   }, 1200);
 
   const handleAck = (ack) => {
-
-    // <AlarmAction alarm={ack} acknowldgeAction={"acknowledged"}></AlarmAction>
-
-   ack? actionAlarm(ack, "acknowledged") : null;
+   ack? actionAlarm(ack.alarm, "acknowledged") : null;
    getAlarms().then((res) => {
+    ack.callback({}); // callback to update alarms
     showsuccess(`Alarm Acknowledged`);
     });
+
+  }
+
+  const handleClear = (clr) => {
+    console.log("clearnow",clr.alarm);
+    actionAlarm(clr.alarm, "cleared").then((res) => {
+        clr.callback({}); // callback to update alarms
+        showsuccess(`Alarm Cleared`);
+    });
+    onClose();
 
   }
 
@@ -347,7 +368,7 @@ function AlarmTable({
                   ))}
                 </Thead>
             </Table>
-
+          
             {/* Card Grid */}
             <SimpleGrid 
             spacing={4} 
@@ -367,13 +388,14 @@ function AlarmTable({
                         case 5: details = cell.value; break;
                         case 6: startTime = cell.value; break;
                         case 7: updatedTime = cell.value; break;
-                        case 8: ack = cell.value.alarm; break;
+                        case 8: ack = cell.value; break;
                         case 9: clear = cell.value; break;
                       }
                     });
 
                     let alarmColor= mapThreatToColor(severity);
-                    console.log("ack",{ack})
+                    console.log("ackass",clear)
+                    console.log("ackn",ack)
 
                   return(
                     <Card 
@@ -402,14 +424,16 @@ function AlarmTable({
                       position="absolute"
                       top={2}
                       right={2}
-                      onClick={() => {
-                      }}
-                       
+                      onClick={ () => {
+                        setSelectedAlarm(clear);
+                        onOpen();
+                      } }
                       _hover={{
-                        backgroundColor: 'secondary.80',
+                        backgroundColor: '#ff1e00a3',
                         cursor: 'pointer'
                       }}
-
+                      title="Clear Alarm"
+                      
                     />
                     
                     <CardHeader
@@ -462,7 +486,6 @@ function AlarmTable({
                         Updated Time:{updatedTime} 
                         </Text>
                         <Spacer/>
-                        {/* henaaa */}
                         <Box
                           as={'Flex'}
                           justifyContent={'center'}
@@ -471,13 +494,13 @@ function AlarmTable({
                           bg='transparent'
                           rounded={"full"}
                           title={"Acknowledge Alert"}
-                          opacity={ack ? 1 : 0.5}
+                          opacity={ack.alarm ? 1 : 0.5}
                           m={2}
                           border='2px' borderColor={'white'}
                           boxShadow='xl'
                           
                           _hover={
-                            ack
+                            ack.alarm
                               ? {
                                   backgroundColor: 'secondary.80',
                                   cursor: 'pointer',
@@ -485,8 +508,7 @@ function AlarmTable({
                               : {} 
                           }
                           onClick={() => {
-                            // Only trigger the handleAck function when ack is true
-                            if (ack) {
+                            if (ack.alarm) {
                               handleAck(ack);
                             }
                           }}
@@ -503,7 +525,10 @@ function AlarmTable({
                       </CardFooter>
                     </Flex>
                       
+
+
                     </Card>
+
                   )
   
                 })}
@@ -613,8 +638,71 @@ function AlarmTable({
         )}
       </Box>
     )}
+
+    
+
+      <Modal
+        scrollBehavior="inside"
+        isCentered
+        motionPreset="scale"
+        w={"100%"}
+        bg={"red"}
+        isOpen={isOpen}
+        onClose={() => {
+          onClose();
+        }}
+      >
+        <ModalOverlay
+          h={"100%"}
+          backdropFilter="auto"
+          backdropBlur= "4px"
+        />
+        <ModalContent
+          m={0}
+          bg="primary.80"
+        >
+          <ModalHeader
+            color={"text.primary"}
+          >
+            Clear Alarm {selectedAlarm.alarm}
+          </ModalHeader>
+          <ModalCloseButton color={"text.primary"} />
+          <ModalBody
+            color={"text.primary"}
+          >
+            Are you sure you want to clear this alarm?
+          </ModalBody>
+          
+            <ModalFooter
+              h={"60px"}
+              // bg={transparent ? "transparent" : "primary.80"}
+            >
+                <Button
+                  color={"text.primary"}
+                  bg={"primary.100"}
+                  mr={3}
+                  onClick={() => {
+                    onClose();
+                    if (reset) reset();
+                  }}
+                >
+                  Close
+                </Button>
+                <Button
+                  color={"text.primary"}
+                  bg={"red"}
+                  onClick={() => {
+                    handleClear(selectedAlarm);
+                  }}>
+                  Clear
+                </Button>
+            </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
+
+
 }
 
 export default AlarmTable;
