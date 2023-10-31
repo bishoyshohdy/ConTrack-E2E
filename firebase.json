@@ -1,17 +1,10 @@
 {
   "hosting": {
-    "site": "cypod-test",
-    "public": "build",
+    "public": "src",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
     ]
   }
 }

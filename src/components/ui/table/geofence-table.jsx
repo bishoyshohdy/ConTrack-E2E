@@ -32,16 +32,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import {
-  ArrowBackIcon,
-  ArrowDownIcon,
-  ArrowForwardIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  ArrowUpIcon,
-  MinusIcon,
-  DeleteIcon,
-} from "@chakra-ui/icons";
+
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
 import {
   usePagination,
@@ -53,7 +44,6 @@ import GlobalFilter from "./components/global-filter/global-filter";
 import StyledSelect from "../styled-select/styled-select";
 import { BsArrowDownUp, BsDoorOpen } from "react-icons/bs";
 import { MdClear, MdVerified } from "react-icons/md";
-import { AiFillEdit } from "react-icons/ai";
 import FunctionalModal from "../functional-modal/functional-modal";
 import DeviceForm from "../../pages/device-management/device-form/device-form";
 import CyTagIcon from "../icon/cytag-icon";
@@ -64,6 +54,9 @@ import container_side from '../../../assets/images/resources/container_side.png'
 import { FaMapMarkedAlt } from "react-icons/fa";
 import Map from "../../ui/map/map";
 import { deleteGeofence } from "../../../api/geofences";
+import { use } from "marked";
+import EditGeofence from "../../pages/geofences/edit-geofence/edit-geofence";
+import DeleteGeofence from "../../pages/geofences/delete-geofence/delete-geofence";
 
 
 function GeofenceTable({
@@ -93,7 +86,8 @@ function GeofenceTable({
   pageNumber,
   CreateDevice,
   allCytags,
-  isLoading
+  isLoading,
+  handleViewClick
 
 }) {
   const [flatData, setFlatData] = useState(data);
@@ -156,15 +150,39 @@ function GeofenceTable({
       }
     }
   }, [pageIndex]);
-  
-  useEffect(()=>{
 
-  },[])
+
+  // Render again when data changes
+  useEffect(() => {
+    if (data) {
+      setFlatData([...data].map((obj) => flattenObject(obj)));
+    }
+  }, [data]);
+  
+
 
   const [LoadingElapsed, setLoadingElapsed] = useState(true);
   setTimeout(() => {
     setLoadingElapsed(false);
   }, 1200);
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(
+    new Array(data.length).fill(false)
+  );
+
+  const openDeleteModal = (index) => {
+    const updatedDeleteModalOpen = [...deleteModalOpen];
+    updatedDeleteModalOpen[index] = true;
+    setDeleteModalOpen(updatedDeleteModalOpen);
+  };
+
+  const closeDeleteModal = (index) => {
+    const updatedDeleteModalOpen = [...deleteModalOpen];
+    updatedDeleteModalOpen[index] = false;
+    setDeleteModalOpen(updatedDeleteModalOpen);
+  };
+
+ 
 
   return (
     <>
@@ -237,8 +255,11 @@ function GeofenceTable({
             {...getTableBodyProps()}>
                    {page.map((row, index) => {
                     prepareRow(row);
-                    let GeofenceName, ID, Buttons, vals, loc, attached,cytagKOKO; 
-                    console.log(row);
+                    let GeofenceName, ID, Buttons, vals, loc, attached, cytagKOKO; 
+                    // console.log(row);
+                    // // geofences 
+                    // console.log(row.cells[2].value.geofence)
+                    // console.log(row.cells[2].value.geofences)
                     row.cells.forEach((cell, cellIndex) => {
                       switch (cellIndex) {
                         case 0: GeofenceName = cell.value; break;
@@ -247,9 +268,12 @@ function GeofenceTable({
                         case 3: loc = cell.value; break;
                         case 4: attached = cell.value; break;
                         case 5: cytagKOKO = cell.value; break;
+                        default: break;
 
                       }
                     });
+
+
                       
                   return(
                     <Card 
@@ -292,79 +316,36 @@ function GeofenceTable({
                       pr={'0px'}>
 
                         
-                        <Flex justifyContent={'start'}>
+                        <Flex justifyContent={'start'} gap={2}>
+                          
+                        <EditGeofence 
+                          geofence={row.cells[2].value.geofence}
+                          geofences={row.cells[2].value.geofences} 
+                        />
 
-                        <FunctionalModal
-                              modalMinH={"500px"}
-                              iconBtn={AiFillEdit}
-                              btnColor={"action.100"}
-                              modalTitle={`Edit Geofence`}
-                              btnAction={
-                                <Button
-                                  bg={"primary.100"}
-                                  color={"text.primary"}
-                                  // onClick={editBtn}
-                                >
-                                  Edit {row.cells[0].value}
-                                </Button>
-                              }
-                            >
-                              <DeviceForm
-                                id={id}
-                                name={name}
-                                initialId={row.cells[0].value}
-                                initialName={row.cells[1].value}
-                                idLabel={idLabel}
-                                setName={setName}
-                                setId={setId}
-                              />
-                            </FunctionalModal>
+                        <DeleteGeofence
+                          name={row.cells[2].value.geofence.name}
+                          callBack={row.cells[2].value.geofence.callBack}
+                          id={row.cells[2].value.geofence.id}
+                          deleteAction={deleteGeofence}
+                        />         
 
-                        <FunctionalModal
-                          iconBtn={DeleteIcon}
-                          modalMinH={"fitContent"}
-                          btnColor={"danger.100"}
-                          modalTitle={`Delete GeoFence`}
-                          btnAction={
-                            <Button
-                              bg={"danger.100"}
-                              color={"text.primary"}
-                              onClick={() => deleteGeofence(row.cells[1].value)}
-                            >
-                              Delete
-                            </Button>
-                          }
-                        >
-                          <Text>
-                            Are you sure you want to delete "{row.cells[0].value}" geofence?
-                          </Text>
-                          <Tag
-                            size="lg"
-                            colorScheme="danger"
-                            borderRadius="full"
-                            margin={5}
-                          >
-                            <TagLabel >
-                              {row.cells[1].value} : {row.cells[0].value}
-                            </TagLabel>
-                          </Tag>
-                        </FunctionalModal>
                         <Button
                         colorScheme="green"
                         variant="solid"
                         size="sm"
-                        ml={2}
+                        ml={5}
+                        onClick={() => handleViewClick(row.cells[2].value.geofences, row.cells[2].value.geofence)}
                         >
-                            View on Map
+                          <FaMapMarkedAlt /> 
+                          <Text ms={2}>View</Text>
                         </Button>
+
                         </Flex>
                       </CardBody>
 
-
-
-
                       <CardFooter p={'0px'}>
-                      <Map minH='200px' GeoMap={true} zoom={15} geofences={loc} borderRadius={'30px 30px 0 0'}/>
+                      <Map minH='200px' GeoMap={true} oldCenter={row.cells[2].value.geofence.center} geofences={[row.cells[2].value.geofence]} borderRadius={'30px 30px 0 0'}/> 
                       </CardFooter>
                     </Card>
                   )

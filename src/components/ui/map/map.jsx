@@ -209,7 +209,6 @@ function Map ({ minH = '90vh', draw = false, oldCenter, zoom = 3, trips, markers
         styles: darkMapStyle,
         streetViewControl : false,
         mapTypeControl : false,
-        // center: GeoMap ? geofences[0].center : center,
         zoom: GeoMap ? 15 : zoom,
         draggable: GeoMap ? false : true,
         zoomControl: GeoMap ? false : true,
@@ -217,8 +216,12 @@ function Map ({ minH = '90vh', draw = false, oldCenter, zoom = 3, trips, markers
         disableDoubleClickZoom: GeoMap ? true : false,
         fullscreenControl: GeoMap ? false : true,
         rotateControl: GeoMap ? false : true,
-
+        
       };
+
+
+
+
     return (
         <>
             {trips && (

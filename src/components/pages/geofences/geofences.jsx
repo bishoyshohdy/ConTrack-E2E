@@ -11,7 +11,14 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton, 
-  useDisclosure
+  useDisclosure,
+  Heading,
+  Spacer,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState,  } from "react";
 import { createGeofence } from "../../../api/geofences";
@@ -26,14 +33,18 @@ import { DevicesContext } from "../../../context/devices";
 import { hasPermission } from "../../../helpers/permissions-helper";
 import { PERMISSIONS } from "../../../types/devices";
 import { deleteGeofence } from "../../../api/geofences";
+import EditGeofence from "../../pages/geofences/edit-geofence/edit-geofence";
+import DeleteGeofence from "../../pages/geofences/delete-geofence/delete-geofence";
+import { FaMapMarkedAlt } from "react-icons/fa";
+import { use } from "marked";
 
 function Geofences() {
 
-  // Geofences Drawer Controls
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
 
   const [geoFences, setGeofences] = useState([]);
+
   const [routes, setRoutes] = useState([]);
 
   const [update, setUpdate] = useState(false);
@@ -88,8 +99,32 @@ function Geofences() {
     ).then((res) => {
       showsuccess("Successfully created new geofence");
       setUpdate(true);
+      setNewGeoName("");
+      setNewGeoPolygon([]);
+      geo.callBack(true);
     });
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+      setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+
+
+    const [selectedGeofence, setSelectedGeofence] = useState(null);
+    const [selectedGeofences, setSelectedGeofences] = useState(null);
+
+    const handleViewClick = (geofences, geofence) => {
+      setSelectedGeofence(geofence); 
+      setSelectedGeofences(geofences); 
+      onClose();
+  };
+
+
 
   return (
     <>  
@@ -108,13 +143,19 @@ function Geofences() {
                   isDisabled={
                     newGeoName.trim().length === 0 || newGeoPolygon.length === 0
                   }
-                  onClick={createNewGeo}
+                  onClick={() => {
+                    createNewGeo();
+                    closeModal();
+                  }}
                   bg={"primary.100"}
                   color={"text.primary"}
                 >
                   Create Geofence
                 </Button>
               }
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              onOpen={openModal} 
               btnColor={"action.100"}
             >
               <Box
@@ -161,6 +202,88 @@ function Geofences() {
                 View Geofences
             </Button>
               
+            {selectedGeofence !== null && ( 
+            <Card 
+                    borderRadius={'30px 30px 30px 30px'}
+                    minW={'250px'}
+                    minH={'200px'}
+                    mx={2}
+                    my={5}
+                    bg={'#2d3748'}
+                    color="secondary.100"
+                    border="2px solid #2d3748" 
+                    maxW={'250px'}
+                    backgroundColor={"primary.80"}
+                    borderColor={"primary.60"}
+                    _hover={{
+                      backgroundColor: "primary.100",
+                      borderColor: "primary.60",
+                      
+                    }}
+                    >
+                      <Flex justifyContent={'start'} gap={2}>
+                        <Button
+                          colorScheme="red"
+                          variant="solid"
+                          size="sm"
+                          ml={2}
+                          mt={4}
+                          mr={4}
+                          pos={'absolute'}
+                          right={'0px'}
+                          top={'0px'}
+                          onClick={() => {
+                            setSelectedGeofence(null)
+                            setSelectedGeofences(null) 
+                          }
+                          }
+
+                          borderRadius={'50%'}
+                        >
+                          <Text>
+                            X
+                          </Text>
+                        </Button>
+                      </Flex
+                    
+                   >
+                      <CardHeader
+                        mt={8} 
+                        pb={'10px'}>
+                      <Flex alignItems={'center'}>
+                        <Heading size='md' mb={'10px'}> 
+                        <Text mb={2} fontSize={'xl'}>{selectedGeofence.name}</Text>
+                        <Text fontSize={'lg'}>ID: {selectedGeofence.id}</Text>
+                        </Heading>
+                        <Spacer/>
+                      </Flex>
+                      <hr style={{ width: '60%', color: 'blue' }} />
+                      </CardHeader>
+                           
+                      <CardBody
+                      pt={'10px'} 
+                      pb={'0px'}
+                      pr={'0px'}>
+                        <Flex justifyContent={'start'} gap={2}>
+                          
+                        <EditGeofence 
+                          geofence={selectedGeofence}
+                          geofences={selectedGeofence} 
+                        />
+
+                        <DeleteGeofence
+                          name={selectedGeofence.name}
+                          callBack={selectedGeofence.callBack}
+                          id={selectedGeofence.id}
+                          deleteAction={deleteGeofence}
+                        />         
+
+
+                        </Flex>
+                      </CardBody>
+             </Card>
+            )}
+              
             <Drawer
               isOpen={isOpen}
               placement='bottom'
@@ -180,7 +303,8 @@ function Geofences() {
                 <GeofenceTable
                         title={"GeoFences"}
                         extractFn={extractGeoHeaders}
-                        data={ hasPermission(PERMISSIONS.DELETE_GEOFENCES) || hasPermission(PERMISSIONS.EDIT_GEOFENCES) ?
+                        data={ 
+                          hasPermission(PERMISSIONS.DELETE_GEOFENCES) || hasPermission(PERMISSIONS.EDIT_GEOFENCES) ?
                           geoFences.map((geo) => {
                           return {
                             val: geo.name,
@@ -197,6 +321,8 @@ function Geofences() {
                         };
                       })
                       }
+
+                      handleViewClick={handleViewClick}
                       >
                   </GeofenceTable>
                 </DrawerBody>
@@ -212,7 +338,11 @@ function Geofences() {
             </Box>
             
             <Box maxH={'0vh'}>
-            <Map zoom={8} trips={false} geofences={geoFences}  />
+            <Map 
+            zoom={selectedGeofence ? 16 : 12} 
+            trips={false} geofences={selectedGeofences ? [selectedGeofence]: geoFences} 
+            oldCenter={selectedGeofence ? selectedGeofence.center : null} 
+            />
             </Box>
     </>
   );

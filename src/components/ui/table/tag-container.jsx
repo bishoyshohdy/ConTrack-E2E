@@ -3,23 +3,16 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   Thead,
-  Tbody,
   Tr,
   Th,
-  Td,
   Box,
   IconButton,
   Input,
   Text,
   Flex,
   Stack,
-  Button,
   Center,
-  Spacer,
   Heading,
-  Tag,
-  TagLabel,
-  FormLabel,
   SimpleGrid,
   
 } from "@chakra-ui/react";
@@ -30,8 +23,6 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   ArrowUpIcon,
-  MinusIcon,
-  DeleteIcon,
 } from "@chakra-ui/icons";
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
 import {
@@ -43,13 +34,7 @@ import {
 import GlobalFilter from "./components/global-filter/global-filter";
 import StyledSelect from "../styled-select/styled-select";
 import { BsArrowDownUp, BsDoorOpen } from "react-icons/bs";
-import { MdClear, MdVerified } from "react-icons/md";
-import { AiFillEdit } from "react-icons/ai";
-import FunctionalModal from "../functional-modal/functional-modal";
-import DeviceForm from "../../pages/device-management/device-form/device-form";
-import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
-import { DevicesContext } from "../../../context/devices";
 import cypod from "../../../assets/images/logo/cypod.png";
 import "./tag-container.css";
 
@@ -57,7 +42,6 @@ import "./tag-container.css";
 
 function tagContainer({
   reverse = false,
-  minHEmpty = "150px",
   flatten = false,
   extractFn = extractHeaders,
   data,
@@ -65,23 +49,11 @@ function tagContainer({
   title,
   redirectToDevice,
   children,
-  cytagsBtn,
   minW,
-  alarms = false,
   hiddenCols = [],
-  deleteBtn,
-  editBtn,
-  idLabel,
-  type,
-  id,
-  name,
-  setId,
-  setName,
-  setPage,
   setPageNumber,
   pageNumber,
   CreateDevice
-
 }) {
   const [flatData, setFlatData] = useState(data);
 
@@ -157,7 +129,6 @@ function tagContainer({
         borderRadius={"5px"}
         w={"100%"}
         p={2}
-        minH={'10px'}
         minW={minW}
       >
         <Flex
@@ -189,7 +160,7 @@ function tagContainer({
         </Flex>
         {columns.length !== 0 ? (
           <>
-            <Box overflowY={"scroll"}>
+            <Box overflowY={"scroll"} minH={'50vh'} >
               <Table
                 h={'10px'}
                 color={"secondary.100"}
@@ -199,9 +170,6 @@ function tagContainer({
                 <Thead top={"0"} bg={"primary.80"}>
                   {headerGroups.map((headerGroup, index) => (
                     <Tr
-                      // style={{
-                      // borderBottom:'18px solid rgb(12,12,15)'   
-                      // }}          
                       bg={"primary.100"}
                       key={index}
                       {...headerGroup.getHeaderGroupProps()}
@@ -263,7 +231,6 @@ function tagContainer({
             <SimpleGrid 
             spacing={7} 
             templateColumns={'repeat(auto-fill, minmax( 200px, 220px ))'}
-            justifyContent={"center"}
             alignContent={"center"}
             my={5}
             mx={5}
@@ -314,7 +281,7 @@ function tagContainer({
                               p={1}
                               key={index}
                               {...cell.getCellProps()}
-                              width={"174px"}
+                              width={"200px"}
                               alignContent={"center"}
                               display= {"flex"}
                               flexDirection= {"column"}
@@ -351,9 +318,7 @@ function tagContainer({
               pos={"relative"}
               bottom={0}
               direction="row"
-            //   padding={"10px"}
               justifyContent={"space-between"}
-              // borderTopWidth={2}
               borderColor={"secondary.100"}
             >
               <Stack direction="row" justifyContent={"space-between"}>

@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "citric-cubist-374512"
-  }
+    "default": "contrack-18da2",
+    "staging": "contrack-18da2"
+  },
+  "targets": {},
+  "etags": {}
 }

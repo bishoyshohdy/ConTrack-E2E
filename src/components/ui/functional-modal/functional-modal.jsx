@@ -31,9 +31,8 @@ function FunctionalModal({
   smallBlur,
   initialRef,
   reset,
+   isOpen, onOpen, onClose 
 }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
       {iconBtn ? (
