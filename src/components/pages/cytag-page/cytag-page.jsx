@@ -244,21 +244,65 @@ function CytagPage() {
     }
   };
 
+  const [socket, setSocket] = useState(undefined);
+
   useEffect(() => {
-    let socket = io(URL, { secure: true }).connect();
+    let socket = io(URL + "devices", {
+      secure: true,
+      upgrade: false,
+      autoConnect: false,
+    }).connect();
+
+    setSocket(socket);
     console.log("is connected ?", socket.connected);
+
     function onConnect() {
+      socket.emit("join_room", identifier);
       console.log("Connected");
-      setIsConnected(true);
     }
-    function onDisconnect() {
+    socket.on("connect_error", () => {
+      socket.close();
+    });
+
+    socket.on("disconnect", (reason) => {
+      if (reason === "io server disconnect") {
+        console.log("Disconnected");
+        socket.close();
+      }
+      if (reason === "transport close") {
+        console.log("Disconnected");
+        socket.close();
+      }
+      if (reason === "transport error") {
+        console.log("Disconnected");
+        socket.close();
+      }
+      if (reason === "ping timeout") {
+        console.log("Disconnected");
+        socket.close();
+      }
+    });
+    function onClose() {
       console.log("Disconnected");
-      setIsConnected(false);
     }
 
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onClose);
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  useEffect(() => {
     function newMessageHandler(value) {
       console.log("value= ", value);
-      if (!tableStartDate && !tableEndDate && pageNumber.current === 0) {
+      if (
+        !tableStartDate &&
+        !tableEndDate &&
+        pageNumber.current === 0 &&
+        paginationData.data
+      ) {
         const updatedPaginationData = paginationData.data;
         if (
           updatedPaginationData.length > 0 &&
@@ -276,40 +320,12 @@ function CytagPage() {
         setPaginationData({ ...paginationData, data: updatedPaginationData });
       }
     }
-    function newAlarmHandler(value) {
-      console.log(value);
+    if (socket) {
+      socket.removeAllListeners(`${identifier}/message`);
+      socket.on(`${identifier}/message`, newMessageHandler);
     }
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-    socket.on(`${identifier}/message`, newMessageHandler);
-    socket.on(`${identifier}/alarm`, newAlarmHandler);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-      socket.off(`${identifier}/message`, newMessageHandler);
-      socket.off(`${identifier}/alarm`, newAlarmHandler);
-    };
-  }, [paginationData]);
-
-  useEffect(() => {
-    const handlePageClose = (event) => {
-      socket.disconnect();
-      setIsConnected(false);
-    };
-
-    window.addEventListener("beforeunload", handlePageClose);
-    window.addEventListener("popstate", handlePageClose);
-    window.addEventListener("hashchange", handlePageClose);
-
-    return () => {
-      window.removeEventListener("beforeunload", handlePageClose);
-      window.removeEventListener("popstate", handlePageClose);
-      window.removeEventListener("hashchange", handlePageClose);
-    };
-  }, []);
-
+  }, [socket, paginationData]);
+  
   return (
     <>
       <div className={"grid"} >

@@ -32,6 +32,7 @@ function FunctionalModal({
   initialRef,
   reset,
    isOpen, onOpen, onClose,
+   
   //  when you want to use icon and text in the button
    IconAndText = false,
 }) {
