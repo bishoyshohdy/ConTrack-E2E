@@ -35,8 +35,9 @@ import { PERMISSIONS } from "../../../types/devices";
 import { deleteGeofence } from "../../../api/geofences";
 import EditGeofence from "../../pages/geofences/edit-geofence/edit-geofence";
 import DeleteGeofence from "../../pages/geofences/delete-geofence/delete-geofence";
-import { FaMapMarkedAlt } from "react-icons/fa";
+import { FaMapMarkedAlt, FaEye} from "react-icons/fa";
 import { use } from "marked";
+import { MdAdd } from "react-icons/md";
 
 function Geofences() {
 
@@ -134,21 +135,22 @@ function Geofences() {
             <FunctionalModal
               modalTitle={"Create Geofence"}
               btnTitle={"Create Geofence"}
-              btnSize={"sm"}
+              btnSize={"md"}
               modalMinH={"700px"}
               modalMinW={"80%"}
-              iconSize={"20px"}
+              iconSize={"20px"} 
+              iconBtn={MdAdd} 
+              IconAndText={true}             
               btnAction={
                 <Button
-                  isDisabled={
-                    newGeoName.trim().length === 0 || newGeoPolygon.length === 0
-                  }
+                  isDisabled={newGeoName.trim().length === 0 || newGeoPolygon.length === 0}
                   onClick={() => {
                     createNewGeo();
                     closeModal();
                   }}
                   bg={"primary.100"}
                   color={"text.primary"}
+
                 >
                   Create Geofence
                 </Button>
@@ -157,6 +159,7 @@ function Geofences() {
               onClose={closeModal}
               onOpen={openModal} 
               btnColor={"action.100"}
+              
             >
               <Box
                 gap={2}
@@ -188,7 +191,7 @@ function Geofences() {
             </Box>
 
             
-            <Box zIndex={2} position={"absolute"} mx={5} my={14}>
+            <Box zIndex={2} position={"absolute"} mx={5} my={16}>
             {hasPermission(PERMISSIONS.GET_GEOFENCES)&&
             (
               <>
@@ -196,8 +199,9 @@ function Geofences() {
               ref={btnRef} 
               bg={"action.100"}
               color={"text.primary"}
-              size={"sm"}
+              size={"md"}
               onClick={onOpen}
+              leftIcon={<Icon as={FaEye} w={5} h={5} />}
               >
                 View Geofences
             </Button>

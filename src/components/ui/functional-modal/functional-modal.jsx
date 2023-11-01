@@ -31,11 +31,13 @@ function FunctionalModal({
   smallBlur,
   initialRef,
   reset,
-   isOpen, onOpen, onClose 
+   isOpen, onOpen, onClose,
+  //  when you want to use icon and text in the button
+   IconAndText = false,
 }) {
   return (
     <>
-      {iconBtn ? (
+      {iconBtn && !IconAndText ? (
         <IconButton
           onClick={onOpen}
           size={btnSize}
@@ -52,10 +54,11 @@ function FunctionalModal({
           bg={btnColor}
           minH={btnMinH}
           onClick={onOpen}
+          leftIcon={iconBtn ? <Icon boxSize={iconSize} as={iconBtn} color={"text.primary"} /> : null}
         >
           {btnTitle}
         </Button>
-      )}
+        )}
       <Modal
         initialFocusRef={initialRef}
         scrollBehavior="inside"
