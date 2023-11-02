@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/icons";
 
+
 function FunctionalModal({
   footer = true,
   modalTitle,
@@ -31,11 +32,29 @@ function FunctionalModal({
   smallBlur,
   initialRef,
   reset,
-   isOpen, onOpen, onClose,
+  isOpen = null,
+  onOpen = null,
+  onClose = null,
    
   //  when you want to use icon and text in the button
    IconAndText = false,
-}) {
+})
+
+{
+
+// if isOpen, onOpen, onClose are not passed as props, useDisclosure is used instead
+ const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: onCloseModal } = useDisclosure()
+  if (isOpen === null) {
+    isOpen = isOpenModal;
+  }
+  if (onOpen === null) {
+    onOpen = onOpenModal;
+  }
+  if (onClose === null) {
+    onClose = onCloseModal;
+  }
+
+
   return (
     <>
       {iconBtn && !IconAndText ? (
