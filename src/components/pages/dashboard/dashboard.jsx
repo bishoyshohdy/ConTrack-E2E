@@ -200,9 +200,9 @@ function Dashboard() {
         }
         newObj.current_status = alarm.current_status;
         delete newObj.alarm_settings;
-        // if(details.split(" : ")[0] !== "Undetected tag"){
+        if(details.split(" : ")[0] !== "Undetected tag"){
         alarmss.push(newObj);
-        // }
+        }
       }
     });
     return alarmss;
