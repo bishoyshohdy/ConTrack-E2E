@@ -472,7 +472,7 @@ function AlarmTable({
                               <Badge
                                 position="absolute"
                                 top={4}
-                                right={10}
+                                right={12}
                                 colorScheme="purple"
                               >
                                 New
@@ -482,7 +482,7 @@ function AlarmTable({
                                 <Badge
                                   position="absolute"
                                   top={4}
-                                  right={10}
+                                  right={12}
                                   colorScheme="yellow"
                                 >
                                   Acknowledged
