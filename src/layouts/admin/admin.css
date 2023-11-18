@@ -1,47 +1,52 @@
 .app-container {
-    z-index: 1;
-    position: relative;
-    margin-bottom: 5px;
-    min-width: 94%;
-    max-width: 94%;
-
+  z-index: 1;
+  position: relative;
+  margin-bottom: 5px;
+  min-width: 94%;
+  max-width: 94%;
+  right: -5%;
 }
 
 .app-container-sm {
-    z-index: 1;
-    position: relative;
-    margin-bottom: 5px;
-    min-width: calc(100% - 18%);
-    max-width: 94%;
+  z-index: 1;
+  position: relative;
+  margin-bottom: 5px;
+  min-width: calc(100% - 18%);
+  max-width: 94%;
+  right: -18%;
 }
 
 .main-app {
-    margin: 4px;
+  margin: 4px;
 }
 
 @media only screen and (max-width: 1440px) {
-    .app-container {
-        margin: 0;
-        min-width: calc( 100%  );
-    }
-}
+  .app-container {
+    margin: 0;
+    min-width: calc(100%);
+  }
 
+  .app-container-sm {
+    margin: 0;
+    min-width: calc(100%);
+    right: 0;
+  }
+}
 
 /* Scrollbar */
 /* For WebKit-based browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background-color: #222; /* Dark background color */
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: #444; /* Dark thumb color */
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #666; /* Dark thumb color on hover */
-  }
-  
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #222; /* Dark background color */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #444; /* Dark thumb color */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #666; /* Dark thumb color on hover */
+}
