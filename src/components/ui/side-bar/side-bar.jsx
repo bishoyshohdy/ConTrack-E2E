@@ -41,7 +41,6 @@ export default function SideBar({ updateNavSize }) {
     <>
       {size >= SCREEN_SIZE.LG && (
         <Box
-          //if navSize is small, then the maxwidth is 5%, else it is 18%
           maxW={navSize === "small" ? "5%" : "17.9999%"}
           height={"100vh"}
           pt={2}
