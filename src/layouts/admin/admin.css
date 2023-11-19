@@ -2,8 +2,8 @@
   z-index: 1;
   position: relative;
   margin-bottom: 5px;
-  min-width: 94%;
-  max-width: 94%;
+  min-width: 95%;
+  max-width: 95%;
   right: -5%;
 }
 
@@ -20,10 +20,25 @@
   margin: 4px;
 }
 
-@media only screen and (max-width: 1440px) {
+@media only screen and (max-width: 1000px) {
   .app-container {
     margin: 0;
     min-width: calc(100%);
+    right: 0;
+  }
+
+  .app-container-sm {
+    margin: 0;
+    min-width: calc(100%);
+    right: 0;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .app-container {
+    z-index: 1;
+    position: relative;
+    margin-bottom: 5px;
   }
 
   .app-container-sm {
