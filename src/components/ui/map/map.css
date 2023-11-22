@@ -1,0 +1,9 @@
+.gm-style-mtc button {
+  background-color: #4285f4;
+  color: #0000;
+  border: 1px solid #4285f4;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}

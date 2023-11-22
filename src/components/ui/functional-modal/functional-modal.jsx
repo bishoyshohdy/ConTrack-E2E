@@ -10,9 +10,9 @@ import {
   Button,
   useDisclosure,
   IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/icons";
-
 
 function FunctionalModal({
   footer = true,
@@ -35,15 +35,16 @@ function FunctionalModal({
   isOpen = null,
   onOpen = null,
   onClose = null,
-   
+
   //  when you want to use icon and text in the button
-   IconAndText = false,
-})
-
-{
-
-// if isOpen, onOpen, onClose are not passed as props, useDisclosure is used instead
- const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: onCloseModal } = useDisclosure()
+  IconAndText = false,
+}) {
+  // if isOpen, onOpen, onClose are not passed as props, useDisclosure is used instead
+  const {
+    isOpen: isOpenModal,
+    onOpen: onOpenModal,
+    onClose: onCloseModal,
+  } = useDisclosure();
   if (isOpen === null) {
     isOpen = isOpenModal;
   }
@@ -54,17 +55,27 @@ function FunctionalModal({
     onClose = onCloseModal;
   }
 
-
   return (
     <>
       {iconBtn && !IconAndText ? (
-        <IconButton
-          onClick={onOpen}
-          size={btnSize}
-          rounded={"full"}
+        <Tooltip
+          label={btnTitle}
+          hasArrow
+          placement="top"
+          color="white"
           bg={btnColor}
-          icon={<Icon boxSize={iconSize} as={iconBtn} color={"text.primary"} />}
-        />
+        >
+          <IconButton
+            onClick={onOpen}
+            size={btnSize}
+            rounded={"full"}
+            bg={btnColor}
+            _hover={{ opacity: 0.8 }}
+            icon={
+              <Icon boxSize={iconSize} as={iconBtn} color={"text.primary"} />
+            }
+          />
+        </Tooltip>
       ) : (
         <Button
           minW={btnMinW}
@@ -74,11 +85,16 @@ function FunctionalModal({
           bg={btnColor}
           minH={btnMinH}
           onClick={onOpen}
-          leftIcon={iconBtn ? <Icon boxSize={iconSize} as={iconBtn} color={"text.primary"} /> : null}
+          leftIcon={
+            iconBtn ? (
+              <Icon boxSize={iconSize} as={iconBtn} color={"text.primary"} />
+            ) : null
+          }
         >
           {btnTitle}
         </Button>
-        )}
+      )}
+
       <Modal
         initialFocusRef={initialRef}
         scrollBehavior="inside"

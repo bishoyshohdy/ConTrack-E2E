@@ -55,10 +55,6 @@ function NavBar(props) {
         setLightImage(AlexPortImg);
         setDarkImage(AlexPortDarkImg);
       }
-      // if (getUserInfo().customer === 'bosch') {
-      //     setLightImage(BoschImg);
-      //     setDarkImage(BoschImg);
-      // }
     }
   }, []);
   const navigate = useNavigate();
@@ -185,7 +181,6 @@ function NavBar(props) {
                       >
                         <Text>
                           <Avatar
-                            // mr={2}
                             size={"sm"}
                             name={
                               getUserInfo && getUserInfo().user_name
