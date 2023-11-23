@@ -63,6 +63,7 @@ import { FiUnlock, FiLock } from 'react-icons/fi';
 import container_side from '../../../assets/images/resources/container_side.png';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { set } from "mongoose";
 
 
 
@@ -100,6 +101,8 @@ function CardTable({
 }) {
   const [flatData, setFlatData] = useState(data);
   const [locks , setLocks] = useState([]);
+  const [selectedColumn, setSelectedColumn] = useState(null);
+
 
 
   useEffect(() => { 
@@ -109,6 +112,7 @@ function CardTable({
   useEffect(() => {
     let tmpLocks = [];
     //devide data into 10s
+
     for(let i = 0; i < data.length; i++)
     {
       if(i % 8 === 0)
@@ -117,8 +121,13 @@ function CardTable({
       }
       tmpLocks[tmpLocks.length - 1].push(data[i]);
     }
+    console.log('tmpLocks', tmpLocks);
     setLocks(tmpLocks);
   }, [data]) ;
+
+ 
+
+
   // useEffect(() => {
   //   if (flatten) {
   //     setFlatData([...data].map((obj) => flattenObject(obj)));
@@ -132,6 +141,7 @@ function CardTable({
     [data]
   );
 
+  
   // const {
   //   getTableProps,
   //   getTableBodyProps,
@@ -187,27 +197,30 @@ function CardTable({
     setLoadingElapsed(false);
   }, 1200);
 
-    const handleColumnSelect = (selected) => {
+
+
+  const handleColumnSelect = (selected) => {
     setSelectedColumn(selected);
+    console.log("selected", selected);
   
     const sortedData = [...data].sort((a, b) => {
-      const valueA = a[selected]; 
+      const valueA = a[selected];
       const valueB = b[selected];
-      console.log("valueA",valueA);
   
-      if (valueA > valueB) {
-        return -1;
-      }
-      if (valueA < valueB) {
-        return 1;
-      }
-      return 0;
+      return valueA - valueB;
     });
-    
-    setFlatData(sortedData);
-    console.log("sortedData",sortedData)
   
+    let tmpLocks = [];
+    for (let i = 0; i < sortedData.length; i++) {
+      if (i % 8 === 0) {
+        tmpLocks.push([]);
+      }
+      tmpLocks[tmpLocks.length - 1].push(sortedData[i]);
+    }
+    setLocks(tmpLocks);
   };
+  
+  
 
   return (
     <>
@@ -274,13 +287,34 @@ function CardTable({
                 width={"200px"}
               />
             )} */}
+            
           </Flex>
+          
           {columns.length !== 0 ? (
             <>
+            
               <Box my={2}
               bg={'111'}
               >
+                
+                <Box
+                display={'flex'}
+                justifyContent={'end'}
+                alignItems={'center'}
+                m={5}
+                >
+                  <StyledSelect
+                  size={"xs"}
+                  options={columns.map((col) => ({
+                    value: col.accessor,
+                    label: col.Header,
+                  }))}
+                  value={selectedColumn}
+                  onchange={(res) => handleColumnSelect(res)}
+                />
 
+                
+                </Box>
 
               <Carousel
               showArrows={true}
@@ -291,13 +325,13 @@ function CardTable({
                 {
                 locks.map((page, index) => (
                   <div key={index} style={{
-                    
                   }}>
                   <SimpleGrid 
                   spacing={4} 
                   templateColumns='repeat(auto-fill, minmax( 260px, 24% ))'
                   m={10}
                   >   
+                  
                     {
                       page.map((lock, rindex) => (
                         <Card 
@@ -319,6 +353,8 @@ function CardTable({
     
                         key={rindex}
                        >
+                        
+                          
                         
                           <CardHeader
                           pb={'10px'}>

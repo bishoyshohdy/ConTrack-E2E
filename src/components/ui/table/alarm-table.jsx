@@ -279,13 +279,13 @@ function AlarmTable({
   //   console.log("sortedData",sortedData)
   
   // };
-  const handleColumnSelect = (selected) => {
-    const isAsc = selected === sortBy[0]?.id && !sortBy[0]?.desc;
+  // const handleColumnSelect = (selected) => {
+  //   const isAsc = selected === sortBy[0]?.id && !sortBy[0]?.desc;
   
-    setSortBy([{ id: selected, desc: isAsc ? true : false }]);
-    console.log("sortedData", sortBy);
-    setSelectedColumn(selected);
-  };
+  //   setSortBy([{ id: selected, desc: isAsc ? true : false }]);
+  //   console.log("sortedData", sortBy);
+  //   setSelectedColumn(selected);
+  // };
   
   
 
@@ -456,7 +456,7 @@ function AlarmTable({
               variant={"unstyled"}
 
             >
-              <ColumnDropdown columns={columns} onColumnSelect={handleColumnSelect} />
+              {/* <ColumnDropdown columns={columns} onColumnSelect={handleColumnSelect} /> */}
 
               
               </Box>
