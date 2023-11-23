@@ -170,10 +170,11 @@ function AlarmTable({
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize, globalFilter, hiddenColumns },
+    state: { pageIndex, pageSize, globalFilter, sortBy, hiddenColumns }, // Include sortBy in the state
     visibleColumns,
     preGlobalFilteredRows,
     setGlobalFilter,
+    setSortBy, // Include setSortBy in the destructured functions
   } = useTable(
     {
       columns,
@@ -188,12 +189,14 @@ function AlarmTable({
         pageSize: 5,
         globalFilter: "",
         hiddenColumns: [...hiddenCols, "cycollector_id", "roles"],
+        sortBy: [], // Add sortBy in initialState
       },
     },
     useGlobalFilter,
     useSortBy,
     usePagination
   );
+  
   useEffect(() => {
     if (pageNumber != undefined) {
       if (pageIndex) {
@@ -255,27 +258,35 @@ function AlarmTable({
   //   }
   // };
   
-  const handleColumnSelect = (selected) => {
-    setSelectedColumn(selected);
+  // const handleColumnSelect = (selected) => {
+  //   setSelectedColumn(selected);
   
-    const sortedData = [...data].sort((a, b) => {
-      const valueA = a[selected]; 
-      const valueB = b[selected];
-      console.log("valueA",valueA);
+  //   const sortedData = [...data].sort((a, b) => {
+  //     const valueA = a[selected]; 
+  //     const valueB = b[selected];
+  //     console.log("valueA",valueA);
   
-      if (valueA > valueB) {
-        return -1;
-      }
-      if (valueA < valueB) {
-        return 1;
-      }
-      return 0;
-    });
+  //     if (valueA > valueB) {
+  //       return -1;
+  //     }
+  //     if (valueA < valueB) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   });
     
-    setFlatData(sortedData);
-    console.log("sortedData",sortedData)
+  //   setFlatData(sortedData);
+  //   console.log("sortedData",sortedData)
   
+  // };
+  const handleColumnSelect = (selected) => {
+    const isAsc = selected === sortBy[0]?.id && !sortBy[0]?.desc;
+  
+    setSortBy([{ id: selected, desc: isAsc ? true : false }]);
+    console.log("sortedData", sortBy);
+    setSelectedColumn(selected);
   };
+  
   
 
   
@@ -290,6 +301,7 @@ function AlarmTable({
 
     return (
       <select value={selectedColumn} onChange={(e) => handleColumnChange(e.target.value)}>
+        choose
         {columns.map((column) => (
           <option key={column.id} value={column.id}>
             {column.Header}
@@ -370,7 +382,7 @@ function AlarmTable({
         {columns.length !== 0 ? (
           <>
             <Box  mb={5}>
-            <Table
+            {/* <Table
                 mb={'10px'}
                 color={"secondary.100"}
                 {...getTableProps()}
@@ -435,7 +447,20 @@ function AlarmTable({
                   ))}
                 </Thead>
             </Table>
-          
+           */}
+
+            <Box
+              mb={5}
+              color={"secondary.100"}
+              {...getTableProps()}
+              variant={"unstyled"}
+
+            >
+              <ColumnDropdown columns={columns} onColumnSelect={handleColumnSelect} />
+
+              
+              </Box>
+
             {/* Card Grid */}
             <SimpleGrid 
             spacing={4} 
