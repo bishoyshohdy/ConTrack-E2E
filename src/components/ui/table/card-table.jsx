@@ -166,6 +166,28 @@ function CardTable({
     setLoadingElapsed(false);
   }, 1200);
 
+    const handleColumnSelect = (selected) => {
+    setSelectedColumn(selected);
+  
+    const sortedData = [...data].sort((a, b) => {
+      const valueA = a[selected]; 
+      const valueB = b[selected];
+      console.log("valueA",valueA);
+  
+      if (valueA > valueB) {
+        return -1;
+      }
+      if (valueA < valueB) {
+        return 1;
+      }
+      return 0;
+    });
+    
+    setFlatData(sortedData);
+    console.log("sortedData",sortedData)
+  
+  };
+
   return (
     <>
       {isLoading || LoadingElapsed ? (

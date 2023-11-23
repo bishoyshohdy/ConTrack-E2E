@@ -46,7 +46,7 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-
+  Badge,
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -232,6 +232,78 @@ function AlarmTable({
 
   }
 
+  const [selectedColumn, setSelectedColumn] = useState(columns[0]); 
+
+
+
+  // const handleColumnSelect = (selected) => {
+  //   setSelectedColumn(selected);
+  //   console.log("selected",selected)
+  //   if (selected === "entity") {
+  //     const sortedData = [...data].sort((a, b) => {
+  //       console.log("a",a);
+  //       const entityA = a.entity.toUpperCase(); // Convert to uppercase for case-insensitive sorting
+  //       const entityB = b.entity.toUpperCase();
+  //       // console.log("entityA",entityA);
+  //       if (entityA > entityB) {
+  //         return -1;
+  //       }
+  //       if (entityA < entityB) {
+  //         return 1;
+  //       }
+  //       return 0;
+  //     });
+  
+  //     setFlatData(sortedData);
+  //     console.log("sortedData",sortedData)
+      
+  //   }
+  // };
+  
+  const handleColumnSelect = (selected) => {
+    setSelectedColumn(selected);
+  
+    const sortedData = [...data].sort((a, b) => {
+      const valueA = a[selected]; 
+      const valueB = b[selected];
+      console.log("valueA",valueA);
+  
+      if (valueA > valueB) {
+        return -1;
+      }
+      if (valueA < valueB) {
+        return 1;
+      }
+      return 0;
+    });
+    
+    setFlatData(sortedData);
+    console.log("sortedData",sortedData)
+  
+  };
+  
+
+  
+
+  const ColumnDropdown = ({ columns, onColumnSelect }) => {
+
+    const handleColumnChange = (selected) => {
+      
+      setSelectedColumn(selected);
+      onColumnSelect(selected);
+    };
+
+    return (
+      <select value={selectedColumn} onChange={(e) => handleColumnChange(e.target.value)}>
+        {columns.map((column) => (
+          <option key={column.id} value={column.id}>
+            {column.Header}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
 
   return (
     <Box mb={5} >
@@ -248,11 +320,13 @@ function AlarmTable({
         p={3}
         m={'2'}
         >
+          
         <SkeletonCircle size={12}/>
         <Skeleton my={2}>
           <Box h={'25px'}></Box>
         </Skeleton>
         <hr />
+        
         <SkeletonText my={3} />
         <SkeletonText my={3} />
         <Flex justifyContent={'end'}>
@@ -273,6 +347,7 @@ function AlarmTable({
         minH={columns.length !== 0 ? "555px" : minHEmpty}
         minW={minW}
       >
+        
         <Flex
           p={"1%"}
           justifyContent={"space-between"}
@@ -284,6 +359,8 @@ function AlarmTable({
             <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
               {title}
             </Heading>
+            <ColumnDropdown columns={headerGroups[0].headers} onColumnSelect={handleColumnSelect} justifyContent={'center'} />
+
           </Box>
           {CreateDevice}
           {children ? (
@@ -298,6 +375,7 @@ function AlarmTable({
               setGlobalFilter={setGlobalFilter}
               width={"200px"}
             />
+            
           )}
         </Flex>
         {columns.length !== 0 ? (
@@ -368,6 +446,7 @@ function AlarmTable({
                   ))}
                 </Thead>
             </Table>
+
           
             {/* Card Grid */}
             <SimpleGrid 
@@ -438,15 +517,23 @@ function AlarmTable({
                     
                     <CardHeader
                     pb={'10px'} >
-
+                      {!ack.alarm ? <Stack direction="row" spacing={0} ml={'auto'} mb={4} > 
+                      <Badge colorScheme='green'>acknowledged</Badge>
+                      </Stack>:""}
+                      
 
                     <Flex alignItems={'center'} >
+                      
+                    
                     <WarningTwoIcon color={alarmColor} fontSize={'25px'} m={'10px'}/>
+                    
                       <Heading size='md' mb={'10px'}> 
                       {console.log("severity",type)}
                           {type} <br/>
                           <Text as='cite' fontSize={'14px'} fontWeight="normal"> {severity} severity</Text>
                       </Heading>
+                      
+                     
                     </Flex>
                     
                     <hr style={{ width: '60%', color: 'blue' }} />
