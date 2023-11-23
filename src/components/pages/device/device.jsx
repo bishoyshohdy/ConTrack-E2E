@@ -16,7 +16,7 @@ import {
   AccordionIcon,
   TagLeftIcon,
   TagLabel,
-  Spacer
+  Spacer,
 } from "@chakra-ui/react";
 import React, { useEffect, useContext, useState, useRef } from "react";
 import { SiMicrosoftexcel } from "react-icons/si";
@@ -466,7 +466,6 @@ function Device() {
       const trip = trips.find((t) => t.id === parseInt(tripId));
       // return trip[field];
       return trip[field].toUpperCase().charAt(0) + trip[field].slice(1);
-
     } catch (error) {
       console.error(
         "could not find the trip with the given id try again later maybe we can find it"
@@ -688,17 +687,9 @@ function Device() {
                   w={"152px"}
                 >
                   {locked ? (
-                    <Icon
-                      color={"green"}
-                      as={AiFillLock}
-                      boxSize={"30px"}
-                    />
+                    <Icon color={"green"} as={AiFillLock} boxSize={"30px"} />
                   ) : (
-                    <Icon
-                      color={"red"}
-                      as={AiFillUnlock}
-                      boxSize={"30px"}
-                    />
+                    <Icon color={"red"} as={AiFillUnlock} boxSize={"30px"} />
                   )}
                 </Center>
                 <Center
@@ -732,9 +723,14 @@ function Device() {
               </Box>
             )}
           </Box>
-          <Flex flexWrap={"wrap"} w={"100%"} gap={2} p={4} justifyContent={"center"}>
-
-          <StatBox
+          <Flex
+            flexWrap={"wrap"}
+            w={"100%"}
+            gap={2}
+            p={4}
+            justifyContent={"center"}
+          >
+            <StatBox
               icon={
                 <GiBatteryPack
                   size={"25px"}
@@ -765,7 +761,7 @@ function Device() {
               minH={"fit-content"}
             />
 
-          <StatBox
+            <StatBox
               icon={
                 <TbAntenna
                   size={"30px"}
@@ -796,9 +792,8 @@ function Device() {
               maxW={"100%"}
               minH={"fit-content"}
               width={"29%"}
-
             />
-          {tringLoc ? (
+            {tringLoc ? (
               <StatBox
                 icon={
                   <FaBroadcastTower
@@ -839,11 +834,8 @@ function Device() {
                 maxW={"100%"}
                 minH={"fit-content"}
                 width={"29%"}
-
               />
             )}
-
-
 
             <StatCard
               icon={
@@ -871,9 +863,8 @@ function Device() {
               maxW={"100%"}
               width={"94%"}
               minH={"fit-content"}
-            
             />
-            
+
             <StatCard
               icon={
                 <FaSimCard
@@ -920,7 +911,7 @@ function Device() {
               width={"94%"}
               minH={"fit-content"}
             />
-            
+
             <StatCard
               width={"94%"}
               icon={
@@ -955,7 +946,7 @@ function Device() {
               maxW={"100%"}
               minH={"fit-content"}
             />
-            
+
             <StatCard
               minH={"130px"}
               width={"94%"}
@@ -984,32 +975,31 @@ function Device() {
             />
           </Flex>
           <Flex justifyContent={"center"}>
-          {device &&
-            hasPermission(PERMISSIONS.POST_DEVICE_MODE) &&
-            hasPermission(PERMISSIONS.EDIT_DEVICE_GEOFENCES) && (
-              <Box p={4} as={Flex} gap={2}>
-                <DeviceFunctions
-                  removeDeviceGeofence={removeDeviceGeofence}
-                  updateDeviceGeofenceList={updateDeviceGeofenceList}
-                  updateDeviceGeofence={updateDeviceGeofence}
-                  imei={identifier} 
-                  setConfig={setConfigurations}
-                  changeMode={setDeviceMode}
-                  changeThres={setThresholds}
-                  changeWifi={setWifi}
-                  updateFirmware={sendFirmwareUpdate}
-                  createTrip={createTrip}
-                  route={route}
-                  setRoute={setRoute}
-                  routes={routes}
-                  setTripDate={setTripDate}
-                  tripDate={tripDate}
-                  editDeviceAlarmInterval={editDeviceAlarmIntervalCall}
-                />
-              </Box>
-            )}
-
-</Flex>
+            {device &&
+              hasPermission(PERMISSIONS.POST_DEVICE_MODE) &&
+              hasPermission(PERMISSIONS.EDIT_DEVICE_GEOFENCES) && (
+                <Box p={4} as={Flex} gap={2}>
+                  <DeviceFunctions
+                    removeDeviceGeofence={removeDeviceGeofence}
+                    updateDeviceGeofenceList={updateDeviceGeofenceList}
+                    updateDeviceGeofence={updateDeviceGeofence}
+                    imei={identifier}
+                    setConfig={setConfigurations}
+                    changeMode={setDeviceMode}
+                    changeThres={setThresholds}
+                    changeWifi={setWifi}
+                    updateFirmware={sendFirmwareUpdate}
+                    createTrip={createTrip}
+                    route={route}
+                    setRoute={setRoute}
+                    routes={routes}
+                    setTripDate={setTripDate}
+                    tripDate={tripDate}
+                    editDeviceAlarmInterval={editDeviceAlarmIntervalCall}
+                  />
+                </Box>
+              )}
+          </Flex>
         </Box>
         <Box
           w="100%"
@@ -1079,67 +1069,70 @@ function Device() {
                               onchange={setTripInMap}
                               options={trips.map((trip) => {
                                 return {
-                                  label: trip.route ? trip.route.name : "Unnamed Trip",
+                                  label: trip.route
+                                    ? trip.route.name
+                                    : "Unnamed Trip",
                                   value: trip.id,
                                 };
                               })}
                             />
-                            
 
-                          {trip && getTripField(trip, "status") ?
-                            <Tag
-                            size={"lg"}
-                            color={"text.primary"}
-                            colorScheme="action"
-                            ml={"2"}
-                            >
-                            {trip && getTripField(trip, "status")}
-                          </Tag>
-                          : <br /> }
-
-                            
+                            {trip && getTripField(trip, "status") ? (
+                              <Tag
+                                size={"lg"}
+                                color={"text.primary"}
+                                colorScheme="action"
+                                ml={"2"}
+                              >
+                                {trip && getTripField(trip, "status")}
+                              </Tag>
+                            ) : (
+                              <br />
+                            )}
                           </Box>
-                        <Flex >
-                          <ButtonGroup
-                            w={"100%"}
-                            color={"text.primary"}
-                            isAttached
-                            variant="outline"
-                          >
-                            <Button
-                              onClick={() =>
-                                changeTripStatusCall(
-                                  trip,
-                                  TripStatus.IN_PROGRESS
-                                )
-                              }
-                              bg={"action.100"}
-                              isDisabled={
-                                trip &&
-                                getTripField(trip, "status") !==
-                                  TripStatus.PENDING
-                              }
-                              color={"white"}
+                          <Flex>
+                            <ButtonGroup
+                              w={"100%"}
+                              color={"text.primary"}
+                              isAttached
+                              variant="outline"
                             >
-                              Start Trip
-                            </Button>
+                              <Button
+                                onClick={() =>
+                                  changeTripStatusCall(
+                                    trip,
+                                    TripStatus.IN_PROGRESS
+                                  )
+                                }
+                                bg={"action.100"}
+                                isDisabled={
+                                  trip &&
+                                  getTripField(trip, "status") !==
+                                    TripStatus.PENDING
+                                }
+                                color={"white"}
+                              >
+                                Start Trip
+                              </Button>
+                              <Button
+                                onClick={() =>
+                                  changeTripStatusCall(
+                                    trip,
+                                    TripStatus.COMPLETED
+                                  )
+                                }
+                                bg={"action.100"}
+                                isDisabled={
+                                  trip &&
+                                  getTripField(trip, "status") !==
+                                    TripStatus.IN_PROGRESS
+                                }
+                                color={"white"}
+                              >
+                                Complete Trip
+                              </Button>
+                            </ButtonGroup>
                             <Button
-                              onClick={() =>
-                                changeTripStatusCall(trip, TripStatus.COMPLETED)
-                              }
-                              bg={"action.100"}
-                              isDisabled={
-                                trip &&
-                                getTripField(trip, "status") !==
-                                  TripStatus.IN_PROGRESS
-                              }
-                              color={"white"}
-
-                            >
-                              Complete Trip
-                            </Button>
-                          </ButtonGroup>
-                          <Button
                               ml={3}
                               w={"100%"}
                               variant="outline"
@@ -1153,12 +1146,11 @@ function Device() {
                                   TripStatus.IN_PROGRESS
                               }
                               color={"white"}
-
                             >
                               Stop Trip
                             </Button>
-                        </Flex>
-                      </Box>
+                          </Flex>
+                        </Box>
                       </AccordionPanel>
                     </AccordionItem>
                   </Accordion>
@@ -1168,6 +1160,7 @@ function Device() {
           </Box>
         </Box>
       </div>
+
       <DeviceChart
         mb={"0.5%"}
         mt={"0.5%"}
@@ -1182,6 +1175,7 @@ function Device() {
         endDate={endDate}
         setEndDate={setEndDate}
       />
+
       <Box w="100%" mb={1}>
         <ComplexTable
           hiddenCols={[
@@ -1199,6 +1193,7 @@ function Device() {
           setPageNumber={setAlarmTablePage}
         />
       </Box>
+
       <Box w="100%">
         <TableV2
           title={"Time series data"}

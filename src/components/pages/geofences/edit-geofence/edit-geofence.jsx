@@ -1,50 +1,56 @@
-import { Box, Button } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { editGeofence } from '../../../../api/geofences';
-import { showsuccess } from '../../../../helpers/toast-emitter';
-import FunctionalModal from '../../../ui/functional-modal/functional-modal';
-import Map from '../../../ui/map/map';
+import { Box, Button, IconButton, Tooltip } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { editGeofence } from "../../../../api/geofences";
+import { showsuccess } from "../../../../helpers/toast-emitter";
+import FunctionalModal from "../../../ui/functional-modal/functional-modal";
+import Map from "../../../ui/map/map";
 import { AiFillEdit } from "react-icons/ai";
 
+function EditGeofence({
+  geofences,
+  geofence,
+  setIsEditingGeoFence,
+  setSelectedGeofence,
+  setMapKey,
+  setUpdate,
+}) {
+  const [polygon, setPolygon] = useState(geofence.polygon);
 
-function EditGeofence ({ geofences, geofence }) {
-    const [polygon, setPolygon] = useState(geofence.polygon);
+  const editGeoFenceAction = () => {
+    editGeofence(
+      geofence.id,
+      polygon.map((point) => [point.lat, point.lng]),
+      newGeoName
+    ).then((res) => {
+      showsuccess("Successfully updated geofence");
+      geofence.callBack(true);
+    });
+  };
 
-    const editGeoFenceAction = () => {
-        editGeofence(geofence.id, polygon.map((point) => [point.lat, point.lng])).then((res) => {
-            showsuccess('Successfully updated geofence');
-            geofence.callBack(true);
-        });
-    };
-
-    const [isEditModalOpen, setEditModalOpen] = useState(false);
-
-    return (
-        <FunctionalModal
-            modalTitle={`Edit ${geofence.name}`}
-            btnTitle={'Edit'}
-            iconBtn={AiFillEdit}
-            btnSize={'sm'}
-            iconSize={'20px'}
-            modalMinH={'700px'}
-            modalMinW={'80%'}
-            btnAction={<Button onClick={
-                () => {
-                    editGeoFenceAction();
-                    setEditModalOpen(false);
-                }
-            } bg={'primary.100'} color={'text.primary'}>Edit {geofence.name}</Button>}
-            btnColor={'action.100'}
-            isOpen={isEditModalOpen}
-            onOpen={() => setEditModalOpen(true)}
-            onClose={() => setEditModalOpen(false)}
-        >
-            <Box w={'100%'} h={'600px'} bg={'primary.80'} borderRadius={'5px'}>
-                <Map oldCenter={geofence.center} zoom={16} trips={false} geofences={[geofence]}
-                />
-            </Box>
-        </FunctionalModal>
-    );
+  return (
+    <Tooltip
+      label="Edit GeoFence"
+      hasArrow
+      placement="left"
+      bg={"purple.500"}
+      color="white"
+    >
+      <IconButton
+        icon={<AiFillEdit />}
+        borderRadius={"full"}
+        colorScheme="purple"
+        variant="solid"
+        size={"sm"}
+        onClick={() => {
+          setIsEditingGeoFence(true);
+          setSelectedGeofence(geofence);
+          setUpdate(true);
+          // Rerender the Map component
+          setMapKey((prevKey) => prevKey + 1);
+        }}
+      ></IconButton>
+    </Tooltip>
+  );
 }
 
 export default EditGeofence;

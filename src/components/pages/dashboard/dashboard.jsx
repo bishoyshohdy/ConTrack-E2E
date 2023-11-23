@@ -1,4 +1,4 @@
-import { Icon, CheckCircleIcon , CheckIcon} from "@chakra-ui/icons";
+import { Icon, CheckCircleIcon, CheckIcon } from "@chakra-ui/icons";
 
 import {
   Box,
@@ -6,12 +6,12 @@ import {
   Flex,
   Heading,
   Text,
-  Tabs, 
-  TabList, 
-  TabPanels, 
-  Tab, 
-  TabPanel, 
-  chackraProvider, 
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  chackraProvider,
   Circle,
   Drawer,
   DrawerBody,
@@ -19,7 +19,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton, 
+  DrawerCloseButton,
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useContext, useRef } from "react";
 import StatCard from "../../ui/card/stat-card";
@@ -56,9 +56,9 @@ import { GiCargoCrate } from "react-icons/gi";
 import { hasPermission } from "../../../helpers/permissions-helper";
 import { PERMISSIONS } from "../../../types/devices";
 import { set } from "react-hook-form";
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 import TagContainer from "../../ui/table/tag-container";
-
+import { useLocation } from "react-router-dom";
 
 export function AlarmAction({
   actionPerformed,
@@ -76,8 +76,6 @@ export function AlarmAction({
       callback(useAlarmId ? alarm : {});
     });
   };
-
-
 
   return (
     <Box as={Flex} justifyContent={"center"}>
@@ -113,9 +111,10 @@ export function AlarmAction({
   );
 }
 
-
-
 function Dashboard() {
+  const location = useLocation();
+  const initialActiveTab = location.state ? location.state.activeTab : 1;
+
   const deviceCtx = useContext(DevicesContext);
   const themeCtx = useContext(ThemeContext);
 
@@ -142,10 +141,8 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState(0);
   const [isHovered, setIsHovered] = useState(0);
 
-  
   const [isLoadingAlarms, setIsLoadingAlarms] = useState(true);
 
-  
   const refAlarm = useRef(null);
   const refDevices = useRef(null);
   const refTags = useRef(null);
@@ -163,11 +160,10 @@ function Dashboard() {
         newObj.severity = alarm.alarm_settings.severity;
         newObj.entity = entity ? entity.name : "";
         if (alarm.alarm_settings.configurations.telemetry_type) {
-          newObj.type =
-            alarm.alarm_settings.alarm_type.name
-            //  +
-            // " : " +
-            // alarm.alarm_settings.configurations.telemetry_type;
+          newObj.type = alarm.alarm_settings.alarm_type.name;
+          //  +
+          // " : " +
+          // alarm.alarm_settings.configurations.telemetry_type;
         } else {
           newObj.type = alarm.alarm_settings.alarm_type.name;
         }
@@ -200,8 +196,8 @@ function Dashboard() {
         }
         newObj.current_status = alarm.current_status;
         delete newObj.alarm_settings;
-        if(details.split(" : ")[0] !== "Undetected tag"){
-        alarmss.push(newObj);
+        if (details.split(" : ")[0] !== "Undetected tag") {
+          alarmss.push(newObj);
         }
       }
     });
@@ -209,18 +205,17 @@ function Dashboard() {
   };
 
   const getAlarmsCall = (filters) => {
-    getAlarms(filters)
-      .then((res) => {
-        setIsLoadingAlarms(false);
-        setAlarms(setupAlarms(res.data));
-        setAlarmsData(
-          setupAlarms(res.data).map((oneAlarm) => {
-            delete oneAlarm.Acknowledge;
-            return oneAlarm;
-          })
-        );
-      })}
-
+    getAlarms(filters).then((res) => {
+      setIsLoadingAlarms(false);
+      setAlarms(setupAlarms(res.data));
+      setAlarmsData(
+        setupAlarms(res.data).map((oneAlarm) => {
+          delete oneAlarm.Acknowledge;
+          return oneAlarm;
+        })
+      );
+    });
+  };
 
   const handleFilter = (reset) => {
     const filters = {};
@@ -256,18 +251,18 @@ function Dashboard() {
   const redirectToCytag = (row) => {
     return navigate(
       "device/Cytag/" +
-      row.find((col) => col.column.Header === "NAME").value +
-      "/" +
-      row.find((col) => col.column.Header === "ID").value
+        row.find((col) => col.column.Header === "NAME").value +
+        "/" +
+        row.find((col) => col.column.Header === "ID").value
     );
   };
 
   const redirectToDevice = (row) => {
     return navigate(
       "device/" +
-      row.find((col) => col.column.Header === "NAME").value +
-      "/" +
-      row.find((col) => col.column.Header === "IMEI").value
+        row.find((col) => col.column.Header === "NAME").value +
+        "/" +
+        row.find((col) => col.column.Header === "IMEI").value
     );
   };
   useEffect(() => {
@@ -291,7 +286,6 @@ function Dashboard() {
   lastMonth.setMonth(today.getMonth() - 1);
   useEffect(() => {
     if (deviceCtx && deviceCtx.devicesObj.devices) {
-
       setCycollects(
         deviceCtx.devicesObj.devices.cycollector
           ? deviceCtx.devicesObj.devices.cycollector
@@ -303,7 +297,7 @@ function Dashboard() {
           : []
       );
 
-        getAlarmsCall({});
+      getAlarmsCall({});
     }
     if (deviceCtx) {
       setStatToday(deviceCtx.statToday);
@@ -384,156 +378,172 @@ function Dashboard() {
     setActiveTab(index);
   }
 
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  function toggleDrawer () {
+  function toggleDrawer() {
     setIsDrawerOpen(!isDrawerOpen);
   }
-  
 
   return (
     <>
-      <Box position="relative" h="100vh" >
-          <Tabs isFitted variant='solid-rounded' size="sm" m={5} defaultIndex={1}>
-            <TabList>
-              <Tab 
-                mx={2}
-                _selected={{ color: 'white', bg: 'action.100'}}
-                _hover={{bg: 'action.80'}}
-              >
-                <Box>
-                  <Circle
-                    size="80px"
-                    borderRadius={'40%'}
-                    position={'relative'}
-                    top={'25%'}
-                    bg={'transparent'}
-                    margin={"5px"}
-                  >
-                    <AlarmIcon
-                      margin={"auto"}
-                      p={"15%"}
-                      color={themeCtx.theme.colors && themeCtx.theme.colors.text.primary}
-                    />
-                  </Circle>
-                </Box>
-                <Text fontSize='4xl' > {alarms && alarms.length} Alarms</Text>
-              </Tab>
-              
-              <Tab    
-                mx={2}
-                _selected={{ color: 'white', bg: 'action.100'}}
-                _hover={{bg: 'action.80'}}
-              >
-                <Box>
-                  <Circle
-                    size="80px"
-                    borderRadius={'40%'}
-                    position={'relative'}
-                    top={'25%'}
-                    bg={'transparent'}
-                    margin={"5px"}
+      <Box position="relative" h="100vh">
+        <Tabs
+          isFitted
+          variant="solid-rounded"
+          size="sm"
+          m={5}
+          defaultIndex={initialActiveTab}
+        >
+          <TabList>
+            <Tab
+              mx={2}
+              _selected={{ color: "white", bg: "action.100" }}
+              _hover={{ bg: "action.80" }}
+            >
+              <Box>
+                <Circle
+                  size="80px"
+                  borderRadius={"40%"}
+                  position={"relative"}
+                  top={"25%"}
+                  bg={"transparent"}
+                  margin={"5px"}
+                >
+                  <AlarmIcon
+                    margin={"auto"}
+                    p={"15%"}
+                    color={
+                      themeCtx.theme.colors &&
+                      themeCtx.theme.colors.text.primary
+                    }
+                  />
+                </Circle>
+              </Box>
+              <Text fontSize="4xl"> {alarms && alarms.length} Alarms</Text>
+            </Tab>
 
-                  >
-                    <CyLockIcon
-                      margin={"auto"}
-                      p={"auto"}
-                      color={themeCtx.theme.colors && themeCtx.theme.colors.text.primary}
-                    />
-                  </Circle>
+            <Tab
+              mx={2}
+              _selected={{ color: "white", bg: "action.100" }}
+              _hover={{ bg: "action.80" }}
+            >
+              <Box>
+                <Circle
+                  size="80px"
+                  borderRadius={"40%"}
+                  position={"relative"}
+                  top={"25%"}
+                  bg={"transparent"}
+                  margin={"5px"}
+                >
+                  <CyLockIcon
+                    margin={"auto"}
+                    p={"auto"}
+                    color={
+                      themeCtx.theme.colors &&
+                      themeCtx.theme.colors.text.primary
+                    }
+                  />
+                </Circle>
+              </Box>
+              <Text fontSize="4xl">
+                {" "}
+                {cycollects && cycollects.length} CyLocks
+              </Text>
+            </Tab>
+
+            <Tab
+              mx={2}
+              _selected={{ color: "white", bg: "action.100" }}
+              _hover={{ bg: "action.80" }}
+            >
+              <Box>
+                <Circle
+                  size="80px"
+                  borderRadius={"40%"}
+                  position={"relative"}
+                  top={"25%"}
+                  margin={"5px"}
+                  bg={"transparent"}
+                >
+                  <CyTagIcon
+                    margin={"auto"}
+                    p={"15%"}
+                    color={
+                      themeCtx.theme.colors &&
+                      themeCtx.theme.colors.text.primary
+                    }
+                  />
+                </Circle>
+              </Box>
+              <Text fontSize="4xl"> {cytags && cytags.length} Cytags</Text>
+            </Tab>
+          </TabList>
+
+          {/*  */}
+          <Box w={"100%"} mb={2} mt={5}>
+            <GeneralAccordion
+              title={
+                <Box p={"1%"} w={"100%"} gap={1} as={Flex}>
+                  <Icon
+                    as={FaMapMarkedAlt}
+                    fontSize="2xl"
+                    color={"action.100"}
+                  />
+                  <Heading w={"100%"} color={"text.primary"} fontSize={"2xl"}>
+                    CyLocks Map
+                  </Heading>
                 </Box>
-                <Text fontSize='4xl'> {cycollects && cycollects.length} CyLocks</Text>
-              </Tab>
-        
-              <Tab 
-                mx={2}
-                _selected={{ color: 'white', bg: 'action.100'}}
-                _hover={{bg: 'action.80'}}
+              }
+            >
+              <Box
+                backgroundColor={"primary.80"}
+                w={"100%"}
+                minH={"480px"}
+                h={"100%"}
+                mt={1}
+                borderRadius={"5px"}
               >
-                <Box>
-                  <Circle
-                    size="80px"
-                    borderRadius={'40%'}
-                    position={'relative'}
-                    top={'25%'}
-                    margin={"5px"}
-                    bg={'transparent'}
-                  >
-                    <CyTagIcon
+                <Map minH={"450px"} trips={false} markers={markers} />
+              </Box>
+            </GeneralAccordion>
+          </Box>
+
+          <TabPanels>
+            <TabPanel p={"0px"} mb={5}>
+              <Box mb={5} ref={refAlarm} mt={5}>
+                <AlarmTable
+                  hiddenCols={[
+                    "id",
+                    "current_status",
+                    "description",
+                    "resolved_time",
+                    "notified",
+                    "entity_id",
+                  ]}
+                  pageNumber={alarmTablePage}
+                  setPageNumber={setAlarmTablePage}
+                  extractFn={extractAlarmHeaders}
+                  title={"Alarms"}
+                  icon={
+                    <AlarmIcon
+                      boxSize={"30px"}
                       margin={"auto"}
-                      p={"15%"}
                       color={
-                        themeCtx.theme.colors && themeCtx.theme.colors.text.primary
+                        themeCtx.theme.colors &&
+                        themeCtx.theme.colors.action[100]
                       }
                     />
-                  </Circle>
-                </Box>
-                <Text fontSize='4xl'> {cytags && cytags.length} Cytags</Text>
-              </Tab>
-         
-              </TabList>
-
-             {/*  */}
-            <Box w={"100%"} mb={2} mt={5}>
-        <GeneralAccordion
-          title={
-            <Box p={"1%"} w={"100%"} gap={1} as={Flex}>
-              <Icon as={FaMapMarkedAlt} fontSize="2xl" color={"action.100"} />
-              <Heading w={"100%"} color={"text.primary"} fontSize={"2xl"}>
-                CyLocks Map
-              </Heading>
-            </Box>
-          }
-        >
-          <Box
-            backgroundColor={"primary.80"}
-            w={"100%"}
-            minH={"480px"}
-            h={"100%"}
-            mt={1}
-            borderRadius={"5px"}
-          >
-            <Map minH={"450px"} trips={false} markers={markers} />
-          </Box>
-        </GeneralAccordion>
+                  }
+                  data={[...alarms]}
+                  isLoading={isLoadingAlarms}
+                ></AlarmTable>
               </Box>
-
-            <TabPanels>
-              <TabPanel p={"0px"} mb={5}>
-                <Box mb={5} ref={refAlarm} mt={5}>
-                  <AlarmTable
-                    hiddenCols={[
-                      "id",
-                      "current_status",
-                      "description",
-                      "resolved_time",
-                      "notified",
-                      "entity_id",
-                    ]}
-                    pageNumber={alarmTablePage}
-                    setPageNumber={setAlarmTablePage}
-                    extractFn={extractAlarmHeaders}
-                    title={"Alarms"}
-                    icon={
-                      <AlarmIcon
-                        boxSize={"30px"}
-                        margin={"auto"}
-                        color={themeCtx.theme.colors && themeCtx.theme.colors.action[100]}
-                      />
-                    }
-                    data={[...alarms]}
-                    isLoading={isLoadingAlarms}
-                  >
-
-                  </AlarmTable>
-                </Box>
-              </TabPanel>
-              <TabPanel p={"0px"}>
-                <div ref={refDevices}>
-
-                  {/* DEVICES TABLE */}
-                  <Box mt={5}>
+            </TabPanel>
+            <TabPanel p={"0px"}>
+              <div ref={refDevices}>
+                {/* DEVICES TABLE */}
+                <Box mt={5}>
                   <CardTable
                     toggleDrawer={toggleDrawer}
                     isLoading={deviceCtx.isLoadingCylocks}
@@ -543,21 +553,23 @@ function Dashboard() {
                     cytagsBtn={
                       cytags.length !== 0
                         ? (rows) =>
-                          setSelectedCytags(
-                            cytags.filter((cytag) => cytag.cycollector_id === rows) 
-                          )
-                        : null 
+                            setSelectedCytags(
+                              cytags.filter(
+                                (cytag) => cytag.cycollector_id === rows
+                              )
+                            )
+                        : null
                     }
                     data={
                       hasPermission(PERMISSIONS.GET_DEVICE_DETAILS) &&
-                        hasPermission(PERMISSIONS.GET_DEVICE) &&
-                        hasPermission(PERMISSIONS.GET_ALL_DEVICES) &&
-                        hasPermission(PERMISSIONS.GET_DEVICES_REQUESTS) &&
-                        hasPermission(PERMISSIONS.GET_DEVICES_TELEMETRY) &&
-                        hasPermission(PERMISSIONS.GET_DEVICES_SPATIAL)
+                      hasPermission(PERMISSIONS.GET_DEVICE) &&
+                      hasPermission(PERMISSIONS.GET_ALL_DEVICES) &&
+                      hasPermission(PERMISSIONS.GET_DEVICES_REQUESTS) &&
+                      hasPermission(PERMISSIONS.GET_DEVICES_TELEMETRY) &&
+                      hasPermission(PERMISSIONS.GET_DEVICES_SPATIAL)
                         ? cycollects.map((lock) => {
-                          return { ...lock, imei: lock.id };
-                        })
+                            return { ...lock, imei: lock.id };
+                          })
                         : []
                     }
                     hiddenCols={[
@@ -574,8 +586,10 @@ function Dashboard() {
                       <CyLockIcon
                         boxSize={"30px"}
                         margin={"auto"}
-                        color={themeCtx.theme.colors && themeCtx.theme.colors.action[100]}
-                        
+                        color={
+                          themeCtx.theme.colors &&
+                          themeCtx.theme.colors.action[100]
+                        }
                       />
                     }
                   >
@@ -590,54 +604,51 @@ function Dashboard() {
                       />
                     </Box>
                   </CardTable>
-                  </Box>
+                </Box>
 
-
-                  {/* Connected Cytags */}
-                  <Box mt={5}>
+                {/* Connected Cytags */}
+                <Box mt={5}>
                   {cytags.length !== 0 && (
-                      <>
+                    <>
                       <Drawer
-                      isOpen={isDrawerOpen}
-                      placement='bottom'
-                      onClose={toggleDrawer}
-
+                        isOpen={isDrawerOpen}
+                        placement="bottom"
+                        onClose={toggleDrawer}
                       >
-                      <DrawerOverlay />
-                      <DrawerContent
-                        bg={"primary.80"}
-                        color={"text.primary"}
-                        borderRadius={"10px"}
-                      >
-                        <DrawerCloseButton />
-                        <DrawerBody >
-                        <TagContainer
-                          redirectToDevice={redirectToCytag}
-                          data={selectedCytags}
-                          title={"Connected CyTags"}
-                          icon={
-                            <CyTagIcon
-                              boxSize={"30px"}
-                              margin={"auto"}
-                              color={
-                                themeCtx.theme.colors && themeCtx.theme.colors.action[100]
+                        <DrawerOverlay />
+                        <DrawerContent
+                          bg={"primary.80"}
+                          color={"text.primary"}
+                          borderRadius={"10px"}
+                        >
+                          <DrawerCloseButton />
+                          <DrawerBody>
+                            <TagContainer
+                              redirectToDevice={redirectToCytag}
+                              data={selectedCytags}
+                              title={"Connected CyTags"}
+                              icon={
+                                <CyTagIcon
+                                  boxSize={"30px"}
+                                  margin={"auto"}
+                                  color={
+                                    themeCtx.theme.colors &&
+                                    themeCtx.theme.colors.action[100]
+                                  }
+                                />
                               }
                             />
-                          }
-                        />
-                        </DrawerBody>
-                      </DrawerContent>
+                          </DrawerBody>
+                        </DrawerContent>
                       </Drawer>
-
-                        
-                        </>
+                    </>
                   )}
-                  </Box>
+                </Box>
 
-                  {/* Stop */}
-                </div>
-              </TabPanel>
-              <TabPanel p={"0px"}>
+                {/* Stop */}
+              </div>
+            </TabPanel>
+            <TabPanel p={"0px"}>
               <Box mt={5}>
                 {cytags.length !== 0 && (
                   <Box mt={1} w={"100%"} ref={refTags}>
@@ -653,9 +664,9 @@ function Dashboard() {
                           boxSize={"30px"}
                           margin={"auto"}
                           color={
-                            themeCtx.theme.colors && themeCtx.theme.colors.action[100]
+                            themeCtx.theme.colors &&
+                            themeCtx.theme.colors.action[100]
                           }
-                          
                         />
                       }
                     >
@@ -672,12 +683,11 @@ function Dashboard() {
                     </TagContainer>
                   </Box>
                 )}
-                </Box>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+              </Box>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
-
     </>
   );
 }

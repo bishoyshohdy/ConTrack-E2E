@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-    Table,
-    Thead,
-    Tbody,
-    Tfoot,
-    Tr,
-    Th,
-    Td,
-    TableCaption,
-    TableContainer,
-    SimpleGrid,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+  SimpleGrid,
   Box,
   IconButton,
   Input,
@@ -24,13 +24,17 @@ import {
   Tag,
   TagLabel,
   FormLabel,
-  Card, CardHeader, CardBody, CardFooter,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
   Image,
   Skeleton,
   SkeletonCircle,
   SkeletonText,
   Grid,
   GridItem,
+  Tooltip,
 } from "@chakra-ui/react";
 
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
@@ -49,15 +53,15 @@ import DeviceForm from "../../pages/device-management/device-form/device-form";
 import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
-import { FiUnlock, FiLock } from 'react-icons/fi';
-import container_side from '../../../assets/images/resources/container_side.png';
+import { FiUnlock, FiLock } from "react-icons/fi";
+import container_side from "../../../assets/images/resources/container_side.png";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import Map from "../../ui/map/map";
 import { deleteGeofence } from "../../../api/geofences";
 import { use } from "marked";
 import EditGeofence from "../../pages/geofences/edit-geofence/edit-geofence";
 import DeleteGeofence from "../../pages/geofences/delete-geofence/delete-geofence";
-
+import { set } from "react-hook-form";
 
 function GeofenceTable({
   reverse = false,
@@ -65,33 +69,20 @@ function GeofenceTable({
   flatten = false,
   extractFn = extractHeaders,
   data,
-  icon,
-  title,
   redirectToDevice,
-  children,
-  cytagsBtn,
-  minW,
-  alarms = false,
   hiddenCols = [],
-  deleteBtn,
-  editBtn,
-  idLabel,
-  type,
-  id,
-  name,
-  setId,
-  setName,
-  setPage,
   setPageNumber,
   pageNumber,
-  CreateDevice,
-  allCytags,
   isLoading,
-  handleViewClick
-
+  handleViewClick,
+  setMapKey,
+  setUpdate,
+  setIsEditingGeoFence,
+  setSelectedGeofence,
+  setIsViewingGeoFence,
+  setSelectedGeofences,
 }) {
   const [flatData, setFlatData] = useState(data);
-
   useEffect(() => {
     if (flatten) {
       setFlatData([...data].map((obj) => flattenObject(obj)));
@@ -104,7 +95,7 @@ function GeofenceTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
-  
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -131,7 +122,7 @@ function GeofenceTable({
       manualSortBy: false,
       autoResetPage: false,
       autoResetSortBy: false,
-      autoResetPageIndex:false,
+      autoResetPageIndex: false,
       initialState: {
         pageIndex: pageNumber ? pageNumber : 0,
         pageSize: Number.MAX_SAFE_INTEGER,
@@ -151,213 +142,224 @@ function GeofenceTable({
     }
   }, [pageIndex]);
 
-
   // Render again when data changes
   useEffect(() => {
     if (data) {
       setFlatData([...data].map((obj) => flattenObject(obj)));
     }
   }, [data]);
-  
-
 
   const [LoadingElapsed, setLoadingElapsed] = useState(true);
   setTimeout(() => {
     setLoadingElapsed(false);
   }, 1200);
 
-  const [deleteModalOpen, setDeleteModalOpen] = useState(
-    new Array(data.length).fill(false)
-  );
-
-  const openDeleteModal = (index) => {
-    const updatedDeleteModalOpen = [...deleteModalOpen];
-    updatedDeleteModalOpen[index] = true;
-    setDeleteModalOpen(updatedDeleteModalOpen);
-  };
-
-  const closeDeleteModal = (index) => {
-    const updatedDeleteModalOpen = [...deleteModalOpen];
-    updatedDeleteModalOpen[index] = false;
-    setDeleteModalOpen(updatedDeleteModalOpen);
-  };
-
- 
-
   return (
     <>
       {isLoading || LoadingElapsed ? (
         <>
-        {/* Search Bar Skeleton */}
-        <Skeleton my={2} px={20} mx={8}>
-            <Icon py={1} as={FaMapMarkedAlt} boxSize={"30px"} color={"action.100"} /> 
-            <Text mx={3} fontSize={'xl'} >Geofences</Text>
-        </Skeleton>
-        <Grid templateColumns='repeat(5, 1fr)' gap={4} mx={6}>
-        {Array.from({ length: 5 }, (_, index) => (
-        //Alarm Card Skeleton
-        <GridItem>
-        <Box 
-        w={'100%'}
-        border='2px'
-        borderColor='grey'
-        borderRadius='10px'
-        p={3}
-        m={'2'}
-        >
-        <SkeletonCircle size={12}/>
-        <Skeleton my={2}>
-          <Box h={'25px'}></Box>
-        </Skeleton>
-        <hr />
-        <SkeletonText my={3} />
-        <SkeletonText my={3} />
-        <Flex justifyContent={'end'}>
-        <SkeletonCircle size={12}/>
-        </Flex>
-        <SkeletonText my={3}/>
-        </Box>
-        </GridItem>
-        ))}
-        </Grid>
-        </>
-        ) : (
-        <>
-            {/* Search Bar */}
-            <Flex
-            justifyContent={"space-between"}
-            my={4}
-            mx={4}
-            >
-
-            <Flex >
-                  <Icon py={1} as={FaMapMarkedAlt} boxSize={"30px"} color={"action.100"} /> 
-                  <Text mx={3} 
-                    fontSize={'xl'}
-                  >Geofences</Text>
-                  </Flex>
-          {columns.length !== 0 && (
-            <GlobalFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              globalFilter={globalFilter}
-              setGlobalFilter={setGlobalFilter}
-              width={"300px"}
+          {/* Search Bar Skeleton */}
+          <Skeleton my={2} px={20} mx={8}>
+            <Icon
+              py={1}
+              as={FaMapMarkedAlt}
+              boxSize={"30px"}
+              color={"action.100"}
             />
-          )}
+            <Text mx={3} fontSize={"xl"}>
+              GeoFences
+            </Text>
+          </Skeleton>
+          <Grid templateColumns="repeat(5, 1fr)" gap={4} mx={6}>
+            {Array.from({ length: 5 }, (_, index) => (
+              //Alarm Card Skeleton
+              <GridItem>
+                <Box
+                  w={"100%"}
+                  border="2px"
+                  borderColor="grey"
+                  borderRadius="10px"
+                  p={3}
+                  m={"2"}
+                >
+                  <SkeletonCircle size={12} />
+                  <Skeleton my={2}>
+                    <Box h={"25px"}></Box>
+                  </Skeleton>
+                  <hr />
+                  <SkeletonText my={3} />
+                  <SkeletonText my={3} />
+                  <Flex justifyContent={"end"}>
+                    <SkeletonCircle size={12} />
+                  </Flex>
+                  <SkeletonText my={3} />
+                </Box>
+              </GridItem>
+            ))}
+          </Grid>
+        </>
+      ) : (
+        <>
+          {/* Search Bar */}
+          <Flex justifyContent={"space-between"} my={4} mx={4}>
+            <Flex>
+              <Icon
+                py={1}
+                as={FaMapMarkedAlt}
+                boxSize={"30px"}
+                color={"action.100"}
+              />
+              <Text mx={3} fontSize={"xl"}>
+                GeoFences
+              </Text>
             </Flex>
-        <Box overflowY={"auto"}>
-        {columns.length !== 0 ? (
-          <>
-            {/* Card Grid */}
-            <Flex
-            minW={'max-content'}
-            display="flex"
-            {...getTableBodyProps()}>
-                   {page.map((row, index) => {
-                    prepareRow(row);
-                    let GeofenceName, ID, Buttons, vals, loc, attached, cytagKOKO; 
-                    // console.log(row);
-                    // // geofences 
-                    // console.log(row.cells[2].value.geofence)
-                    // console.log(row.cells[2].value.geofences)
-                    row.cells.forEach((cell, cellIndex) => {
-                      switch (cellIndex) {
-                        case 0: GeofenceName = cell.value; break;
-                        case 1: ID = cell.value; break;
-                        case 2: Buttons = cell.value; break;
-                        case 3: loc = cell.value; break;
-                        case 4: attached = cell.value; break;
-                        case 5: cytagKOKO = cell.value; break;
-                        default: break;
-
-                      }
-                    });
-
-
-                      
-                  return(
-                    <Card 
-                    borderRadius={'30px 30px 0 0'}
-                    minW={'350px'}
-                    minH={'350px'}
-                    mx={2}
-                    my={5}
-                    bg={'#2d3748'}
-                    color="secondary.100"
-                    border="1px solid #2d3748" 
-                    maxH={'300px'}
-                    maxW={'350px'}
-                    _hover={{
-                      backgroundColor: "primary.100",
-                      borderColor: "primary.60",
-                    }}
-                    cursor={redirectToDevice ? "pointer" : "default"}
-                    onClick={() =>
-                      redirectToDevice ? redirectToDevice(row.cells) : null
+            {columns.length !== 0 && (
+              <GlobalFilter
+                preGlobalFilteredRows={preGlobalFilteredRows}
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                width={"300px"}
+              />
+            )}
+          </Flex>
+          <Box overflowY={"auto"}>
+            {columns.length !== 0 ? (
+              <Flex
+                minW={"max-content"}
+                display="flex"
+                {...getTableBodyProps()}
+              >
+                {page.map((row, index) => {
+                  prepareRow(row);
+                  let GeofenceName, ID, Buttons, vals, loc, attached, cytagKOKO;
+                  row.cells.forEach((cell, cellIndex) => {
+                    switch (cellIndex) {
+                      case 0:
+                        GeofenceName = cell.value;
+                        break;
+                      case 1:
+                        ID = cell.value;
+                        break;
+                      case 2:
+                        Buttons = cell.value;
+                        break;
+                      case 3:
+                        loc = cell.value;
+                        break;
+                      case 4:
+                        attached = cell.value;
+                        break;
+                      case 5:
+                        cytagKOKO = cell.value;
+                        break;
+                      default:
+                        break;
                     }
-                    key={index}
-                    {...row.getRowProps()}
-                   >
-                      <CardHeader
-                        pb={'10px'}>
-                      <Flex alignItems={'center'}>
-                        <Heading size='md' mb={'10px'}> 
-                        <Text mb={2} fontSize={'xl'}>{GeofenceName}</Text>
-                        <Text fontSize={'lg'}>ID: {ID}</Text>
-                        </Heading>
-                        <Spacer/>
-                      </Flex>
-                      <hr style={{ width: '60%', color: 'blue' }} />
+                  });
+
+                  return (
+                    <Card
+                      borderRadius={"30px 30px 0 0"}
+                      minW={"350px"}
+                      minH={"350px"}
+                      mx={2}
+                      my={5}
+                      bg={"#2d3748"}
+                      color="secondary.100"
+                      border="1px solid #2d3748"
+                      maxH={"300px"}
+                      maxW={"350px"}
+                      _hover={{
+                        backgroundColor: "primary.100",
+                        borderColor: "primary.60",
+                      }}
+                      cursor={redirectToDevice ? "pointer" : "default"}
+                      onClick={() =>
+                        redirectToDevice ? redirectToDevice(row.cells) : null
+                      }
+                      key={index}
+                      {...row.getRowProps()}
+                    >
+                      <CardHeader pb={"10px"}>
+                        <Flex alignItems={"center"}>
+                          <Heading size="md" mb={"10px"}>
+                            <Text mb={2} fontSize={"xl"}>
+                              {GeofenceName}
+                            </Text>
+                            <Text fontSize={"lg"}>ID: {ID}</Text>
+                          </Heading>
+                          <Spacer />
+                        </Flex>
+                        <hr style={{ width: "60%", color: "blue" }} />
                       </CardHeader>
-                           
-                      <CardBody
-                      pt={'10px'} 
-                      pb={'0px'}
-                      pr={'0px'}>
 
-                        
-                        <Flex justifyContent={'start'} gap={2}>
-                          
-                        <EditGeofence 
-                          geofence={row.cells[2].value.geofence}
-                          geofences={row.cells[2].value.geofences} 
-                        />
+                      <CardBody pt={"10px"} pb={"0px"} pr={"0px"}>
+                        <Flex justifyContent={"start"} gap={2}>
+                          <EditGeofence
+                            geofence={row.cells[2].value.geofence}
+                            geofences={row.cells[2].value.geofences}
+                            setMapKey={setMapKey}
+                            setUpdate={setUpdate}
+                            setIsEditingGeoFence={setIsEditingGeoFence}
+                            setSelectedGeofence={setSelectedGeofence}
+                          />
 
-                        <DeleteGeofence
-                          name={row.cells[2].value.geofence.name}
-                          callBack={row.cells[2].value.geofence.callBack}
-                          id={row.cells[2].value.geofence.id}
-                          deleteAction={deleteGeofence}
-                        />         
+                          <DeleteGeofence
+                            name={row.cells[2].value.geofence.name}
+                            callBack={row.cells[2].value.geofence.callBack}
+                            id={row.cells[2].value.geofence.id}
+                            deleteAction={deleteGeofence}
+                            setMapKey={setMapKey}
+                            setUpdate={setUpdate}
+                            setIsViewingGeoFence={setIsViewingGeoFence}
+                            setSelectedGeofence={setSelectedGeofence}
+                            setSelectedGeofences={setSelectedGeofences}
+                          />
 
-                        <Button
-                        colorScheme="green"
-                        variant="solid"
-                        size="sm"
-                        ml={5}
-                        onClick={() => handleViewClick(row.cells[2].value.geofences, row.cells[2].value.geofence)}
-                        >
-                          <FaMapMarkedAlt /> 
-                          <Text ms={2}>View</Text>
-                        </Button>
-
+                          <Tooltip
+                            label="View Geofence on Map"
+                            hasArrow
+                            placement="right"
+                            bg={"success.100"}
+                            color="white"
+                          >
+                            <IconButton
+                              colorScheme="green"
+                              borderRadius={"full"}
+                              variant="solid"
+                              size="sm"
+                              onClick={() =>
+                                handleViewClick(
+                                  row.cells[2].value.geofences,
+                                  row.cells[2].value.geofence
+                                )
+                              }
+                            >
+                              <Icon as={FaMapMarkedAlt} />
+                            </IconButton>
+                          </Tooltip>
                         </Flex>
                       </CardBody>
 
-                      <CardFooter p={'0px'}>
-                      <Map minH='200px' GeoMap={true} oldCenter={row.cells[2].value.geofence.center} geofences={[row.cells[2].value.geofence]} borderRadius={'30px 30px 0 0'}/> 
+                      <CardFooter p={"0px"}>
+                        <Map
+                          minH="200px"
+                          GeoMap={true}
+                          oldCenter={row.cells[2].value.geofence.center}
+                          geofences={[row.cells[2].value.geofence]}
+                          borderRadius={"30px 30px 0 0"}
+                        />
                       </CardFooter>
                     </Card>
-                  )
-  
+                  );
                 })}
-            </Flex>
-
-          </>
-        ) : (
-          <Center color={"text.primary"}>There are no data to display</Center>
-        )}
-      </Box>
+              </Flex>
+            ) : (
+              <Center color={"text.primary"}>
+                There are no data to display
+              </Center>
+            )}
+          </Box>
         </>
       )}
     </>
