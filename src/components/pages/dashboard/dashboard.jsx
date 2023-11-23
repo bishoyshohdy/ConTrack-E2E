@@ -258,11 +258,22 @@ function Dashboard() {
   };
 
   const redirectToDevice = (row) => {
+    console.log("REDIRECTING TO DEVICE", row);
     return navigate(
       "device/" +
         row.find((col) => col.column.Header === "NAME").value +
         "/" +
         row.find((col) => col.column.Header === "IMEI").value
+    );
+  };
+
+  const redirectToLock = (lock) => {
+    console.log("REDIRECTING TO DEVICE", lock);
+    return navigate(
+      "device/" +
+        lock.name +
+        "/" +
+        lock.imei
     );
   };
   useEffect(() => {
@@ -509,6 +520,7 @@ function Dashboard() {
             </GeneralAccordion>
           </Box>
 
+          {/* ALARMS */}
           <TabPanels>
             <TabPanel p={"0px"} mb={5}>
               <Box mb={5} ref={refAlarm} mt={5}>
@@ -540,6 +552,8 @@ function Dashboard() {
                 ></AlarmTable>
               </Box>
             </TabPanel>
+
+            {/* CYLOCKS */}
             <TabPanel p={"0px"}>
               <div ref={refDevices}>
                 {/* DEVICES TABLE */}
@@ -549,7 +563,7 @@ function Dashboard() {
                     isLoading={deviceCtx.isLoadingCylocks}
                     pageNumber={deviceTablePage}
                     setPageNumber={setDeviceTablePage}
-                    redirectToDevice={redirectToDevice}
+                    redirectToDevice={redirectToLock}
                     cytagsBtn={
                       cytags.length !== 0
                         ? (rows) =>
@@ -648,6 +662,8 @@ function Dashboard() {
                 {/* Stop */}
               </div>
             </TabPanel>
+
+            {/* CYTAGS */}  
             <TabPanel p={"0px"}>
               <Box mt={5}>
                 {cytags.length !== 0 && (
