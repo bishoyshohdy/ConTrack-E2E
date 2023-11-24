@@ -265,21 +265,38 @@ function CardTable({
                 {title}
               </Heading>
             </Box>
+            <Box display={'flex'}
+             justifyContent={'end'}
+             alignItems={'center'}
+             m={1}
+             mx={3}>
+              <Box>
+                <Text fontSize={'lg'} color={'white'} >Sort By: {" "} </Text>
+               
+                  <StyledSelect
+                    size={"sm"}
+                    options={columns.map((col) => ({
+                      value: col.accessor,
+                      label: col.Header,
+                    }))}
+                    value={selectedColumn}
+                    onchange={(res) => handleColumnSelect(res)}
+                  />
+
+                
+              </Box>
+
+
             {CreateDevice}
             {children ? (
               <Box as={Flex} flexWrap={"wrap"} justifyContent={"end"} w={"50%"}>
                 {children}
               </Box>
             ) : null}
-            {/* {columns.length !== 0 && (
-              <GlobalFilter
-                // preGlobalFilteredRows={preGlobalFilteredRows}
-                // globalFilter={globalFilter}
-                // setGlobalFilter={setGlobalFilter}
-                width={"200px"}
-              />
-            )} */}
-            
+            </Box>
+            {/* toDo search bar */}
+
+
           </Flex>
           
           {columns.length !== 0 ? (
@@ -289,27 +306,6 @@ function CardTable({
               bg={'111'}
               >
                 
-                <Box
-                display={'flex'}
-                justifyContent={'end'}
-                alignItems={'center'}
-                m={5}
-                >
-                <Text fontSize={'lg'} color={'white'} >Sort By: {" "} </Text>
-               
-                  <StyledSelect
-                  
-                  size={"xs"}
-                  options={columns.map((col) => ({
-                    value: col.accessor,
-                    label: col.Header,
-                  }))}
-                  value={selectedColumn}
-                  onchange={(res) => handleColumnSelect(res)}
-                />
-
-                
-                </Box>
 
               <Carousel
               showArrows={true}
