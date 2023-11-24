@@ -30,7 +30,7 @@ function StyledSelect({
   };
 
   return (
-    <div>
+    <div style={{margin:'2px'}}>
       {!multi ? (
         <ChakraSelect
           isDisabled={disabled}

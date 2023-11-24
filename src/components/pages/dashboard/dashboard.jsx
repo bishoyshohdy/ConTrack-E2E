@@ -257,8 +257,17 @@ function Dashboard() {
     );
   };
 
+  const redirectToTag = (tag) => {
+    console.log("REDIRECTING TO DEVICE", tag);
+    return navigate(
+      "device/Cytag/" +
+        tag.name +
+        "/" +
+        tag.id
+    );
+  };
+
   const redirectToDevice = (row) => {
-    console.log("REDIRECTING TO DEVICE", row);
     return navigate(
       "device/" +
         row.find((col) => col.column.Header === "NAME").value +
@@ -268,7 +277,6 @@ function Dashboard() {
   };
 
   const redirectToLock = (lock) => {
-    console.log("REDIRECTING TO DEVICE", lock);
     return navigate(
       "device/" +
         lock.name +
@@ -599,6 +607,7 @@ function Dashboard() {
                     icon={
                       <CyLockIcon
                         boxSize={"30px"}
+                        fontSize="2xl"
                         margin={"auto"}
                         color={
                           themeCtx.theme.colors &&
@@ -638,7 +647,7 @@ function Dashboard() {
                           <DrawerCloseButton />
                           <DrawerBody>
                             <TagContainer
-                              redirectToDevice={redirectToCytag}
+                              redirectToDevice={redirectToTag}
                               data={selectedCytags}
                               title={"Connected CyTags"}
                               icon={
@@ -672,7 +681,7 @@ function Dashboard() {
                       isLoading={deviceCtx.isLoadingCytags}
                       pageNumber={tagsTablePage}
                       setPageNumber={setTagsTablePage}
-                      redirectToDevice={redirectToCytag}
+                      redirectToDevice={redirectToTag}
                       data={cytags}
                       title={"CyTags"}
                       icon={

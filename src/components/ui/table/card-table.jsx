@@ -63,7 +63,6 @@ import { FiUnlock, FiLock } from 'react-icons/fi';
 import container_side from '../../../assets/images/resources/container_side.png';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { set } from "mongoose";
 
 
 
@@ -103,12 +102,6 @@ function CardTable({
   const [locks , setLocks] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
 
-
-
-  useEffect(() => { 
-    console.log('locks', locks);
-  }, [locks]);
-
   useEffect(() => {
     let tmpLocks = [];
     //devide data into 10s
@@ -121,7 +114,6 @@ function CardTable({
       }
       tmpLocks[tmpLocks.length - 1].push(data[i]);
     }
-    console.log('tmpLocks', tmpLocks);
     setLocks(tmpLocks);
   }, [data]) ;
 
@@ -267,9 +259,9 @@ function CardTable({
             gap={2}
             alignItems={"center"}
           >
-            <Box w={children ? "30%" : "70%"} gap={2} as={Flex}>
+            <Box w={children ? "30%" : "70%"} gap={2} as={Flex} px={4}>
               {icon}
-              <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
+              <Heading w={"100%"} color={"text.primary"} fontSize={"2xl"}>
                 {title}
               </Heading>
             </Box>
@@ -303,7 +295,10 @@ function CardTable({
                 alignItems={'center'}
                 m={5}
                 >
+                <Text fontSize={'lg'} color={'white'} >Sort By: {" "} </Text>
+               
                   <StyledSelect
+                  
                   size={"xs"}
                   options={columns.map((col) => ({
                     value: col.accessor,
@@ -324,8 +319,7 @@ function CardTable({
               >
                 {
                 locks.map((page, index) => (
-                  <div key={index} style={{
-                  }}>
+                  <Box key={index}>
                   <SimpleGrid 
                   spacing={4} 
                   templateColumns='repeat(auto-fill, minmax( 260px, 24% ))'
@@ -441,7 +435,7 @@ function CardTable({
                     }
 
                   </SimpleGrid>
-                  </div>
+                  </Box>
                   
                 ))
                 }
