@@ -60,6 +60,7 @@ function tagContainer({
 }) {
   const [flatData, setFlatData] = useState(data);
   const [tags , setTags] = useState([]);
+  const [selectedColumn, setSelectedColumn] = useState(null);
 
 
   useEffect(()=>{
@@ -96,7 +97,40 @@ function tagContainer({
   hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
   const themeCtx = useContext(ThemeContext);
 
-
+  const handleColumnSelect = (selected) => {
+    setSelectedColumn(selected);
+  
+    const sortedData = [...data].sort((a, b) => {
+      const valueA = a[selected];
+      const valueB = b[selected];
+  
+      const formatMac = (mac) => {
+        return mac.split(':').map(part => parseInt(part, 16));
+      };
+  
+      const formattedValueA = formatMac(valueA);
+      const formattedValueB = formatMac(valueB);
+  
+      for (let i = 0; i < formattedValueA.length; i++) {
+        if (formattedValueA[i] !== formattedValueB[i]) {
+          return formattedValueA[i] - formattedValueB[i];
+        }
+      }
+  
+      return 0;
+    });
+  
+    let tmpTags = [];
+    for (let i = 0; i < sortedData.length; i++) {
+      if (i % 8 === 0) {
+        tmpTags.push([]);
+      }
+      tmpTags[tmpTags.length - 1].push(sortedData[i]);
+    }
+  
+    setTags(tmpTags);
+  };
+  
   
   useEffect(()=>{
 
@@ -124,6 +158,27 @@ function tagContainer({
               {title}
             </Heading>
           </Box>
+          <Box display={'flex'}
+             justifyContent={'end'}
+             alignItems={'center'}
+             m={1}
+             mx={3}>
+          <Box>
+                <Text fontSize={'lg'} color={'white'} >Sort By: {" "} </Text>
+               
+                <StyledSelect
+                  size={"sm"}
+                  options={columns.map((col) => ({
+                    value: col.accessor,
+                    label: col.Header,
+                  }))}
+                  value={selectedColumn}
+                  onchange={(res) => handleColumnSelect(res)}
+                />
+
+
+                
+              </Box>
           {CreateDevice}
           {children ? (
             <Box as={Flex} flexWrap={"wrap"} justifyContent={"end"} w={"50%"}>
@@ -138,6 +193,7 @@ function tagContainer({
               width={"200px"}
             />
           )} */}
+          </Box>
         </Flex>
         {columns.length !== 0 ? (
           // <>

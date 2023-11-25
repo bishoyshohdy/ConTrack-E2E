@@ -101,6 +101,8 @@ function CardTable({
   const [flatData, setFlatData] = useState(data);
   const [locks , setLocks] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+
 
   useEffect(() => {
     let tmpLocks = [];
@@ -189,10 +191,41 @@ function CardTable({
     setLoadingElapsed(false);
   }, 1200);
 
+  const handleSearch = () => {
+    const sortedData = [...data].sort((a, b) => {
+      const valueA = a[selectedColumn];
+      const valueB = b[selectedColumn];
+      return valueA - valueB;
+    });
+
+    // Filter data based on search value
+    const filteredData = sortedData.filter((item) =>
+      item.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
+    let tmpLocks = [];
+    for (let i = 0; i < filteredData.length; i++) {
+      if (i % 8 === 0) {
+        tmpLocks.push([]);
+      }
+      tmpLocks[tmpLocks.length - 1].push(filteredData[i]);
+    }
+    setLocks(tmpLocks);
+  };
+
+  const handleInputChange = (e) => {
+    setSearchValue(e.target.value);
+    setSearchValue((prevSearchValue) => {
+      handleSearch(); 
+      return prevSearchValue; 
+    });
+  };
+  
 
 
   const handleColumnSelect = (selected) => {
     setSelectedColumn(selected);
+    handleSearch();
     console.log("selected", selected);
   
     const sortedData = [...data].sort((a, b) => {
@@ -295,6 +328,20 @@ function CardTable({
             ) : null}
             </Box>
             {/* toDo search bar */}
+            <Input
+            placeholder="Search Cylock Name"
+            // value={searchValue}
+            onChange={handleInputChange} 
+            size="sm"
+            borderRadius="10px"
+            borderColor="primary.100"
+            backgroundColor="primary.80"
+            color="text.primary"
+            marginLeft="4"
+            marginRight="4"
+      />
+
+
 
 
           </Flex>
