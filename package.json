@@ -27,6 +27,7 @@
     "jspdf-autotable": "^3.5.28",
     "marked": "^6.0.0",
     "moment-timezone": "^0.5.43",
+    "mongoose": "^8.0.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-csv": "^2.2.2",

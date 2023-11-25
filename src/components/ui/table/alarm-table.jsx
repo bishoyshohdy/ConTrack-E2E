@@ -133,28 +133,6 @@ function AlarmTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
-  {
-    // hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
-    // const themeCtx = useContext(ThemeContext);
-    // const columns = React.useMemo(
-    //   () =>
-    //     reverse
-    //       ? [...extractFn(data, hiddenCols).reverse()]
-    //       : [
-    //           ...extractFn(data, hiddenCols),
-    //           {
-    //             Header: "Cytag",
-    //             accessor: "cytag", // Assuming "cytag" is the property containing Cytag information
-    //             Cell: ({ value }) => (
-    //               <Tag size="md" colorScheme="teal">
-    //                 <TagLabel>{value}</TagLabel>
-    //               </Tag>
-    //             ),
-    //           },
-    //         ],
-    //   [data]
-    // );
-  }
 
   const {
     getTableProps,
@@ -170,11 +148,11 @@ function AlarmTable({
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize, globalFilter, sortBy, hiddenColumns }, // Include sortBy in the state
+    state: { pageIndex, pageSize, globalFilter, sortBy, hiddenColumns },
     visibleColumns,
     preGlobalFilteredRows,
     setGlobalFilter,
-    setSortBy, // Include setSortBy in the destructured functions
+    setSortBy,
   } = useTable(
     {
       columns,
@@ -189,14 +167,14 @@ function AlarmTable({
         pageSize: 5,
         globalFilter: "",
         hiddenColumns: [...hiddenCols, "cycollector_id", "roles"],
-        sortBy: [], // Add sortBy in initialState
+        sortBy: [],
       },
     },
     useGlobalFilter,
     useSortBy,
     usePagination
   );
-  
+
   useEffect(() => {
     if (pageNumber != undefined) {
       if (pageIndex) {
@@ -215,7 +193,7 @@ function AlarmTable({
   const handleAck = (ack) => {
     ack ? actionAlarm(ack.alarm, "acknowledged") : null;
     getAlarms().then((res) => {
-      ack.callback({}); // callback to update alarms
+      ack.callback({});
       showsuccess(`Alarm Acknowledged`);
     });
   };
@@ -223,94 +201,34 @@ function AlarmTable({
   const handleClear = (clr) => {
     console.log("clearnow", clr.alarm);
     actionAlarm(clr.alarm, "cleared").then((res) => {
-      clr.callback({}); // callback to update alarms
+      clr.callback({});
       showsuccess(`Alarm Cleared`);
     });
     onClose();
-
-  }
-
-  const [selectedColumn, setSelectedColumn] = useState(columns[0]); 
-
-
-
-  // const handleColumnSelect = (selected) => {
-  //   setSelectedColumn(selected);
-  //   console.log("selected",selected)
-  //   if (selected === "entity") {
-  //     const sortedData = [...data].sort((a, b) => {
-  //       console.log("a",a);
-  //       const entityA = a.entity.toUpperCase(); // Convert to uppercase for case-insensitive sorting
-  //       const entityB = b.entity.toUpperCase();
-  //       // console.log("entityA",entityA);
-  //       if (entityA > entityB) {
-  //         return -1;
-  //       }
-  //       if (entityA < entityB) {
-  //         return 1;
-  //       }
-  //       return 0;
-  //     });
-  
-  //     setFlatData(sortedData);
-  //     console.log("sortedData",sortedData)
-      
-  //   }
-  // };
-  
-  // const handleColumnSelect = (selected) => {
-  //   setSelectedColumn(selected);
-  
-  //   const sortedData = [...data].sort((a, b) => {
-  //     const valueA = a[selected]; 
-  //     const valueB = b[selected];
-  //     console.log("valueA",valueA);
-  
-  //     if (valueA > valueB) {
-  //       return -1;
-  //     }
-  //     if (valueA < valueB) {
-  //       return 1;
-  //     }
-  //     return 0;
-  //   });
-    
-  //   setFlatData(sortedData);
-  //   console.log("sortedData",sortedData)
-  
-  // };
-  // const handleColumnSelect = (selected) => {
-  //   const isAsc = selected === sortBy[0]?.id && !sortBy[0]?.desc;
-  
-  //   setSortBy([{ id: selected, desc: isAsc ? true : false }]);
-  //   console.log("sortedData", sortBy);
-  //   setSelectedColumn(selected);
-  // };
-  
-  
-
-  
-
-  const ColumnDropdown = ({ columns, onColumnSelect }) => {
-
-    const handleColumnChange = (selected) => {
-      
-      setSelectedColumn(selected);
-      onColumnSelect(selected);
-    };
-
-    return (
-      <select value={selectedColumn} onChange={(e) => handleColumnChange(e.target.value)}>
-        choose
-        {columns.map((column) => (
-          <option key={column.id} value={column.id}>
-            {column.Header}
-          </option>
-        ))}
-      </select>
-    );
   };
 
+  const [selectedColumn, setSelectedColumn] = useState(columns[0]);
+
+  // const ColumnDropdown = ({ columns, onColumnSelect }) => {
+  //   const handleColumnChange = (selected) => {
+  //     setSelectedColumn(selected);
+  //     onColumnSelect(selected);
+  //   };
+
+  //   return (
+  //     <select
+  //       value={selectedColumn}
+  //       onChange={(e) => handleColumnChange(e.target.value)}
+  //     >
+  //       choose
+  //       {columns.map((column) => (
+  //         <option key={column.id} value={column.id}>
+  //           {column.Header}
+  //         </option>
+  //       ))}
+  //     </select>
+  //   );
+  // };
 
   return (
     <Box mb={5}>
@@ -342,47 +260,47 @@ function AlarmTable({
             </GridItem>
           ))}
         </Grid>
-// END OF LOADING
-    ) : (
-      <Box
-        backgroundColor={"primary.80"}
-        borderRadius={"5px"}
-        w={"100%"}
-        p={2}
-        minH={columns.length !== 0 ? "555px" : minHEmpty}
-        minW={minW}
-      >
-        <Flex
-          p={"1%"}
-          justifyContent={"space-between"}
-          gap={2}
-          alignItems={"center"}
+      ) : (
+        // END OF LOADING
+        <Box
+          backgroundColor={"primary.80"}
+          borderRadius={"5px"}
+          w={"100%"}
+          p={2}
+          minH={columns.length !== 0 ? "600px" : minHEmpty}
+          minW={minW}
         >
-          <Box w={children ? "30%" : "70%"} gap={2} as={Flex}>
-            {icon}
-            <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
-              {title}
-            </Heading>
-          </Box>
-          {CreateDevice}
-          {children ? (
-            <Box as={Flex} flexWrap={"wrap"} justifyContent={"end"} w={"50%"}>
-              {children}
+          <Flex
+            p={"1%"}
+            justifyContent={"space-between"}
+            gap={2}
+            alignItems={"center"}
+          >
+            <Box w={children ? "30%" : "70%"} gap={2} as={Flex}>
+              {icon}
+              <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
+                {title}
+              </Heading>
             </Box>
-          ) : null}
-          {columns.length !== 0 && (
-            <GlobalFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              globalFilter={globalFilter}
-              setGlobalFilter={setGlobalFilter}
-              width={"200px"}
-            />
-          )}
-        </Flex>
-        {columns.length !== 0 ? (
-          <>
-            <Box  mb={5}>
-            {/* <Table
+            {CreateDevice}
+            {children ? (
+              <Box as={Flex} flexWrap={"wrap"} justifyContent={"end"} w={"50%"}>
+                {children}
+              </Box>
+            ) : null}
+            {columns.length !== 0 && (
+              <GlobalFilter
+                preGlobalFilteredRows={preGlobalFilteredRows}
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                width={"200px"}
+              />
+            )}
+          </Flex>
+          {columns.length !== 0 ? (
+            <>
+              <Box mb={5}>
+                {/* <Table
                 mb={'10px'}
                 color={"secondary.100"}
                 {...getTableProps()}
@@ -449,25 +367,22 @@ function AlarmTable({
             </Table>
            */}
 
-            <Box
-              mb={5}
-              color={"secondary.100"}
-              {...getTableProps()}
-              variant={"unstyled"}
+                <Box
+                  mb={5}
+                  color={"secondary.100"}
+                  {...getTableProps()}
+                  variant={"unstyled"}
+                >
+                  {/* <ColumnDropdown columns={columns} onColumnSelect={handleColumnSelect} /> */}
+                </Box>
 
-            >
-              {/* <ColumnDropdown columns={columns} onColumnSelect={handleColumnSelect} /> */}
-
-              
-              </Box>
-
-            {/* Card Grid */}
-            <SimpleGrid 
-            spacing={4} 
-            templateColumns='repeat(auto-fill, minmax( 260px, 24% ))'
-            {...getTableBodyProps()}>
-                
-                   {page.map((row, index) => {
+                {/* Card Grid */}
+                <SimpleGrid
+                  spacing={4}
+                  templateColumns="repeat(auto-fill, minmax( 260px, 24% ))"
+                  {...getTableBodyProps()}
+                >
+                  {page.map((row, index) => {
                     prepareRow(row);
                     let severity,
                       entity,
