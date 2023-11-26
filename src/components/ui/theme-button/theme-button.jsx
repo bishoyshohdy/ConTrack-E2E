@@ -8,7 +8,8 @@ function ThemeButton() {
   return (
     <IconButton
       aria-label="toggle dark mode"
-      colorScheme="purple"
+      bg={"action.80"}
+      _hover={{ bg: "action.60" }}
       color={"white"}
       rounded="full"
       size={"sm"}
