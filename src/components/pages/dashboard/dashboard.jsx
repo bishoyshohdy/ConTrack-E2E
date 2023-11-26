@@ -416,8 +416,15 @@ function Dashboard() {
           <TabList>
             <Tab
               mx={2}
-              _selected={{ color: "white", bg: "action.100" }}
+              _selected={{ 
+                color: "text.primary",
+                bg: "primary.80",
+              border : '3px solid',
+              borderColor: 'action.80',
+              boxShadow: '0px 0px 10px 0px #aaaa',
+                }}
               _hover={{ bg: "action.80" }}
+              
             >
               <Box>
                 <Circle
@@ -443,8 +450,15 @@ function Dashboard() {
 
             <Tab
               mx={2}
-              _selected={{ color: "white", bg: "action.100" }}
+              _selected={{ 
+                color: "text.primary",
+               bg: "primary.80",
+              border : '3px solid',
+              borderColor: 'action.80',
+              boxShadow: '0px 0px 10px 0px #aaaa',
+                }}
               _hover={{ bg: "action.80" }}
+
             >
               <Box>
                 <Circle
@@ -473,7 +487,13 @@ function Dashboard() {
 
             <Tab
               mx={2}
-              _selected={{ color: "white", bg: "action.100" }}
+              _selected={{ 
+                color: "text.primary",
+                bg: "primary.80",
+              border : '3px solid',
+              borderColor: 'action.80',
+              boxShadow: '0px 0px 10px 0px #aaaa',
+                }}
               _hover={{ bg: "action.80" }}
             >
               <Box>

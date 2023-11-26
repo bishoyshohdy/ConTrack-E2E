@@ -303,7 +303,7 @@ function CardTable({
                       >
                         {page.map((lock, rindex) => (
                           <Card
-                            bg={"#2d3748"}
+                            bg={"card.100"}
                             color="secondary.100"
                             width={"100%"}
                             border="1px solid #2d3748"

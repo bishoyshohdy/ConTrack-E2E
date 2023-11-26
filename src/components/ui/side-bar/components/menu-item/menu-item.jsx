@@ -31,7 +31,7 @@ export default function MenuItem ({ icon, title, description, active, navSize, p
             <Menu placement="right">
                 <Link
                     as={NavLink}
-                    backgroundColor={active && 'secondary.100'}
+                    backgroundColor={active && 'selected.100'}
                     p={3}
                     px={5}
                     borderRadius={8}

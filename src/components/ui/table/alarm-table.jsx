@@ -430,15 +430,13 @@ function AlarmTable({
                     });
 
                     let alarmColor = mapThreatToColor(severity);
-                    console.log("ackass", clear);
-                    console.log("ackn", ack);
 
                     return (
                       <Card
-                        bg={"#2d3748"}
+                        bg={"primary.80"}
                         color="secondary.100"
                         width={"100%"}
-                        border="2px solid "
+                        border={"2px solid "}
                         borderColor={alarmColor}
                         _hover={{
                           backgroundColor: "primary.100",

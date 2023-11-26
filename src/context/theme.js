@@ -19,7 +19,7 @@ const middleGray = '#898381';
 const indigoBlue = '#2D4868';
 const lapisLazuli = '#3b608aff';
 
-const oxfordblue = ' #000000';
+const black = ' #000000';
 const royalbluedark = '#191d25';
 const indigodye = '#9F7AEA';
 const cgblue = '#1282a2ff';
@@ -27,7 +27,7 @@ const white = '#fefcfbff';
 
 const lavenderweb = '#f8f9fa';
 const periwinklecrayola2 = '#dee2e6';
-const periwinklecrayola3 = '#ced4da';
+const periwinklecrayola3 = '#ced4da77';
 const lightsteelblue = '#adb5bd';
 const babyblueeyes = '#6c757d';
 
@@ -44,6 +44,12 @@ const cardColor2 = `linear-gradient(90deg, ${gradientColor1_lo} 0%, ${gradientCo
 const tablecellGray = '#2D3748';
 const tablecelllight = '#f0f0f0';
 
+//new Colors
+const bosch_light_grey= "#e6e8eb"
+const prim_blue= "#027bc0cc"
+const sec_blue= "#229CE2"
+const LIQUORICE= "#2d3748"
+
 const purple1 = "#9b29e7";
 const purple2 = "#9b29e7cc";
 
@@ -52,7 +58,7 @@ const purpleGradient = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientC
 
 const darkModeColors = {
     primary: {
-        100: oxfordblue,
+        100: black,
         80: royalbluedark,
         60: indigodye,
         40: cgblue
@@ -91,7 +97,7 @@ const darkModeColors = {
         50: lapisLazuli
     },
     datetimepicker: {
-        700: oxfordblue,
+        700: black,
         500: indigodye,
         200: cgblue
     },
@@ -103,7 +109,7 @@ const darkModeColors = {
         20: lightGreen
     },
     card: {
-        100: cardColor,
+        100: LIQUORICE  ,
         80:cardColor2,
         50: periwinklecrayola2
     },
@@ -112,23 +118,28 @@ const darkModeColors = {
     },
     table: {
         cell: tablecellGray
-    }
+    },
+    selected: {
+        100: white
+    },
 };
+
+
 
 const lightModeColors = {
     primary: {
-        100: lavenderweb,
-        80: lightsteelblue,
+        100: bosch_light_grey,
+        80: white ,
         60: periwinklecrayola2,
         40: periwinklecrayola3,
         20: lightsteelblue,
         10: babyblueeyes
     },
     secondary: {
-        100: oxfordblue,
+        100: black,
         80: royalbluedark,
         60: indigodye,
-        40: cgblue
+        40: periwinklecrayola3
     },
     success: {
         100: seaGreen
@@ -137,7 +148,8 @@ const lightModeColors = {
         100: yellowMunsell
     },
     action: {
-        100: lightBlueDarken1
+        100:  white,
+        80: sec_blue
     },
     danger: {
         100: bigDipOruby
@@ -167,7 +179,7 @@ const lightModeColors = {
         20: lightGreen
     },
     card: {
-        100: periwinklecrayola2,
+        100: bosch_light_grey,
         50: cardColor
     },
     company: {
@@ -175,7 +187,10 @@ const lightModeColors = {
     },
     table: {
         cell: tablecelllight
-    }
+    },
+    selected: {
+        100: sec_blue
+    },
 };
 
 const ThemeContext = createContext();
