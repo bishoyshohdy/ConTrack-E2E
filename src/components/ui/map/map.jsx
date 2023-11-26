@@ -262,7 +262,7 @@ function Map({
         >
           {draw && (
             <DrawingManagerF
-              drawingMode={"polygon"}
+              // drawingMode={"polygon"}
               onPolygonComplete={(e) => drawingComplete(e)}
               options={{
                 polygonOptions: {
@@ -272,6 +272,7 @@ function Map({
                 },
                 drawingControlOptions: {
                   position: google.maps.ControlPosition.TOP_CENTER,
+                  drawingModes: [google.maps.drawing.OverlayType.POLYLINE, google.maps.drawing.OverlayType.RECTANGLE, google.maps.drawing.OverlayType.POLYGON,],
                 },
               }}
             />

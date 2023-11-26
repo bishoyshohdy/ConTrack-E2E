@@ -298,7 +298,7 @@ function CardTable({
                     <Box key={index}>
                       <SimpleGrid
                         spacing={4}
-                        templateColumns="repeat(auto-fill, minmax( 260px, 24% ))"
+                        templateColumns="repeat(auto-fill, minmax( 260px, auto ))"
                         m={10}
                       >
                         {page.map((lock, rindex) => (

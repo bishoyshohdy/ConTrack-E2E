@@ -219,15 +219,8 @@ function tagContainer({
                 return (
                   <SimpleGrid
                     spacing={2}
-                    spacingX={2}
-                    templateColumns="repeat(auto-fill, minmax( 260px, 24% ))"
-                    // templateColumns={{
-                    //   base: 'repeat(auto-fill, minmax(220px, 1fr))', // On smaller screens, show 1 column with minimum width 220px
-                    //   sm: 'repeat(auto-fill, minmax(260px, 1fr))', // On small screens and above, show 2 columns with minimum width 260px
-                    //   md: 'repeat(auto-fill, minmax(300px, 1fr))', // On medium screens and above, show 3 columns with minimum width 300px
-                    //   lg: 'repeat(auto-fill, minmax(350px, 1fr))', // On large screens and above, show 4 columns with minimum width 350px
-                    //   xl: 'repeat(auto-fill, minmax(400px, 1fr))', // On extra-large screens and above, show 5 columns with minimum width 400px
-                    // }}
+                    spacingX={12}
+                    templateColumns="repeat(auto-fill, minmax( 260px, auto ))"
                     justifyContent={"center"}
                     m={10}
                     key={index}
