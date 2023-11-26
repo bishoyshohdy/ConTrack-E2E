@@ -6,7 +6,6 @@ const purple = '#2c3895';
 const lightBlue = '#5cc8ff';
 const lightOrange = '#ffd400';
 const lightRed = '#e83151';
-// const hanPurple = '#628C8F';
 const lightGreen = '#9fd356';
 
 const lightBlueDarken1 = '#039BE5';
@@ -48,6 +47,8 @@ const tablecelllight = '#f0f0f0';
 const bosch_light_grey= "#e6e8eb"
 const prim_blue= "#027bc0cc"
 const sec_blue= "#229CE2"
+const sec_blue_hover= "#0f8fd9"
+
 const LIQUORICE= "#2d3748"
 
 const purple1 = "#9b29e7";
@@ -79,7 +80,8 @@ const darkModeColors = {
     },
     action: {
         100: purple1,
-        80: purple2
+        80: purple1,
+        60: purple2,
     },
     danger: {
         100: bigDipOruby
@@ -149,7 +151,8 @@ const lightModeColors = {
     },
     action: {
         100:  white,
-        80: sec_blue
+        80: sec_blue,
+        60: sec_blue_hover,
     },
     danger: {
         100: bigDipOruby

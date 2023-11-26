@@ -19,6 +19,7 @@ import { MdReplay } from "react-icons/md";
 import StyledSelect from "../styled-select/styled-select";
 import Polygon from "./polygon/polygon";
 import { DevicesContext } from "../../../context/devices";
+import {ThemeContext} from "../../../context/theme";
 
 function Map({
   minH = "90vh",
@@ -119,6 +120,8 @@ function Map({
     window.clearInterval(timeOutId);
   };
 
+  const theme = useContext(ThemeContext);
+
   useEffect(() => {
     setCounter(0);
     setMainMarker({
@@ -211,8 +214,10 @@ function Map({
     },
   ];
 
+  const Theme = theme.darkMode ? darkMapStyle : null;
+
   const mapOptions = {
-    styles: darkMapStyle,
+    styles: Theme,
     streetViewControl: false,
     mapTypeControl: false,
     zoom: GeoMap ? 15 : zoom,

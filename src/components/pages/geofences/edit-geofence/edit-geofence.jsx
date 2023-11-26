@@ -32,13 +32,15 @@ function EditGeofence({
       label="Edit GeoFence"
       hasArrow
       placement="left"
-      bg={"purple.500"}
+      bg={"action.80"}
       color="white"
     >
       <IconButton
         icon={<AiFillEdit />}
         borderRadius={"full"}
-        colorScheme="purple"
+        bg={"action.80"}
+        color="white"
+        _hover={{ bg: "action.60" }}
         variant="solid"
         size={"sm"}
         onClick={() => {

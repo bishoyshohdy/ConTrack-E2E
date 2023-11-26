@@ -32,7 +32,7 @@ function DeleteGeofence({
       btnAction={
         <Button
           bg={"danger.100"}
-          color={"text.primary"}
+          color={"white"}
           onClick={() => {
             deleteAction(id).then((res) => {
               showsuccess("Successfully deleted");

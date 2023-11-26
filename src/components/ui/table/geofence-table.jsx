@@ -1,40 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-  SimpleGrid,
   Box,
   IconButton,
-  Input,
   Text,
   Icon,
   Flex,
-  Stack,
-  Button,
   Center,
   Spacer,
   Heading,
-  Tag,
-  TagLabel,
-  FormLabel,
   Card,
   CardHeader,
   CardBody,
   CardFooter,
-  Image,
   Skeleton,
   SkeletonCircle,
   SkeletonText,
   Grid,
   GridItem,
   Tooltip,
+  Divider,
 } from "@chakra-ui/react";
 
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
@@ -45,22 +29,14 @@ import {
   useTable,
 } from "react-table";
 import GlobalFilter from "./components/global-filter/global-filter";
-import StyledSelect from "../styled-select/styled-select";
-import { BsArrowDownUp, BsDoorOpen } from "react-icons/bs";
-import { MdClear, MdVerified } from "react-icons/md";
-import FunctionalModal from "../functional-modal/functional-modal";
 import DeviceForm from "../../pages/device-management/device-form/device-form";
 import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
-import { DevicesContext } from "../../../context/devices";
-import { FiUnlock, FiLock } from "react-icons/fi";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import Map from "../../ui/map/map";
 import { deleteGeofence } from "../../../api/geofences";
-import { use } from "marked";
 import EditGeofence from "../../pages/geofences/edit-geofence/edit-geofence";
 import DeleteGeofence from "../../pages/geofences/delete-geofence/delete-geofence";
-import { set } from "react-hook-form";
 
 function GeofenceTable({
   reverse = false,
@@ -153,6 +129,8 @@ function GeofenceTable({
     setLoadingElapsed(false);
   }, 1200);
 
+  const theme = useContext(ThemeContext);
+
   return (
     <>
       {isLoading || LoadingElapsed ? (
@@ -206,7 +184,7 @@ function GeofenceTable({
                 py={1}
                 as={FaMapMarkedAlt}
                 boxSize={"30px"}
-                color={"action.100"}
+                color={"action.80"}
               />
               <Text mx={3} fontSize={"xl"}>
                 GeoFences
@@ -263,14 +241,16 @@ function GeofenceTable({
                       minH={"350px"}
                       mx={2}
                       my={5}
-                      bg={"#2d3748"}
-                      color="secondary.100"
+                      bg={"card.100"}
+                      color="text.primary"
                       border="1px solid #2d3748"
                       maxH={"300px"}
                       maxW={"350px"}
+                      border={"2px solid"}  
+
                       _hover={{
                         backgroundColor: "primary.100",
-                        borderColor: "primary.60",
+                        borderColor: "action.80",
                       }}
                       cursor={redirectToDevice ? "pointer" : "default"}
                       onClick={() =>
@@ -287,9 +267,12 @@ function GeofenceTable({
                             </Text>
                             <Text fontSize={"lg"}>ID: {ID}</Text>
                           </Heading>
-                          <Spacer />
+                          <Spacer/>
                         </Flex>
-                        <hr style={{ width: "60%", color: "blue" }} />
+                        <Divider 
+                          borderColor={theme.darkMode ? "white" : "black" }
+                          width={"60%"}
+                        />
                       </CardHeader>
 
                       <CardBody pt={"10px"} pb={"0px"} pr={"0px"}>

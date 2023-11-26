@@ -142,7 +142,6 @@ function Geofences() {
           zIndex={2}
           top={"12%"}
           left={"2%"}
-          bg={"#2d3748"}
           color="secondary.100"
           border="2px solid #2d3748"
           maxW={"250px"}
@@ -231,7 +230,8 @@ function Geofences() {
           !isEditingGeoFence &&
           !isViewingGeoFence && (
             <Button
-              colorScheme="purple"
+              bg="action.80"
+              color={"white"}
               border={"1px solid #ffff"}
               borderRadius={"full"}
               variant="solid"
@@ -258,7 +258,8 @@ function Geofences() {
                 ref={btnRef}
                 border={"1px solid #ffff"}
                 borderRadius={"full"}
-                colorScheme="purple"
+                bg="action.80"
+                color={"white"}
                 variant="solid"
                 size={"lg"}
                 onClick={onOpen}

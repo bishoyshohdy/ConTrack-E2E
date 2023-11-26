@@ -72,7 +72,7 @@ function FunctionalModal({
             bg={btnColor}
             _hover={{ opacity: 0.8 }}
             icon={
-              <Icon boxSize={iconSize} as={iconBtn} color={"text.primary"} />
+              <Icon boxSize={iconSize} as={iconBtn} color={"white"} />
             }
           />
         </Tooltip>
