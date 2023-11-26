@@ -64,7 +64,8 @@ import CyTagIcon from "../icon/cytag-icon";
 import { ThemeContext } from "../../../context/theme";
 import { DevicesContext } from "../../../context/devices";
 import { FiUnlock, FiLock } from "react-icons/fi";
-import container_side from "../../../assets/images/resources/container_side.png";
+import container_side_light from "../../../assets/images/resources/container_side_light.png";
+import container_side_dark from "../../../assets/images/resources/container_side_dark.png";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -409,7 +410,7 @@ function CardTable({
                               </Text>
                               <Spacer />
                               <Image
-                                src={container_side}
+                                src={container_side_dark}
                                 alt="Container"
                                 width={"60%"}
                                 p={0}

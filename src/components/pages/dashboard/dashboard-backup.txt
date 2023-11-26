@@ -1,0 +1,375 @@
+{/* <Box w={"100%"} mb={1}>
+        <Flex mb={1} gap={1} flexWrap={"wrap"}>
+        <StatCard
+            icon={
+              <AlarmIcon
+                boxSize={"40px"}
+                display={"block"}
+                margin={"auto"}
+                p={"15%"}
+                color={
+                  themeCtx.theme.colors && themeCtx.theme.colors.text.primary
+                }
+              />
+            }
+            title="Alarms"
+            subTitle={alarms.length}
+            bgColor={"primary.80"}
+            textColor={"secondary.100"}
+            minH={"100px"}
+            maxW={"100%"}
+            width={"33.1%"}
+            handleClickScroll={() => handleClickToScroll(refAlarm)}
+          />
+          {cycollects.length !== 0 && (
+            <StatCard
+              icon={
+                <CyLockIcon
+                  boxSize={"40px"}
+                  display={"block"}
+                  margin={"auto"}
+                  p={"15%"}
+                  color={
+                    themeCtx.theme.colors && themeCtx.theme.colors.text.primary
+                  }
+                />
+              }
+              title="CyLocks"
+              subTitle={cycollects && cycollects.length}
+              bgColor={"primary.80"}
+              textColor={"secondary.100"}
+              minH={"100px"}
+              maxW={"100%"}
+              width={"33.1%"}
+              handleClickScroll={() => handleClickToScroll(refDevices)}
+            />
+          )}
+          {cytags.length !== 0 && (
+            <StatCard
+              icon={
+                <CyTagIcon
+                  boxSize={"40px"}
+                  display={"block"}
+                  margin={"auto"}
+                  p={"15%"}
+                  color={
+                    themeCtx.theme.colors && themeCtx.theme.colors.text.primary
+                  }
+                />
+              }
+              title="CyTags"
+              subTitle={cytags && cytags.length}
+              bgColor={"primary.80"}
+              textColor={"secondary.100"}
+              minH={"100px"}
+              maxW={"100%"}
+              width={"33.1%"}
+              handleClickScroll={() => handleClickToScroll(refTags)}
+            />
+          )}
+
+        </Flex>
+        {hasPermission(PERMISSIONS.GET_REPORTS_STATS) && (
+          <Flex mb={1} gap={1} flexWrap={"wrap"}>
+            {statToday && (
+              <StatCard
+                icon={
+                  <Icon
+                    as={GiCargoCrate}
+                    boxSize={"40px"}
+                    display={"block"}
+                    margin={"auto"}
+                    p={"15%"}
+                    color={
+                      themeCtx.theme.colors &&
+                      themeCtx.theme.colors.text.primary
+                    }
+                  />
+                }
+                title="Today"
+                subTextObject={{
+                  "Containers at dawn":
+                    statToday.empty_containers_before_given_period +
+                    statToday.full_containers_before_given_period,
+                  "New assigned": statToday.assign,
+                  Released: statToday.release,
+                  "Full containers":
+                    statToday.full_containers_after_given_period,
+                  "Empty containers":
+                    statToday.empty_containers_after_given_period,
+                }}
+                subTitle={today.toISOString().split("T")[0]}
+                bgColor={"primary.80"}
+                textColor={"secondary.100"}
+                minH={"300px"}
+                width={"355px"}
+              />
+            )}
+            {statYesterday && (
+              <StatCard
+                icon={
+                  <Icon
+                    as={GiCargoCrate}
+                    boxSize={"40px"}
+                    display={"block"}
+                    margin={"auto"}
+                    p={"15%"}
+                    color={
+                      themeCtx.theme.colors &&
+                      themeCtx.theme.colors.text.primary
+                    }
+                  />
+                }
+                title="Last Day"
+                subTextObject={{
+                  "Containers at dawn":
+                    statYesterday.empty_containers_before_given_period +
+                    statYesterday.full_containers_before_given_period,
+                  "New assigned": statYesterday.assign,
+                  Released: statYesterday.release,
+                  "Full containers":
+                    statYesterday.full_containers_after_given_period,
+                  "Empty containers":
+                    statYesterday.empty_containers_after_given_period,
+                }}
+                subTitle={`${yesterday.toISOString().split("T")[0]} - ${
+                  today.toISOString().split("T")[0]
+                }`}
+                bgColor={"primary.80"}
+                textColor={"secondary.100"}
+                minH={"300px"}
+                width={"355px"}
+              />
+            )}
+            {statLastWeek && (
+              <StatCard
+                icon={
+                  <Icon
+                    as={GiCargoCrate}
+                    boxSize={"40px"}
+                    display={"block"}
+                    margin={"auto"}
+                    p={"15%"}
+                    color={
+                      themeCtx.theme.colors &&
+                      themeCtx.theme.colors.text.primary
+                    }
+                  />
+                }
+                title="Last Week"
+                subTextObject={{
+                  "Containers at dawn":
+                    statLastWeek.empty_containers_before_given_period +
+                    statLastWeek.full_containers_before_given_period,
+                  "New assigned": statLastWeek.assign,
+                  Released: statLastWeek.release,
+                  "Full containers":
+                    statLastWeek.full_containers_after_given_period,
+                  "Empty containers":
+                    statLastWeek.empty_containers_after_given_period,
+                }}
+                subTitle={`${lastWeek.toISOString().split("T")[0]} - ${
+                  today.toISOString().split("T")[0]
+                }`}
+                bgColor={"primary.80"}
+                textColor={"secondary.100"}
+                minH={"300px"}
+                width={"355px"}
+              />
+            )}
+            {statLastMonth && (
+              <StatCard
+                icon={
+                  <Icon
+                    as={GiCargoCrate}
+                    boxSize={"40px"}
+                    display={"block"}
+                    margin={"auto"}
+                    p={"15%"}
+                    color={
+                      themeCtx.theme.colors &&
+                      themeCtx.theme.colors.text.primary
+                    }
+                  />
+                }
+                title="Last Month"
+                subTextObject={{
+                  "Containers at dawn":
+                    statLastMonth.empty_containers_before_given_period +
+                    statLastMonth.full_containers_before_given_period,
+                  "New assigned": statLastMonth.assign,
+                  Released: statLastMonth.release,
+                  "Full containers":
+                    statLastMonth.full_containers_after_given_period,
+                  "Empty containers":
+                    statLastMonth.empty_containers_after_given_period,
+                }}
+                subTitle={`${lastMonth.toISOString().split("T")[0]} - ${
+                  today.toISOString().split("T")[0]
+                }`}
+                bgColor={"primary.80"}
+                textColor={"secondary.100"}
+                minH={"300px"}
+                width={"355px"}
+              />
+            )}
+          </Flex>
+        )}
+        <GeneralAccordion
+          title={
+            <Box p={"1%"} w={"100%"} gap={1} as={Flex}>
+              <Icon as={FaMapMarkedAlt} fontSize="xl" color={"action.100"} />
+              <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
+                CyLocks Map
+              </Heading>
+            </Box>
+          }
+        >
+          <Box
+            backgroundColor={"primary.80"}
+            w={"100%"}
+            minH={"480px"}
+            h={"100%"}
+            mt={1}
+            borderRadius={"5px"}
+          >
+            <Map minH={"450px"} trips={false} markers={markers} />
+          </Box>
+        </GeneralAccordion>
+      </Box>   */}
+      {/* ALARM TABLE */}
+      {/* <Box mb={1} ref={refAlarm}>
+        <AlarmTable
+          hiddenCols={[
+            "id",
+            "current_status",
+            "description",
+            "resolved_time",
+            "notified",
+            "entity_id",
+          ]}
+          pageNumber={alarmTablePage}
+          setPageNumber={setAlarmTablePage}
+          extractFn={extractAlarmHeaders}
+          title={"Alarms"}
+          //setPage={setAlarmPage}
+          icon={
+            <AlarmIcon
+              boxSize={"30px"}
+              margin={"auto"}
+              color={themeCtx.theme.colors && themeCtx.theme.colors.action[100]}
+            />
+          }
+          data={[...alarms]}
+        >
+
+        </AlarmTable>
+      </Box> */}
+      {/* <div 
+      ref={refDevices}
+      >
+        
+        <CardTable
+          pageNumber={deviceTablePage}
+          setPageNumber={setDeviceTablePage}
+          redirectToDevice={redirectToDevice}
+          cytagsBtn={
+            cytags.length !== 0
+              ? (rows) =>
+                  setSelectedCytags(
+                    cytags.filter((cytag) => cytag.cycollector_id === rows)
+                  )
+              : null
+          }
+          data={
+            hasPermission(PERMISSIONS.GET_DEVICE_DETAILS) &&
+            hasPermission(PERMISSIONS.GET_DEVICE) &&
+            hasPermission(PERMISSIONS.GET_ALL_DEVICES) &&
+            hasPermission(PERMISSIONS.GET_DEVICES_REQUESTS) &&
+            hasPermission(PERMISSIONS.GET_DEVICES_TELEMETRY) &&
+            hasPermission(PERMISSIONS.GET_DEVICES_SPATIAL)
+              ? cycollects.map((lock) => {
+                  return { ...lock, imei: lock.id };
+                })
+              : []
+          }
+          hiddenCols={[
+            "pccw_iccid",
+            "satcom_iccid",
+            "cytags",
+            "latest_values",
+            "id",
+            "lat",
+            "lng",
+          ]}
+          title={"CyLocks"}
+          icon={
+            <CyLockIcon
+              boxSize={"30px"}
+              margin={"auto"}
+              color={themeCtx.theme.colors && themeCtx.theme.colors.action[100]}
+            />
+          }
+        >
+          <Box as={Flex} gap={1}>
+            <PdfExport
+              title={"CyLocks"}
+              data={prepareExportDataCyLock([...cycollects])}
+            />
+            <ExcelExport
+              title={"CyLocks"}
+              data={prepareExportDataCyLock([...cycollects])}
+            />
+          </Box>
+        </CardTable>
+        
+        {cytags.length !== 0 && (
+          <div id="connected_cytags">
+          <ComplexTable 
+            redirectToDevice={redirectToCytag}
+            data={selectedCytags}
+            title={"Connected CyTags"}
+            icon={
+              <CyTagIcon
+                boxSize={"30px"}
+                margin={"auto"}
+                color={
+                  themeCtx.theme.colors && themeCtx.theme.colors.action[100]
+                }
+              />
+            }
+          />
+        </div>
+        )}
+      </div> */}
+      {/* {cytags.length !== 0 && (
+        <Box mt={1} w={"100%"} ref={refTags}>
+          <ComplexTable
+            pageNumber={tagsTablePage}
+            setPageNumber={setTagsTablePage}
+            redirectToDevice={redirectToCytag}
+            data={cytags}
+            title={"CyTags"}
+            icon={
+              <CyTagIcon
+                boxSize={"30px"}
+                margin={"auto"}
+                color={
+                  themeCtx.theme.colors && themeCtx.theme.colors.action[100]
+                }
+              />
+            }
+          >
+            <Box as={Flex} gap={1}>
+              <PdfExport
+                title={"CyTags"}
+                data={prepareExportDataCyTag([...cytags])}
+              />
+              <ExcelExport
+                title={"CyTags"}
+                data={prepareExportDataCyTag([...cytags])}
+              />
+            </Box>
+          </ComplexTable>
+        </Box>
+      )} */}
