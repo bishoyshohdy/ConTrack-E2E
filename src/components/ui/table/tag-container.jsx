@@ -32,6 +32,7 @@ function tagContainer({
   hiddenCols = [],
   CreateDevice,
 }) {
+  const theme = useContext(ThemeContext);
   const [flatData, setFlatData] = useState(data);
   const [tags, setTags] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -64,7 +65,6 @@ function tagContainer({
     [data]
   );
   hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
-  const themeCtx = useContext(ThemeContext);
 
   useEffect(() => {}, []);
 
@@ -132,6 +132,8 @@ function tagContainer({
         w={"100%"}
         p={2}
         minW={minW}
+        boxShadow={theme.darkMode ?'0px 0px 10px 0px #111' : '0px 0px 1px 0px #aaaa'}
+
       >
         <Flex
           p={"1%"}

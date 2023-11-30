@@ -99,14 +99,21 @@ function CardTable({
   isLoading,
   toggleDrawer,
 }) {
+  const theme = useContext(ThemeContext);
   const [flatData, setFlatData] = useState(data);
   const [locks, setLocks] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [searchText, setSearchText] = useState("");
+  // const [conImage, setConImage] = useState(container_side_dark);
+
+  //print data
+  useEffect(() => {
+    console.log("data", locks);
+  }, [locks]);
 
   useEffect(() => {
     let tmpLocks = [];
-    //devide data into 10s
+    //devide data into 8s
 
     for (let i = 0; i < data.length; i++) {
       if (i % 8 === 0) {
@@ -124,6 +131,16 @@ function CardTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
+
+  // useEffect(() => {
+  //   if (ThemeContext.theme === "darkmode") {
+  //     setConImage(container_side_dark);
+
+  //   }
+  //   else {
+  //     setConImage(container_side_light);
+  //   }}
+  //   , [ThemeContext.theme]);
 
   const [LoadingElapsed, setLoadingElapsed] = useState(true);
   setTimeout(() => {
@@ -212,6 +229,8 @@ function CardTable({
           p={2}
           minH={columns.length !== 0 ? "555px" : minHEmpty}
           minW={minW}
+          boxShadow={theme.darkMode ?'0px 0px 10px 0px #111' : '0px 0px 1px 0px #aaaa'}
+
         >
           <Flex
             p={0}
@@ -307,10 +326,10 @@ function CardTable({
                             bg={"card.100"}
                             color="secondary.100"
                             width={"100%"}
-                            border="1px solid #2d3748"
+                            border="1px solid transparent"
                             _hover={{
                               backgroundColor: "primary.100",
-                              borderColor: "primary.60",
+                              borderColor: "action.80",
                             }}
                             cursor={redirectToDevice ? "pointer" : "default"}
                             onClick={() =>
@@ -324,23 +343,8 @@ function CardTable({
                                   {lock.name}
                                 </Heading>
                                 <Spacer />
-                                {!lock.lock_status ? (
-                                  <div
-                                    style={{
-                                      color: "red",
-                                      marginLeft: "auto",
-                                      display: "flex",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <FiUnlock />
-                                    <Text fontSize="lg" ml={"3px"}>
-                                      {" "}
-                                      Unlocked
-                                    </Text>
-                                  </div>
-                                ) : (
-                                  <div
+                                {lock.lock_status==='true' ? (
+                                    <div
                                     style={{
                                       color: "green",
                                       marginLeft: "auto",
@@ -353,8 +357,24 @@ function CardTable({
                                     <Text fontSize="lg" ml={"3px"}>
                                       {" "}
                                       Locked
-                                    </Text>
+                                    </Text> 
                                   </div>
+                                ) : (
+                                  <div
+                                  style={{
+                                    color: "red",
+                                    marginLeft: "auto",
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <FiUnlock />
+                                  <Text fontSize="lg" ml={"3px"}>
+                                    {" "}
+                                    Unlocked
+                                  </Text>
+                                </div>
+
                                 )}
                               </Flex>
                               <hr style={{ width: "60%", color: "blue" }} />
@@ -386,12 +406,9 @@ function CardTable({
                                     toggleDrawer();
                                   }}
                                   _hover={{
-                                    color: "card.100",
                                     textDecoration: "underline",
                                   }}
-                                  style={{
-                                    color: "#9b29e7",
-                                  }}
+                                  color={'action.80'}
                                 >
                                   {" "}
                                   Connected Cytags
@@ -410,7 +427,7 @@ function CardTable({
                               </Text>
                               <Spacer />
                               <Image
-                                src={container_side_dark}
+                                src={theme.darkMode ? container_side_dark : container_side_light}
                                 alt="Container"
                                 width={"60%"}
                                 p={0}

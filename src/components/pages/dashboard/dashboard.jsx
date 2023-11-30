@@ -520,7 +520,9 @@ function Dashboard() {
           </TabList>
 
           {/*  */}
-          <Box w={"100%"} mb={2} mt={5}>
+          <Box w={"100%"} mb={2} mt={5}
+          boxShadow={themeCtx.darkMode ?'0px 0px 10px 0px #111' : '0px 0px 1px 0px #aaaa'}
+          >
             <GeneralAccordion
               title={
                 <Box p={"1%"} w={"100%"} gap={1} as={Flex}>
@@ -551,7 +553,7 @@ function Dashboard() {
           {/* ALARMS */}
           <TabPanels>
             <TabPanel p={"0px"} mb={5}>
-              <Box mb={5} ref={refAlarm} mt={5}>
+              <Box mb={5} ref={refAlarm} mt={5} >
                 <AlarmTable
                   hiddenCols={[
                     "id",
