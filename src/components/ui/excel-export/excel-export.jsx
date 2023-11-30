@@ -12,7 +12,9 @@ function ExcelExport ({ title, data }) {
                 target="_blank"
                 filename={title + '.csv'}
             >
-                <IconButton size={'sm'} p={1} color={'text.primary'} bg={'action.100'} rounded={'full'} as={SiMicrosoftexcel} />
+                <IconButton size={'md'} p={1} color={'text.primary'} bg={'action.80'} 
+                rounded={10} as={SiMicrosoftexcel} _hover={{ bg: "action.80", opacity: 0.8 }}
+                />
             </CSVLink>
         </>
     );

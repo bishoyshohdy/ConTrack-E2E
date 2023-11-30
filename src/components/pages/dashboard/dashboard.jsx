@@ -525,11 +525,12 @@ function Dashboard() {
           >
             <GeneralAccordion
               title={
-                <Box p={"1%"} w={"100%"} gap={1} as={Flex}>
+                <Box p={"1%"} w={"100%"} gap={1} as={Flex} alignItems={'center'}>
                   <Icon
                     as={FaMapMarkedAlt}
                     fontSize="2xl"
-                    color={"action.100"}
+                    color={"action.80"}
+                    mx={2}
                   />
                   <Heading w={"100%"} color={"text.primary"} fontSize={"2xl"}>
                     CyLocks Map
@@ -569,11 +570,11 @@ function Dashboard() {
                   title={"Alarms"}
                   icon={
                     <AlarmIcon
-                      boxSize={"30px"}
+                      boxSize={"35px"}
                       margin={"auto"}
                       color={
                         themeCtx.theme.colors &&
-                        themeCtx.theme.colors.action[100]
+                        themeCtx.theme.colors.action[80]
                       }
                     />
                   }
@@ -628,12 +629,11 @@ function Dashboard() {
                     title={"CyLocks"}
                     icon={
                       <CyLockIcon
-                        boxSize={"30px"}
-                        fontSize="2xl"
+                        boxSize={"50px"}
                         margin={"auto"}
                         color={
                           themeCtx.theme.colors &&
-                          themeCtx.theme.colors.action[100]
+                          themeCtx.theme.colors.action[80]
                         }
                       />
                     }
@@ -674,11 +674,11 @@ function Dashboard() {
                               title={"Connected CyTags"}
                               icon={
                                 <CyTagIcon
-                                  boxSize={"30px"}
+                                  boxSize={"50px"}
                                   margin={"auto"}
                                   color={
                                     themeCtx.theme.colors &&
-                                    themeCtx.theme.colors.action[100]
+                                    themeCtx.theme.colors.action[80]
                                   }
                                 />
                               }
@@ -708,11 +708,11 @@ function Dashboard() {
                       title={"CyTags"}
                       icon={
                         <CyTagIcon
-                          boxSize={"30px"}
+                          boxSize={"50px"}
                           margin={"auto"}
                           color={
                             themeCtx.theme.colors &&
-                            themeCtx.theme.colors.action[100]
+                            themeCtx.theme.colors.action[80]
                           }
                         />
                       }

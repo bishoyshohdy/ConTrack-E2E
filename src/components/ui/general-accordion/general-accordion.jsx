@@ -13,7 +13,7 @@ function GeneralAccordion ({ title, children }) {
         <>
             <Accordion borderColor={'primary.80'} allowToggle>
                 <AccordionItem borderRadius={'5px'}>
-                    <AccordionButton h={'50px'} borderRadius={'5px'} _hover={{ cursor: 'pointer' }} as={Flex} bg={'primary.80'} color={'action.100'}>
+                    <AccordionButton h={'50px'} borderRadius={'5px'} _hover={{ cursor: 'pointer' }} as={Flex} bg={'primary.80'} color={'action.80'}>
                         {title}
                         <AccordionIcon />
                     </AccordionButton>

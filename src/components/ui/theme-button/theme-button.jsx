@@ -8,11 +8,11 @@ function ThemeButton() {
   return (
     <IconButton
       aria-label="toggle dark mode"
-      bg={"action.80"}
+      bg= {"primary.100"} 
       _hover={{ bg: "action.60" }}
-      color={"white"}
+      color={"text.primary  "}
       rounded="full"
-      size={"sm"}
+      size={"md"}
       onClick={themCtx.toggleDarkMode}
       icon={themCtx.darkMode ? <SunIcon /> : <MoonIcon />}
     />

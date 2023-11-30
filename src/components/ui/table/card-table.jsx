@@ -233,20 +233,20 @@ function CardTable({
 
         >
           <Flex
-            p={0}
-            justifyContent={"space-between"}
+          p={"1%"}
+          justifyContent={"space-between"}
             gap={2}
             alignItems={"center"}
-            mt={1}
+
           >
-            <Box w={children ? "30%" : "70%"} gap={2} as={Flex} px={4}>
+            <Box w={children ? "30%" : "70%"} gap={2} as={Flex}  px={4} >
               {icon}
-              <Heading w={"100%"} color={"text.primary"} fontSize={"2xl"}>
+              <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}   alignSelf={'center'}>
                 {title}
               </Heading>
             </Box>
 
-            <Flex>
+            <Flex justifyContent={'center'} alignItems={'center'}>
               <Text
                 fontSize={"lg"}
                 color={"white"}
@@ -275,10 +275,11 @@ function CardTable({
               >
                 <Input
                   size="md"
+                  color= {'text.primary'}
+                  fontFamily= "DM Sans"
                   borderRadius={"10px"}
                   placeholder="Search"
-                  color={"text.primary"}
-                  background={"black"}
+                  bg={'primary.100'}
                   mr={4}
                   width={"70%"}
                   value={searchText}
@@ -290,8 +291,10 @@ function CardTable({
                   aria-label="Search"
                   icon={<SearchIcon />}
                   mr={4}
+                  color={"text.primary"}
                   borderRadius={"10px"}
-                  colorScheme="purple"
+                  bg={"action.80"}
+                  _hover={{ bg: "action.80", opacity: 0.8 }}
                   onClick={() => handleSearch()}
                 />
               </Box>
@@ -312,7 +315,7 @@ function CardTable({
                   showArrows={true}
                   showStatus={true}
                   showIndicators={true}
-                  swipeable={true}
+                  swipeable={true}  
                 >
                   {locks.map((page, index) => (
                     <Box key={index}>

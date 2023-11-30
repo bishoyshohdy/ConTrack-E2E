@@ -278,7 +278,7 @@ function AlarmTable({
             gap={2}
             alignItems={"center"}
           >
-            <Box w={children ? "30%" : "70%"} gap={2} as={Flex}>
+            <Box w={children ? "30%" : "70%"} gap={2} as={Flex} alignItems={'center'}>
               {icon}
               <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
                 {title}

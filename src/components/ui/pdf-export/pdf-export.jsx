@@ -45,10 +45,12 @@ function PdfExport ({ title, data, tableRef }) {
             {
                 data && data.length !== 0 && Object.keys(data[0]).length <= 10 && <FunctionalModal
                     modalTitle={'Export as pdf'}
-                    btnColor={'action.100'}
+                    btnColor={'action.80'}
                     iconBtn={VscFilePdf}
+                    rounded={10}
                     btnAction={<Button color={'text.primary'} bg={'action.100'} onClick={() => createPdfCall()}>Download File</Button>}
                     modalMinH={'300px'}
+                    btnSize='md'
                 >
                     <Text>Password:</Text>
                     <Input value={password} type={'password'} onChange={(e) => setPassword(e.target.value)} />

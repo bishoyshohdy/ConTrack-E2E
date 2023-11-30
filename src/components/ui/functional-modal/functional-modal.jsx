@@ -68,7 +68,7 @@ function FunctionalModal({
           <IconButton
             onClick={onOpen}
             size={btnSize}
-            rounded={"full"}
+            rounded={10}
             bg={btnColor}
             _hover={{ opacity: 0.8 }}
             icon={

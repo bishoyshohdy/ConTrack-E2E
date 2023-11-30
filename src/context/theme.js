@@ -57,6 +57,7 @@ const purple2 = "#9b29e7cc";
 const purpleGradient = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
 
 
+
 const darkModeColors = {
     primary: {
         100: black,
@@ -113,7 +114,9 @@ const darkModeColors = {
     card: {
         100: LIQUORICE  ,
         80:cardColor2,
+        60: LIQUORICE,
         50: periwinklecrayola2
+        
     },
     company: {
         logo: periwinklecrayola2
@@ -183,6 +186,7 @@ const lightModeColors = {
     },
     card: {
         100: bosch_light_grey,
+        60: periwinklecrayola3,
         50: cardColor
     },
     company: {
