@@ -19,6 +19,9 @@ import "./side-bar.css";
 
 export default function SideBar({ updateNavSize }) {
   const [navSize, changeNavSize] = useState("small");
+  const getNavSize = () => {
+    return navSize;
+  };
   const location = useLocation();
   const size = useScreenSize();
   const { darkMode } = useContext(ThemeContext);
@@ -37,6 +40,7 @@ export default function SideBar({ updateNavSize }) {
       }
     }
   }, []);
+
   return (
     <>
       {size >= SCREEN_SIZE.LG && (
@@ -48,6 +52,7 @@ export default function SideBar({ updateNavSize }) {
           left={0}
           position={"fixed"}
           zIndex={2}
+          boxShadow={"lg"}
         >
           <Flex
             p={2}

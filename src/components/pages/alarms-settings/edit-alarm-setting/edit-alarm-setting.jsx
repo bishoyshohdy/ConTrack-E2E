@@ -15,6 +15,7 @@ import {
   Icon,
   IconButton,
   useDisclosure,
+  Box,
 } from "@chakra-ui/react";
 import FunctionalModalV2 from "../../../ui/functional-modal-v2/functional-modal-v2";
 import { DevicesContext } from "../../../../context/devices";

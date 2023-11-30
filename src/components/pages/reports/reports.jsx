@@ -211,10 +211,6 @@ function Reports() {
   useEffect(() => {
     getOptions().then((res) => {
       setReportsOptions(res.data.entity.map((ent) => ent.name));
-      // setUsers(res.data.users);
-      // setRooms(res.data.room);
-      // setBands(res.data.band);
-      // setActions(res.data.entity_actions_type.cycollector);
       setAllActions(res.data.entity_actions_type);
     });
     getScheduledReportsOptions().then((res) =>
@@ -229,7 +225,6 @@ function Reports() {
       }
     });
     setFields(updatedFields);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fieldsChoices, fieldsquery]);
 
   const [startDate, setStartDate] = useState(null);
@@ -366,17 +361,17 @@ function Reports() {
   };
 
   const setReportsScheduling = () => {
-    let actions = '';
-    if (actionId ) {
+    let actions = "";
+    if (actionId) {
       let isAllSelected = actionId.find((field) => field.value === "all");
-      if(!isAllSelected){
+      if (!isAllSelected) {
         actionId.forEach((action, index) => {
           actions = actions + action.value;
-          if(index < actionId.length - 1){
-            actions = actions + ',';
+          if (index < actionId.length - 1) {
+            actions = actions + ",";
           }
-        })
-      }else {
+        });
+      } else {
         actions = null;
       }
     }
@@ -385,7 +380,7 @@ function Reports() {
         scheduled_at: formRef.current.state.formData.scheduled_at.replace(
           "Z",
           ""
-          ),
+        ),
       }),
       entity,
       actions,
@@ -703,7 +698,16 @@ function Reports() {
             </Text>
             <StyledSelect
               value={project}
-              onchange={(val) => {setProject(val); setTableData([]); setEntity([]); setFields([]); setActions([]); setFieldsquery({}); setActionId([]); setAllActions([]);}}
+              onchange={(val) => {
+                setProject(val);
+                setTableData([]);
+                setEntity([]);
+                setFields([]);
+                setActions([]);
+                setFieldsquery({});
+                setActionId([]);
+                setAllActions([]);
+              }}
               options={[
                 { value: "cylocks", label: "CyLocks" },
                 { value: "containers", label: "Containers" },
@@ -721,8 +725,9 @@ function Reports() {
             >
               <Button
                 onClick={handleSelectData}
-                color={"text.primary"}
-                bg={"action.100"}
+                color={"white"}
+                bg={"action.80"}
+                _hover={{ bg: "action.60" }}
               >
                 Show Data
               </Button>
@@ -793,9 +798,7 @@ function Reports() {
               extractFn={extractContainerHeaders}
               data={tableData.map((datum) => flattenObject(datum))}
               title={"Audit Logs"}
-              icon={
-                <Icon as={TbReport} boxSize={"30px"} color={"action.100"} />
-              }
+              icon={<Icon as={TbReport} boxSize={"30px"} color={"action.80"} />}
             >
               <Box as={Flex} gap={1}>
                 <PdfExport

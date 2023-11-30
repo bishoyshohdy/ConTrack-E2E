@@ -67,6 +67,7 @@ function NavBar(props) {
       minWidth="100%"
       alignItems="center"
       gap="2"
+      boxShadow={"md"}
     >
       {size < SCREEN_SIZE.LG && (
         <IconButton

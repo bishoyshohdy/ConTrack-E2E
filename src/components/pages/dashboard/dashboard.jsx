@@ -13,6 +13,7 @@ import {
   TabPanel,
   chackraProvider,
   Circle,
+  Center,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -20,6 +21,7 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useContext, useRef } from "react";
 import StatCard from "../../ui/card/stat-card";
@@ -59,6 +61,7 @@ import { set } from "react-hook-form";
 import { debounce } from "lodash";
 import TagContainer from "../../ui/table/tag-container";
 import { useLocation } from "react-router-dom";
+import { MdClear } from "react-icons/md";
 
 export function AlarmAction({
   actionPerformed,
@@ -82,14 +85,16 @@ export function AlarmAction({
       {!actionPerformed ? (
         <FunctionalModal
           modalTitle={acknowldgeAction ? "Acknowledge alarm" : "Clear alarm"}
-          modalMinW={"70%"}
+          modalMinW={"100px"}
           modalMinH={"200px"}
-          btnColor={"action.100"}
+          btnColor={"action.80"}
+          iconBtn={acknowldgeAction ? CheckIcon : MdClear}
           btnAction={
             <Button
               onClick={actionAlarmCall}
-              bg={"primary.100"}
-              color={"text.purple"}
+              bg={"action.80"}
+              _hover={{ bg: "action.60" }}
+              color={"white"}
             >
               {acknowldgeAction ? "Acknowledge" : "Clear"}
             </Button>
@@ -99,13 +104,30 @@ export function AlarmAction({
           this alarm?
         </FunctionalModal>
       ) : (
-        <Icon
-          as={CheckIcon}
-          borderRadius={"20px"}
-          boxSize={"30px"}
-          color={"text.primary"}
-          bg={"gray.600"}
-        />
+        <Tooltip
+          label={"Acknowledged"}
+          placement={"bottom"}
+          hasArrow
+          bg={"success.100"}
+        >
+          <Center
+            w={"40px"}
+            h={"40px"}
+            borderRadius={"full"}
+            bg={"white"}
+            boxShadow={"0px 0px 7px 0px #8c8c8c"}
+          >
+            <Icon
+              h={"70%"}
+              w={"70%"}
+              as={CheckIcon}
+              p={"10%"}
+              borderRadius={"full"}
+              color={"white"}
+              bg={"success.100"}
+            />
+          </Center>
+        </Tooltip>
       )}
     </Box>
   );
@@ -161,9 +183,6 @@ function Dashboard() {
         newObj.entity = entity ? entity.name : "";
         if (alarm.alarm_settings.configurations.telemetry_type) {
           newObj.type = alarm.alarm_settings.alarm_type.name;
-          //  +
-          // " : " +
-          // alarm.alarm_settings.configurations.telemetry_type;
         } else {
           newObj.type = alarm.alarm_settings.alarm_type.name;
         }
@@ -259,12 +278,7 @@ function Dashboard() {
 
   const redirectToTag = (tag) => {
     console.log("REDIRECTING TO DEVICE", tag);
-    return navigate(
-      "device/Cytag/" +
-        tag.name +
-        "/" +
-        tag.id
-    );
+    return navigate("device/Cytag/" + tag.name + "/" + tag.id);
   };
 
   const redirectToDevice = (row) => {
@@ -277,12 +291,7 @@ function Dashboard() {
   };
 
   const redirectToLock = (lock) => {
-    return navigate(
-      "device/" +
-        lock.name +
-        "/" +
-        lock.imei
-    );
+    return navigate("device/" + lock.name + "/" + lock.imei);
   };
   useEffect(() => {
     setMarkers(
@@ -416,15 +425,14 @@ function Dashboard() {
           <TabList>
             <Tab
               mx={2}
-              _selected={{ 
+              _selected={{
                 color: "text.primary",
                 bg: "primary.80",
-              border : '3px solid',
-              borderColor: 'action.80',
-              boxShadow: '0px 0px 10px 0px #aaaa',
-                }}
+                border: "3px solid",
+                borderColor: "action.80",
+                boxShadow: "0px 0px 10px 0px #aaaa",
+              }}
               _hover={{ bg: "action.80" }}
-              
             >
               <Box>
                 <Circle
@@ -450,15 +458,14 @@ function Dashboard() {
 
             <Tab
               mx={2}
-              _selected={{ 
+              _selected={{
                 color: "text.primary",
-               bg: "primary.80",
-              border : '3px solid',
-              borderColor: 'action.80',
-              boxShadow: '0px 0px 10px 0px #aaaa',
-                }}
+                bg: "primary.80",
+                border: "3px solid",
+                borderColor: "action.80",
+                boxShadow: "0px 0px 10px 0px #aaaa",
+              }}
               _hover={{ bg: "action.80" }}
-
             >
               <Box>
                 <Circle
@@ -487,13 +494,13 @@ function Dashboard() {
 
             <Tab
               mx={2}
-              _selected={{ 
+              _selected={{
                 color: "text.primary",
                 bg: "primary.80",
-              border : '3px solid',
-              borderColor: 'action.80',
-              boxShadow: '0px 0px 10px 0px #aaaa',
-                }}
+                border: "3px solid",
+                borderColor: "action.80",
+                boxShadow: "0px 0px 10px 0px #aaaa",
+              }}
               _hover={{ bg: "action.80" }}
             >
               <Box>
@@ -527,7 +534,7 @@ function Dashboard() {
                   <Icon
                     as={FaMapMarkedAlt}
                     fontSize="2xl"
-                    color={"action.100"}
+                    color={"action.80"}
                   />
                   <Heading w={"100%"} color={"text.primary"} fontSize={"2xl"}>
                     CyLocks Map
@@ -692,7 +699,7 @@ function Dashboard() {
               </div>
             </TabPanel>
 
-            {/* CYTAGS */}  
+            {/* CYTAGS */}
             <TabPanel p={"0px"}>
               <Box mt={5}>
                 {cytags.length !== 0 && (

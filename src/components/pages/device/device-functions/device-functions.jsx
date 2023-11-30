@@ -276,15 +276,15 @@ function DeviceFunctions({
   }, [update, devicesContext]);
 
   return (
-    <Box alignItems={"center"} w={"100%"} as={Flex} flexWrap={"wrap"} gap={2}>
+    <Center w={"100%"} as={Flex} flexWrap={"wrap"} gap={2}>
       <FunctionalModal
+        modalTitle={"Manage Device Configurations"}
         btnMinH={"50px"}
-        btnColor={"card.100"}
+        btnColor={"action.80"}
         btnTitle={"Manage Device Configurations"}
-        transparent={true}
+        transparent={false}
         modalMinH={"fit-content"}
         footer={false}
-        btnMinW={"300px"}
       >
         <Center>
           <Flex
@@ -298,10 +298,10 @@ function DeviceFunctions({
               <FunctionalModal
                 modalTitle={"Set Mode"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Set Mode"}
                 modalMinH={"500px"}
-                btnMinW={"200px"}
+                btnMinW={"100%"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -327,10 +327,10 @@ function DeviceFunctions({
               <FunctionalModal
                 modalTitle={"Set Threshold"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Set Threshold"}
                 modalMinH={"500px"}
-                btnMinW={"200px"}
+                btnMinW={"100%"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -435,10 +435,10 @@ function DeviceFunctions({
               <FunctionalModal
                 modalTitle={"Set Wifi Credentials"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Set Wifi Credentials"}
                 modalMinH={"500px"}
-                btnMinW={"200px"}
+                btnMinW={"100%"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -486,10 +486,10 @@ function DeviceFunctions({
               <FunctionalModal
                 modalTitle={"Set Configurations"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Set Configurations"}
                 modalMinH={"100%"}
-                btnMinW={"200px"}
+                btnMinW={"100%"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -540,10 +540,10 @@ function DeviceFunctions({
               <FunctionalModal
                 modalTitle={"Remote Update"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Firmware Update"}
                 modalMinH={"500px"}
-                btnMinW={"200px"}
+                btnMinW={"100%"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -622,11 +622,11 @@ function DeviceFunctions({
             <Box as={Center} w={"100%"}>
               <FunctionalModal
                 modalTitle={"Set Alarm Interval"}
+                btnMinW={"100%"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Set Alarm Interval"}
                 modalMinH={"500px"}
-                btnMinW={"200px"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -653,12 +653,14 @@ function DeviceFunctions({
           </Flex>
         </Center>
       </FunctionalModal>
+
       <FunctionalModal
-        btnMinW={"300px"}
+        modalTitle={"Manage Spatial Configurations"}
+        btnMinW={"40%"}
         btnMinH={"50px"}
-        btnColor={"card.100"}
+        btnColor={"action.80"}
         btnTitle={"Manage Spatial Configurations"}
-        transparent={true}
+        transparent={false}
         modalMinH={"fit-content"}
         footer={false}
       >
@@ -674,10 +676,10 @@ function DeviceFunctions({
               <FunctionalModal
                 modalTitle={"Add GeoFences"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Add GeoFences"}
                 modalMinH={"500px"}
-                btnMinW={"200px"}
+                btnMinW={"100%"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -719,10 +721,10 @@ function DeviceFunctions({
               <FunctionalModal
                 modalTitle={"Activate/Deactivate GeoFences"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Activate/Deactivate GeoFences"}
                 modalMinH={"500px"}
-                btnMinW={"200px"}
+                btnMinW={"100%"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -758,10 +760,10 @@ function DeviceFunctions({
               <FunctionalModal
                 modalTitle={"Remove GeoFences"}
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnColor={"action.80"}
                 btnTitle={"Remove GeoFences"}
                 modalMinH={"500px"}
-                btnMinW={"200px"}
+                btnMinW={"100%"}
                 btnAction={
                   <Button
                     bg={"primary.100"}
@@ -782,10 +784,12 @@ function DeviceFunctions({
                 />
               </FunctionalModal>
             </Box>
+
             <Box as={Center} w={"100%"}>
               <FunctionalModal
                 btnMinH={"50px"}
-                btnColor={"card.100"}
+                btnMinW={"100%"}
+                btnColor={"action.80"}
                 btnTitle={"Add trip"}
                 modalTitle={"Add trip"}
                 transparent={false}
@@ -832,7 +836,7 @@ function DeviceFunctions({
           </Flex>
         </Center>
       </FunctionalModal>
-    </Box>
+    </Center>
   );
 }
 

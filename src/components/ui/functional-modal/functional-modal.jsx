@@ -11,6 +11,9 @@ import {
   useDisclosure,
   IconButton,
   Tooltip,
+  Box,
+  Center,
+  Text,
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/icons";
 
@@ -58,31 +61,38 @@ function FunctionalModal({
   return (
     <>
       {iconBtn && !IconAndText ? (
-        <Tooltip
-          label={btnTitle}
-          hasArrow
-          placement="top"
-          color="white"
-          bg={btnColor}
+        <Center
+          w={"40px"}
+          h={"40px"}
+          borderRadius={"full"}
+          bg={"white"}
+          boxShadow={"0px 0px 7px 0px #8c8c8c"}
         >
-          <IconButton
-            onClick={onOpen}
-            size={btnSize}
-            rounded={"full"}
+          <Tooltip
+            label={btnTitle}
+            hasArrow
+            placement="top"
+            color="white"
             bg={btnColor}
-            _hover={{ opacity: 0.8 }}
-            icon={
-              <Icon boxSize={iconSize} as={iconBtn} color={"white"} />
-            }
-          />
-        </Tooltip>
+          >
+            <IconButton
+              onClick={onOpen}
+              size={btnSize}
+              rounded={"full"}
+              bg={btnColor}
+              _hover={{ opacity: 0.8 }}
+              icon={<Icon boxSize={iconSize} as={iconBtn} color={"white"} />}
+            />
+          </Tooltip>
+        </Center>
       ) : (
         <Button
           minW={btnMinW}
-          w={"fit-content"}
           size={btnSize}
-          color={"text.primary"}
+          color={"white"}
           bg={btnColor}
+          _hover={{ opacity: 0.8 }}
+          rounded={"20px"}
           minH={btnMinH}
           onClick={onOpen}
           leftIcon={
@@ -91,10 +101,9 @@ function FunctionalModal({
             ) : null
           }
         >
-          {btnTitle}
+          <Text isTruncated>{btnTitle}</Text>
         </Button>
       )}
-
       <Modal
         initialFocusRef={initialRef}
         scrollBehavior="inside"
@@ -116,10 +125,12 @@ function FunctionalModal({
           h={modalMinH}
           minW={modalMinW}
           bg={transparent ? "transparent" : "primary.80"}
+          borderRadius={"25px"}
         >
           <ModalHeader
             bg={transparent ? "transparent" : "primary.80"}
             color={"text.primary"}
+            borderRadius={"25px"}
           >
             {modalTitle}
           </ModalHeader>
@@ -134,6 +145,7 @@ function FunctionalModal({
             <ModalFooter
               h={"60px"}
               bg={transparent ? "transparent" : "primary.80"}
+              borderRadius={"25px"}
             >
               {!transparent && (
                 <Button

@@ -17,6 +17,11 @@ import {
   TagLeftIcon,
   TagLabel,
   Spacer,
+  Text,
+  Grid,
+  GridItem,
+  Circle,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useContext, useState, useRef } from "react";
 import { SiMicrosoftexcel } from "react-icons/si";
@@ -77,13 +82,29 @@ import { FaBroadcastTower, FaSimCard } from "react-icons/fa";
 import moment from "moment-timezone";
 import { MdGpsFixed } from "react-icons/md";
 import { hasPermission } from "../../../helpers/permissions-helper";
-//import { socket } from "../../../helpers/socket-helper";
 import TableV2 from "../../ui/table-v2/table-v2";
 import SpinnerLoader from "../../ui/loader/spinner-loader";
 import { io } from "socket.io-client";
+import { ThemeContext } from "../../../context/theme";
 const URL = process.env.REACT_APP_SERVER_URL;
 
 const FileDownload = require("js-file-download");
+
+const EmptyGridItem = () => {
+  const Theme = useContext(ThemeContext);
+  const gradientDark = "linear-gradient(to top, transparent, #2d3748cc)";
+  const gradientLight = "linear-gradient(to top, transparent, #e6e8ebcc)";
+  const gradient = Theme.darkMode ? gradientDark : gradientLight;
+  return (
+    <Box
+      rounded={"xl"}
+      // if dark mode
+      bg={gradient}
+      w={"100%"}
+      h={"250px"}
+    />
+  );
+};
 
 function Device() {
   const { Id, identifier } = useParams();
@@ -96,6 +117,7 @@ function Device() {
   const [alarmTablePage, setAlarmTablePage] = useState(0);
   const [isConnected, setIsConnected] = useState();
   const [loadingExportReport, setLoadingExportRepord] = useState(false);
+  const Theme = useContext(ThemeContext);
 
   const getMessageTypes = () => {
     getDeviceTypesById(identifier).then((res) => {
@@ -618,37 +640,61 @@ function Device() {
     }
   }, [socket, paginationData]);
 
+  const DarkGradient1 = "linear-gradient(to bottom, #9b29e7cc 20%, #2d3748)";
+  const DarkGradient2 = "linear-gradient(to top, #9b29e7cc, #2d3748 25%)";
+  const LightGradient1 = "linear-gradient(to top, #229CE2cc, #e6e8eb )";
+  const LightGradient2 = "linear-gradient(to bottom, #229CE2cc, #e6e8eb 25%)";
+
+  const gradient1 = Theme.darkMode ? DarkGradient1 : LightGradient1;
+  const gradient2 = Theme.darkMode ? DarkGradient2 : LightGradient2;
+
+  // rerender when sidebar size is changed
+  // use useEffect to get the latest value of size
+
   return (
     <>
-      <div className={"grid"}>
+      <Flex
+        alignContent={"center"}
+        p={4}
+        gap={4}
+        flexDir={["column", "column", "column", "row"]}
+      >
+        {/* CyLock Info */}
         <Box
-          w="100%"
-          borderRadius={"5px"}
+          minW={"55%"}
+          borderRadius={"25px"}
           bg={"primary.80"}
           minH={"500px"}
-          h={"100%"}
+          boxShadow={"0px 0px 5px 0px rgba(0,0,0,0.5)"}
         >
-          <Box
-            borderTopRadius={"5px"}
-            gap={2}
-            p={3}
-            alignItems={"center"}
-            as={Flex}
-            bg={"primary.80"}
+          {/* CyLock Info Header */}
+          <Flex
+            p={4}
+            justifyContent={{ base: "center", md: "start" }}
+            alignContent={{ base: "center", md: "start" }}
           >
-            <Image
-              borderRadius="full"
+            <Circle
+              w={{ base: "70px", md: "100px" }}
+              h={{ base: "70px", md: "100px" }}
               bg={"primary.100"}
-              p={2}
-              objectFit={"scale-down"}
-              w={"100px"}
-              h={"100px"}
-              alt="device"
-              src={CycollectImg}
-            />
-            <Box>
-              <Heading fontSize={"3xl"} color={"text.primary"}>
-                {device && device.name}
+              m={2}
+            >
+              <Image
+                p={3}
+                objectFit={"scale-down"}
+                w={{ base: "70px", md: "100px" }}
+                h={{ base: "70px", md: "100px" }}
+                alt="device"
+                src={CycollectImg}
+              />
+            </Circle>
+            <Box ms={{ base: 4, md: 0 }}>
+              <Heading
+                fontSize={{ base: "xl", md: "3xl" }}
+                color={"text.primary"}
+                m={2}
+              >
+                <Text>{device && device.name}</Text>
               </Heading>
               <Tag
                 bg={"primary.80"}
@@ -673,16 +719,22 @@ function Device() {
                 <TagLabel>Container: {device && device.attached_to}</TagLabel>
               </Tag>
             </Box>
-          </Box>
-          <Box bg={"primary.80"} pb={2}>
+          </Flex>
+
+          {/* CyLock Lock/Unlock */}
+          <Box
+            as={Flex}
+            px={4}
+            justifyContent={{ base: "center", md: "start" }}
+          >
             {device && hasPermission(PERMISSIONS.LOCK_UNLOCK_DEVICE) && (
-              <Box ml={8} as={Flex}>
+              <Box as={Flex}>
                 <Center
                   zIndex={1}
                   className={!locked ? "leftTranslate" : "rightTranslate"}
                   color={"text.primary"}
                   borderRadius={"10px"}
-                  bg={"primary.80"}
+                  bg={"primary.100"}
                   h={"40px"}
                   w={"152px"}
                 >
@@ -697,12 +749,13 @@ function Device() {
                   zIndex={0}
                   borderLeftRadius={"10px"}
                   cursor={"pointer"}
-                  color={"text.secondary"}
+                  color={"white"}
                   onClick={() => handleLockToggle(true)}
                   borderRightRadius={"0px"}
-                  bg={"text.primary"}
+                  bg={"action.80"}
                   h={"40px"}
                   w={"150px"}
+                  _hover={{ bg: "action.60" }}
                 >
                   {!locked ? "Lock" : ""}
                 </Center>
@@ -711,303 +764,312 @@ function Device() {
                   zIndex={0}
                   borderRightRadius={"10px"}
                   cursor={"pointer"}
-                  color={"text.secondary"}
+                  color={"white"}
                   onClick={() => handleLockToggle(false)}
                   borderLeftRadius={"0px"}
-                  bg={"text.primary"}
+                  bg={"action.80"}
                   h={"40px"}
                   w={"150px"}
+                  _hover={{ bg: "action.60" }}
                 >
                   {!locked ? "" : "Unlock"}
                 </Center>
               </Box>
             )}
           </Box>
-          <Flex
-            flexWrap={"wrap"}
-            w={"100%"}
-            gap={2}
-            p={4}
-            justifyContent={"center"}
-          >
-            <StatBox
-              icon={
-                <GiBatteryPack
-                  size={"25px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="Battery"
-              subTitle={
-                <SpinnerLoader
-                  center={false}
-                  transparent={true}
-                  loading={latestValuesLoading}
-                  body={battery ? `${parseFloat(battery)} V` : "-"}
-                />
-              }
-              subText={`Last updated at: ${
-                lastBatteryTimestamp ? formatDate(lastBatteryTimestamp) : "-"
-              }`}
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              width={"29%"}
-              minH={"fit-content"}
-            />
 
-            <StatBox
-              icon={
-                <TbAntenna
-                  size={"30px"}
+          {/* Bento Grid */}
+          <Center>
+            <Grid
+              my={4}
+              p={4}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                md: "repeat(3, minmax(100px, 1fr))",
+              }}
+              gap={4}
+            >
+              <Center bg={gradient1} rounded={"xl"} p={0.5} boxShadow={"md"}>
+                <GridItem
+                  rowSpan={1}
+                  colSpan={1}
+                  rounded={"xl"}
+                  bg="card.100"
+                  w={"100%"}
                   h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="Communication type"
-              subTitle={
-                <SpinnerLoader
-                  center={false}
-                  transparent={true}
-                  loading={latestValuesLoading}
-                  body={comm || "-"}
-                />
-              }
-              subText={
-                lastCommTimestamp
-                  ? `Last updated at: ${formatDate(lastCommTimestamp)}`
-                  : "-"
-              }
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              minH={"fit-content"}
-              width={"29%"}
-            />
-            {tringLoc ? (
-              <StatBox
-                icon={
-                  <FaBroadcastTower
-                    size={"30px"}
-                    h={"100%"}
-                    display={"block"}
-                    margin={"auto"}
-                    p={"20%"}
-                    color="secondary.60"
+                >
+                  <StatBox
+                    icon={<GiBatteryPack size={"25px"} />}
+                    title="Battery"
+                    textColor={"secondary.100"}
+                    subTitle={
+                      <SpinnerLoader
+                        center={false}
+                        transparent={true}
+                        loading={latestValuesLoading}
+                        body={battery ? `${parseFloat(battery)} V` : "-"}
+                      />
+                    }
+                    subText={`Last updated at: ${
+                      lastBatteryTimestamp
+                        ? formatDate(lastBatteryTimestamp)
+                        : "-"
+                    }`}
                   />
-                }
-                title="Location Type"
-                subTitle={"Triangulation Location"}
-                bgColor={"card.100"}
-                textColor={"secondary.100"}
-                maxH={"400px"}
-                maxW={"100%"}
-                minH={"fit-content"}
-                width={"29%"}
-              />
-            ) : (
-              <StatBox
-                icon={
-                  <MdGpsFixed
-                    size={"30px"}
-                    h={"100%"}
-                    display={"block"}
-                    margin={"auto"}
-                    p={"20%"}
-                    color="secondary.60"
+                </GridItem>
+              </Center>
+
+              <Center bg={gradient2} rounded={"xl"} p={0.5} boxShadow={"md"}>
+                <GridItem
+                  rowSpan={1}
+                  colSpan={1}
+                  rounded={"xl"}
+                  bg="card.100"
+                  w={"100%"}
+                  h={"100%"}
+                >
+                  <StatBox
+                    icon={<TbAntenna size={"30px"} />}
+                    title="Communication type"
+                    subTitle={
+                      <SpinnerLoader
+                        center={false}
+                        transparent={true}
+                        loading={latestValuesLoading}
+                        body={comm || "-"}
+                      />
+                    }
+                    subText={
+                      lastCommTimestamp
+                        ? `Last updated at: ${formatDate(lastCommTimestamp)}`
+                        : "-"
+                    }
+                    bgColor={"card.100"}
+                    textColor={"secondary.100"}
                   />
-                }
-                title="Location Type"
-                subTitle={"GPS Location"}
-                bgColor={"card.100"}
-                textColor={"secondary.100"}
-                maxH={"400px"}
-                maxW={"100%"}
-                minH={"fit-content"}
-                width={"29%"}
-              />
-            )}
+                </GridItem>
+              </Center>
 
-            <StatCard
-              icon={
-                <TbRoute
-                  size={"25px"}
+              <Center bg={gradient1} rounded={"xl"} p={0.5} boxShadow={"md"}>
+                <GridItem
+                  rowSpan={1}
+                  colSpan={1}
+                  rounded={"xl"}
+                  bg="card.100"
+                  w={"100%"}
                   h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="In progress trips"
-              subTitle={
-                inProgressTrip && inProgressTrip.route
-                  ? inProgressTrip.route.name
-                  : "No trip is currently in progress"
-              }
-              subText={`Trip started at: ${
-                inProgressTrip ? formatDate(inProgressTrip.start_date) : "-"
-              }`}
-              bgColor={"table.cell"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              width={"94%"}
-              minH={"fit-content"}
-            />
+                >
+                  {tringLoc ? (
+                    <StatBox
+                      icon={<FaBroadcastTower size={"30px"} />}
+                      title="Location Type"
+                      subTitle={"Triangulation Location"}
+                      bgColor={"card.100"}
+                      textColor={"secondary.100"}
+                    />
+                  ) : (
+                    <StatBox
+                      icon={<MdGpsFixed size={"30px"} />}
+                      title="Location Type"
+                      subTitle={"GPS Location"}
+                      bgColor={"card.100"}
+                      textColor={"secondary.100"}
+                    />
+                  )}
+                </GridItem>
+              </Center>
 
-            <StatCard
-              icon={
-                <FaSimCard
-                  size={"25px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="PCCW ICCID"
-              subTitle={
-                device && device.pccw_iccid ? `${device.pccw_iccid}` : "-"
-              }
-              subText={""}
-              bgColor={"table.cell"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              width={"94%"}
-              minH={"fit-content"}
-            />
-            <StatCard
-              icon={
-                <GiSattelite
-                  size={"25px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="SATCOM ICCID"
-              subTitle={
-                device && device.satcom_iccid ? `${device.satcom_iccid}` : "-"
-              }
-              subText={""}
-              bgColor={"table.cell"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              width={"94%"}
-              minH={"fit-content"}
-            />
-
-            <StatCard
-              width={"94%"}
-              icon={
-                <HiOutlineLocationMarker
-                  size={"30px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="Location"
-              subTitle={
-                <SpinnerLoader
-                  center={false}
-                  transparent={true}
-                  loading={latestValuesLoading}
-                  body={`lat: ${device ? lat : "-"}, lng: ${
-                    device ? lng : "-"
-                  }`}
-                />
-              }
-              subText={
-                lastLocationTimestamp
-                  ? `Last updated at: ${formatDate(lastLocationTimestamp)}`
-                  : "-"
-              }
-              bgColor={"table.cell"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-              minH={"fit-content"}
-            />
-
-            <StatCard
-              minH={"130px"}
-              width={"94%"}
-              icon={
-                <AiFillLock
-                  size={"30px"}
-                  h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              subTitle={`Last requested status: ${status || "-"}`}
-              subText={`Last Status: ${previousStatus || "-"}`}
-              subText2={`last updated: ${
-                statusUpdatedTime ? formatDate(statusUpdatedTime) : "-"
-              }`}
-              subText3={`Requested at: ${
-                statusRequestedAt ? formatDate(statusRequestedAt) : "-"
-              }`}
-              bgColor={"table.cell"}
-              textColor={"secondary.100"}
-              maxH={"400px"}
-              maxW={"100%"}
-            />
-          </Flex>
-          <Flex justifyContent={"center"}>
-            {device &&
-              hasPermission(PERMISSIONS.POST_DEVICE_MODE) &&
-              hasPermission(PERMISSIONS.EDIT_DEVICE_GEOFENCES) && (
-                <Box p={4} as={Flex} gap={2}>
-                  <DeviceFunctions
-                    removeDeviceGeofence={removeDeviceGeofence}
-                    updateDeviceGeofenceList={updateDeviceGeofenceList}
-                    updateDeviceGeofence={updateDeviceGeofence}
-                    imei={identifier}
-                    setConfig={setConfigurations}
-                    changeMode={setDeviceMode}
-                    changeThres={setThresholds}
-                    changeWifi={setWifi}
-                    updateFirmware={sendFirmwareUpdate}
-                    createTrip={createTrip}
-                    route={route}
-                    setRoute={setRoute}
-                    routes={routes}
-                    setTripDate={setTripDate}
-                    tripDate={tripDate}
-                    editDeviceAlarmInterval={editDeviceAlarmIntervalCall}
+              <GridItem
+                rowSpan={1}
+                colSpan={{ base: 1, md: 2 }}
+                rounded={"xl"}
+                bg="card.100"
+                boxShadow={"md"}
+              >
+                <Box mx={4}>
+                  <StatCard
+                    minH={"130px"}
+                    width={"100%"}
+                    icon={<AiFillLock size={"40px"} />}
+                    subTitle={`Last requested status: ${status || "-"}`}
+                    subText={`Last Status: ${previousStatus || "-"}`}
+                    subText2={`last updated: ${
+                      statusUpdatedTime ? formatDate(statusUpdatedTime) : "-"
+                    }`}
+                    subText3={`Requested at: ${
+                      statusRequestedAt ? formatDate(statusRequestedAt) : "-"
+                    }`}
+                    textColor={"secondary.100"}
                   />
                 </Box>
-              )}
-          </Flex>
+              </GridItem>
+
+              <GridItem
+                rowSpan={1}
+                colSpan={1}
+                rounded={"xl"}
+                bg="card.100"
+                boxShadow={"md"}
+              >
+                <StatBox
+                  icon={<FaSimCard size={"30px"} />}
+                  title="PCCW ICCID"
+                  subTitle={
+                    <Text fontSize={"md"}>
+                      {device && device.pccw_iccid
+                        ? `${device.pccw_iccid}`
+                        : "-"}
+                    </Text>
+                  }
+                  subText={""}
+                  textColor={"secondary.100"}
+                />
+              </GridItem>
+
+              <GridItem
+                rowSpan={1}
+                colSpan={1}
+                rounded={"xl"}
+                bg="card.100"
+                boxShadow={"md"}
+              >
+                <StatBox
+                  icon={<GiSattelite size={"40px"} />}
+                  title="SATCOM ICCID"
+                  subTitle={
+                    <Text fontSize={"md"}>
+                      {device && device.satcom_iccid
+                        ? `${device.satcom_iccid}`
+                        : "-"}
+                    </Text>
+                  }
+                  subText={""}
+                  textColor={"secondary.100"}
+                />
+              </GridItem>
+
+              <GridItem
+                rowSpan={1}
+                colSpan={{ base: 1, md: 2 }}
+                rounded={"xl"}
+                bg="card.100"
+                boxShadow={"md"}
+              >
+                <Box mx={4} my={3}>
+                  <StatCard
+                    icon={<HiOutlineLocationMarker size={"40px"} />}
+                    title="Location"
+                    subTitle={
+                      <SpinnerLoader
+                        center={false}
+                        transparent={true}
+                        loading={latestValuesLoading}
+                        body={`LAT: ${device ? lat : "-"}, LNG: ${
+                          device ? lng : "-"
+                        }`}
+                      />
+                    }
+                    subText={
+                      lastLocationTimestamp
+                        ? `Last updated at: ${formatDate(
+                            lastLocationTimestamp
+                          )}`
+                        : "-"
+                    }
+                    textColor={"secondary.100"}
+                  />
+                </Box>
+              </GridItem>
+
+              <GridItem
+                rowSpan={1}
+                colSpan={{ base: 1, md: 2 }}
+                rounded={"xl"}
+                bg="card.100"
+                boxShadow={"md"}
+              >
+                <Box mx={4} my={3}>
+                  <StatCard
+                    icon={<TbRoute size={"40px"} />}
+                    title="In progress trips"
+                    subTitle={
+                      inProgressTrip && inProgressTrip.route
+                        ? inProgressTrip.route.name
+                        : "No trip is currently in progress"
+                    }
+                    subText={`Trip started at: ${
+                      inProgressTrip
+                        ? formatDate(inProgressTrip.start_date)
+                        : "-"
+                    }`}
+                    textColor={"secondary.100"}
+                  />
+                </Box>
+              </GridItem>
+
+              <Center
+                bg={gradient1}
+                rounded={"xl"}
+                p={0.5}
+                boxShadow={"md"}
+                colSpan={2}
+              >
+                <GridItem
+                  rowSpan={1}
+                  colSpan={1}
+                  rounded={"xl"}
+                  bg={"card.100"}
+                  boxShadow={"md"}
+                  w={"100%"}
+                  h={"100%"}
+                >
+                  {/* CyLock Settings Buttons */}
+                  <Flex justifyContent={"center"} my={5} mx={2}>
+                    {device &&
+                      hasPermission(PERMISSIONS.POST_DEVICE_MODE) &&
+                      hasPermission(PERMISSIONS.EDIT_DEVICE_GEOFENCES) && (
+                        <DeviceFunctions
+                          removeDeviceGeofence={removeDeviceGeofence}
+                          updateDeviceGeofenceList={updateDeviceGeofenceList}
+                          updateDeviceGeofence={updateDeviceGeofence}
+                          imei={identifier}
+                          setConfig={setConfigurations}
+                          changeMode={setDeviceMode}
+                          changeThres={setThresholds}
+                          changeWifi={setWifi}
+                          updateFirmware={sendFirmwareUpdate}
+                          createTrip={createTrip}
+                          route={route}
+                          setRoute={setRoute}
+                          routes={routes}
+                          setTripDate={setTripDate}
+                          tripDate={tripDate}
+                          editDeviceAlarmInterval={editDeviceAlarmIntervalCall}
+                        />
+                      )}
+                  </Flex>
+                </GridItem>
+              </Center>
+
+              {useBreakpointValue({
+                base: null,
+                md: (
+                  <>
+                    <EmptyGridItem /> <EmptyGridItem /> <EmptyGridItem />
+                  </>
+                ),
+              })}
+            </Grid>
+          </Center>
         </Box>
-        <Box
-          w="100%"
-          borderRadius={"5px"}
-          backgroundColor={"primary.80"}
-          h={"100%"}
-        >
-          <Box minH={"800px"} w={"100%"} h={"100%"} pb={"4%"} m={"0"}>
+
+        {/* Map & Battery Chart */}
+        <Flex maxW={"100%"} minW={"45%"} flexDir={"column"}>
+          <Box
+            borderRadius={"25px"}
+            backgroundColor={"primary.80"}
+            boxShadow={"0px 0px 5px 0px rgba(0,0,0,0.5)"}
+          >
             <Box
               m={1}
               w={"100%"}
@@ -1016,167 +1078,203 @@ function Device() {
               as={Flex}
               gap={4}
               paddingBottom={2}
+              borderRadius={"25px"}
             >
-              <Heading w={"70%"} color={"text.primary"} fontSize={"2xl"}>
-                Map
-              </Heading>
-              <Button
-                bg={"action.100"}
-                leftIcon={<Icon as={CopyIcon} />}
-                onClick={() => copyLocationLink()}
-                textColor={"white"}
+              <Heading
+                w={"100%"}
+                color={"text.primary"}
+                fontSize={"2xl"}
+                as={Flex}
+                justify={"space-between"}
               >
-                Copy location
-              </Button>
+                <Flex>
+                  <Icon
+                    as={HiOutlineLocationMarker}
+                    boxSize={"30px"}
+                    me={2}
+                    color={"action.80"}
+                  />
+                  <Text>Map</Text>
+                </Flex>
+                <Button
+                  bg={"action.80"}
+                  _hover={{ bg: "action.60" }}
+                  leftIcon={<Icon as={CopyIcon} />}
+                  onClick={() => copyLocationLink()}
+                  textColor={"white"}
+                  rounded={"xl"}
+                >
+                  Copy location
+                </Button>
+              </Heading>
             </Box>
             {/* <Map trips={false} markers={markers} /> */}
-            <RoutesMap
-              zoom={16}
-              geofences={deviceGeofences}
-              markers={markers}
-              routes={currentTrip}
-              tripChoices={
-                trips.length !== 0 ? (
-                  <Accordion m={1} w={"100%"} allowMultiple>
-                    <AccordionItem>
-                      <AccordionButton bg={"primary.80"}>
-                        <Box
-                          color={"text.primary"}
-                          fontSize={"xl"}
-                          textAlign="left"
-                        >
-                          Trips
-                        </Box>
-                        <AccordionIcon color={"white"} />
-                      </AccordionButton>
-                      <AccordionPanel>
-                        <Box
-                          w={"100%"}
-                          alignContent={"center"}
-                          as={Flex}
-                          flexWrap={"wrap"}
-                          gap={2}
-                        >
+            {/* Map */}
+            <Box my={6}>
+              <RoutesMap
+                zoom={16}
+                geofences={deviceGeofences}
+                markers={markers}
+                routes={currentTrip}
+                tripChoices={
+                  trips.length !== 0 ? (
+                    <Accordion m={1} w={"100%"} allowMultiple>
+                      <AccordionItem>
+                        <AccordionButton bg={"primary.80"}>
                           <Box
-                            as={Flex}
-                            gap={1}
-                            alignItems={"center"}
-                            w={"100%"}
-                            mb={1}
+                            color={"text.primary"}
+                            fontSize={"xl"}
+                            textAlign="left"
                           >
-                            <StyledSelect
-                              value={trip}
-                              onchange={setTripInMap}
-                              options={trips.map((trip) => {
-                                return {
-                                  label: trip.route
-                                    ? trip.route.name
-                                    : "Unnamed Trip",
-                                  value: trip.id,
-                                };
-                              })}
-                            />
-
-                            {trip && getTripField(trip, "status") ? (
-                              <Tag
-                                size={"lg"}
-                                color={"text.primary"}
-                                colorScheme="action"
-                                ml={"2"}
-                              >
-                                {trip && getTripField(trip, "status")}
-                              </Tag>
-                            ) : (
-                              <br />
-                            )}
+                            Trips
                           </Box>
-                          <Flex>
-                            <ButtonGroup
+                          <AccordionIcon color={"white"} />
+                        </AccordionButton>
+                        <AccordionPanel>
+                          <Box
+                            w={"100%"}
+                            alignContent={"center"}
+                            as={Flex}
+                            flexWrap={"wrap"}
+                            gap={2}
+                          >
+                            <Box
+                              as={Flex}
+                              gap={1}
+                              alignItems={"center"}
                               w={"100%"}
-                              color={"text.primary"}
-                              isAttached
-                              variant="outline"
+                              mb={1}
                             >
+                              <StyledSelect
+                                value={trip}
+                                onchange={setTripInMap}
+                                options={trips.map((trip) => {
+                                  return {
+                                    label: trip.route
+                                      ? trip.route.name
+                                      : "Unnamed Trip",
+                                    value: trip.id,
+                                  };
+                                })}
+                              />
+
+                              {trip && getTripField(trip, "status") ? (
+                                <Tag
+                                  size={"lg"}
+                                  color={"text.primary"}
+                                  colorScheme="action"
+                                  ml={"2"}
+                                >
+                                  {trip && getTripField(trip, "status")}
+                                </Tag>
+                              ) : (
+                                <br />
+                              )}
+                            </Box>
+                            <Flex>
+                              <ButtonGroup
+                                w={"100%"}
+                                color={"text.primary"}
+                                isAttached
+                                variant="outline"
+                              >
+                                <Button
+                                  onClick={() =>
+                                    changeTripStatusCall(
+                                      trip,
+                                      TripStatus.IN_PROGRESS
+                                    )
+                                  }
+                                  bg={"action.100"}
+                                  isDisabled={
+                                    trip &&
+                                    getTripField(trip, "status") !==
+                                      TripStatus.PENDING
+                                  }
+                                  color={"white"}
+                                >
+                                  Start Trip
+                                </Button>
+                                <Button
+                                  onClick={() =>
+                                    changeTripStatusCall(
+                                      trip,
+                                      TripStatus.COMPLETED
+                                    )
+                                  }
+                                  bg={"action.100"}
+                                  isDisabled={
+                                    trip &&
+                                    getTripField(trip, "status") !==
+                                      TripStatus.IN_PROGRESS
+                                  }
+                                  color={"white"}
+                                >
+                                  Complete Trip
+                                </Button>
+                              </ButtonGroup>
                               <Button
+                                ml={3}
+                                w={"100%"}
+                                variant="outline"
                                 onClick={() =>
-                                  changeTripStatusCall(
-                                    trip,
-                                    TripStatus.IN_PROGRESS
-                                  )
+                                  changeTripStatusCall(trip, TripStatus.PENDING)
                                 }
-                                bg={"action.100"}
+                                bg={"danger.100"}
                                 isDisabled={
                                   trip &&
                                   getTripField(trip, "status") !==
-                                    TripStatus.PENDING
-                                }
-                                color={"white"}
-                              >
-                                Start Trip
-                              </Button>
-                              <Button
-                                onClick={() =>
-                                  changeTripStatusCall(
-                                    trip,
-                                    TripStatus.COMPLETED
-                                  )
-                                }
-                                bg={"action.100"}
-                                isDisabled={
-                                  trip &&
-                                  getTripField(trip, "status") !==
                                     TripStatus.IN_PROGRESS
                                 }
                                 color={"white"}
                               >
-                                Complete Trip
+                                Stop Trip
                               </Button>
-                            </ButtonGroup>
-                            <Button
-                              ml={3}
-                              w={"100%"}
-                              variant="outline"
-                              onClick={() =>
-                                changeTripStatusCall(trip, TripStatus.PENDING)
-                              }
-                              bg={"danger.100"}
-                              isDisabled={
-                                trip &&
-                                getTripField(trip, "status") !==
-                                  TripStatus.IN_PROGRESS
-                              }
-                              color={"white"}
-                            >
-                              Stop Trip
-                            </Button>
-                          </Flex>
-                        </Box>
-                      </AccordionPanel>
-                    </AccordionItem>
-                  </Accordion>
-                ) : null
-              }
+                            </Flex>
+                          </Box>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    </Accordion>
+                  ) : null
+                }
+              />
+            </Box>
+          </Box>
+
+          <Box
+            mt={4}
+            py={8}
+            px={4}
+            w={"100%"}
+            borderRadius={"25px"}
+            backgroundColor={"primary.80"}
+            boxShadow={"0px 0px 5px 0px rgba(0,0,0,0.5)"}
+          >
+            <DeviceChart
+              mb={4}
+              id={device ? identifier : ""}
+              options={messageTypes
+                .filter((t) => t.graph_type !== null)
+                .map((op) => {
+                  return { label: op.name, value: op.id, ...op };
+                })}
+              setStartDate={setStartDate}
+              startDate={startDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
             />
           </Box>
-        </Box>
-      </div>
+        </Flex>
+      </Flex>
 
-      <DeviceChart
-        mb={"0.5%"}
-        mt={"0.5%"}
-        id={device ? identifier : ""}
-        options={messageTypes
-          .filter((t) => t.graph_type !== null)
-          .map((op) => {
-            return { label: op.name, value: op.id, ...op };
-          })}
-        setStartDate={setStartDate}
-        startDate={startDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-      />
-
-      <Box w="100%" mb={1}>
+      {/* Alarms */}
+      <Box
+        m={4}
+        py={8}
+        borderRadius={"25px"}
+        backgroundColor={"primary.80"}
+        boxShadow={"0px 0px 5px 0px rgba(0,0,0,0.5)"}
+      >
         <ComplexTable
           hiddenCols={[
             "id",
@@ -1184,17 +1282,27 @@ function Device() {
             "description",
             "notified",
             "entity_id",
+            "min",
+            "max",
           ]}
           extractFn={extractAlarmHeaders}
           title={"Alarms"}
-          icon={<Icon as={BiAlarm} boxSize={"30px"} color={"action.100"} />}
+          icon={<Icon as={BiAlarm} boxSize={"30px"} color={"action.80"} />}
           data={alarms}
           pageNumber={alarmTablePage}
           setPageNumber={setAlarmTablePage}
         />
       </Box>
 
-      <Box w="100%">
+      {/* Time series data */}
+      <Box
+        m={4}
+        py={8}
+        px={4}
+        borderRadius={"25px"}
+        backgroundColor={"primary.80"}
+        boxShadow={"0px 0px 5px 0px rgba(0,0,0,0.5)"}
+      >
         <TableV2
           title={"Time series data"}
           icon={<Icon as={FcOvertime} boxSize={"30px"} color={"action.100"} />}

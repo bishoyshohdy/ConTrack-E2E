@@ -32,6 +32,7 @@ function DeleteGeofence({
       btnAction={
         <Button
           bg={"danger.100"}
+          _hover={{ opacity: 0.8 }}
           color={"white"}
           onClick={() => {
             deleteAction(id).then((res) => {
@@ -58,7 +59,13 @@ function DeleteGeofence({
       onClose={() => setDeleteModalOpen(false)}
     >
       <Text>Are you sure you want to delete {name}?</Text>
-      <Tag size="lg" colorScheme="danger" borderRadius="full" margin={5}>
+      <Tag
+        size="lg"
+        colorScheme="danger"
+        borderRadius="full"
+        color={"white"}
+        margin={5}
+      >
         <TagLabel>
           {name} : {id}
         </TagLabel>

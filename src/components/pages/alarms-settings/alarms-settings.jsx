@@ -264,7 +264,7 @@ function AlarmsSettings() {
                     " Alarm Settings"
                   }
                   icon={
-                    <Icon as={BiAlarm} boxSize={"30px"} color={"action.100"} />
+                    <Icon as={BiAlarm} boxSize={"30px"} color={"action.80"} />
                   }
                 />
               </Box>

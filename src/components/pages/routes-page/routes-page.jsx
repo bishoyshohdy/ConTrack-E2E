@@ -72,12 +72,13 @@ function RoutesPage() {
       <Box
         p={2}
         className={"grid"}
-        w={"100%"}
         h={"600px"}
         bg={"primary.80"}
-        borderRadius={"5px"}
+        borderRadius={"25px"}
+        m={4}
+        boxShadow={"lg"}
       >
-        <Box className={"grid-item"} w={"100%"}>
+        <Box className={"grid-item"} p={2}>
           <ComplexTable
             title={"Routes"}
             extractFn={extractRouteHeaders}
@@ -88,60 +89,62 @@ function RoutesPage() {
                   id: geo.id,
                   Route_Actions: { geofence: geo, geofences: routes },
                 };
-              }else{
+              } else {
                 return {
                   val: geo.name,
                   id: geo.id,
                 };
               }
-              
             })}
             icon={
-              <Icon as={FaMapMarkedAlt} boxSize={"30px"} color={"action.100"} />
+              <Icon
+                as={FaMapMarkedAlt}
+                boxSize={"25px"}
+                color={"action.80"}
+                mx={2}
+              />
             }
           >
-            {hasPermission(PERMISSIONS.CREATE_ROUTES) &&(
-            <FunctionalModal
-            modalTitle={"Create Route"}
-            btnTitle={"Create Route"}
-            btnSize={"sm"}
-            modalMinH={"1000px"}
-            modalMinW={"80%"}
-            iconSize={"20px"}
-            btnAction={
-              <Button
-                onClick={createRouteAction}
-                bg={"primary.100"}
-                color={"text.primary"}
+            {hasPermission(PERMISSIONS.CREATE_ROUTES) && (
+              <FunctionalModal
+                modalTitle={"Create Route"}
+                btnTitle={"Create Route"}
+                btnSize={"sm"}
+                modalMinH={"1000px"}
+                modalMinW={"80%"}
+                iconSize={"20px"}
+                btnColor={"action.80"}
+                btnAction={
+                  <Button
+                    onClick={createRouteAction}
+                    bg={"action.80"}
+                    color={"white"}
+                  >
+                    Create Route
+                  </Button>
+                }
               >
-                Create Route
-              </Button>
-            }
-            btnColor={"action.100"}
-          >
-                          <Box
-                w={"100%"}
-                h={"100%"}
-                bg={"transparent"}
-                borderRadius={"5px"}
-              >
-                <RoutesMap
-                  markers={markers}
-                  drawingComplete={setPoints}
-                  routes={routes}
-                  setRoute
+                <Box
+                  w={"100%"}
+                  h={"100%"}
+                  bg={"transparent"}
+                  borderRadius={"5px"}
                 >
-                  <Input
-                    placeholder="Route Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </RoutesMap>
-              </Box>
-            </FunctionalModal>
+                  <RoutesMap
+                    markers={markers}
+                    drawingComplete={setPoints}
+                    routes={routes}
+                    setRoute
+                  >
+                    <Input
+                      placeholder="Route Name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </RoutesMap>
+                </Box>
+              </FunctionalModal>
             )}
-
-
           </ComplexTable>
         </Box>
         <Box
@@ -149,7 +152,7 @@ function RoutesPage() {
           w={"100%"}
           h={"100%"}
           bg={"primary.80"}
-          borderRadius={"5px"}
+          p={2}
         >
           <RoutesMap markers={markers} routes={routes} />
         </Box>

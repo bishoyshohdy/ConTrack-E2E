@@ -167,6 +167,7 @@ function Geofences() {
                 setSelectedGeofence(null);
                 setSelectedGeofences(null);
                 setIsViewingGeoFence(false);
+                setIsEditingGeoFence(false);
                 setUpdate(true);
                 setMapKey((prevKey) => prevKey + 1);
               }}
@@ -472,7 +473,9 @@ function Geofences() {
                 // Rerender the Map component
                 setMapKey((prevKey) => prevKey + 1);
               }}
-              colorScheme="purple"
+              bg={"action.80"}
+              _hover={{ bg: "action.60" }}
+              color={"white"}
             >
               <Text>Edit</Text>
             </Button>

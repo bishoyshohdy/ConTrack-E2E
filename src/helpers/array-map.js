@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Icon, Center } from "@chakra-ui/react";
+import { Badge, Icon, Center, Text } from "@chakra-ui/react";
 import { assignCytag, unAssignCytag } from "../api/device-actions";
 import EditGeofence from "../components/pages/geofences/edit-geofence/edit-geofence";
 import DeleteGeofence from "../components/pages/geofences/delete-geofence/delete-geofence";
@@ -172,14 +172,14 @@ export function switchMainHeader(key, props) {
             unAssignAction={unAssignCytag}
           />
         );
-        case "myCytags":
-          return (
-            <CytagChip
-              cycollectorId={props}
-              assignAction={assignCytag}
-              unAssignAction={unAssignCytag}
-            />
-          );
+      case "myCytags":
+        return (
+          <CytagChip
+            cycollectorId={props}
+            assignAction={assignCytag}
+            unAssignAction={unAssignCytag}
+          />
+        );
       case "Lock feedback":
         return String(props.value === "1" ? "Locked" : "Unlocked");
       case "lock_status":
@@ -290,15 +290,14 @@ export function switchAlarmsTableFields(field, props) {
   switch (field) {
     case "severity":
       return (
-        <Badge
+        <Text
           w={"100%"}
-          textAlign={"center"}
-          p={1}
-          variant="solid"
-          bg={mapThreatToColor(props.value)}
+          color={mapThreatToColor(props.value)}
+          textTransform={"capitalize"}
+          fontWeight={"bold"}
         >
           {props.value}
-        </Badge>
+        </Text>
       );
     case "entities":
       return (
@@ -326,7 +325,6 @@ export function switchAlarmsTableFields(field, props) {
         />
       );
     case "Acknowledge":
-      console.log(props.value, "saskskkskks");
       return (
         <AlarmAction
           acknowldgeAction={true}

@@ -178,7 +178,7 @@ function GeofenceTable({
       ) : (
         <>
           {/* Search Bar */}
-          <Flex justifyContent={"space-between"} my={4} mx={4}>
+          <Flex justifyContent={"space-between"} my={4} mx={6}>
             <Flex>
               <Icon
                 py={1}
@@ -246,8 +246,7 @@ function GeofenceTable({
                       border="1px solid #2d3748"
                       maxH={"300px"}
                       maxW={"350px"}
-                      border={"2px solid"}  
-
+                      border={"2px solid"}
                       _hover={{
                         backgroundColor: "primary.100",
                         borderColor: "action.80",
@@ -267,10 +266,10 @@ function GeofenceTable({
                             </Text>
                             <Text fontSize={"lg"}>ID: {ID}</Text>
                           </Heading>
-                          <Spacer/>
+                          <Spacer />
                         </Flex>
-                        <Divider 
-                          borderColor={theme.darkMode ? "white" : "black" }
+                        <Divider
+                          borderColor={theme.darkMode ? "white" : "black"}
                           width={"60%"}
                         />
                       </CardHeader>
