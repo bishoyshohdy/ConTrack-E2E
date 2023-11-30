@@ -7,6 +7,11 @@ import {
 } from '../../../api/notifications';
 import NotificationsForm from './notifications-form/notifications-form';
 import { showsuccess } from '../../../helpers/toast-emitter';
+import {
+    Divider,
+    Stack
+} from '@chakra-ui/react';
+
 
 function Notifications () {
     const defaultObj = {
@@ -158,12 +163,37 @@ function Notifications () {
     }, []);
     return (
         <>
+                <Box m={2} bg={'primary.100'} borderRadius={'5px'}>
+                    <Box p={2} h={'50px'} as={Flex} justifyContent={'space-between'} bg={'card.60'} borderTopRadius={'5px'}>
+                        <Text color={'text.primary'} fontSize={'xl'}>Medium Severity</Text>
+                    </Box> 
+                <Stack direction='row'  spacing={0} height="inherit" >
+                    <Divider orientation='vertical'  borderWidth='5px' borderColor='#fd8c00' height="inherit" />
+                    <Box>
+
+                        <Box p={5}>                   
+                        {medData && (
+                            <NotificationsForm
+                                formData={medData}
+                                title={'Medium Severity'}
+                                disabled={false}
+                                saveAction={medEditCall}
+                                style={{color:"white"}}
+                            />
+                        )}
+                        </Box>
+                    </Box>
+                </Stack>
+            </Box>
             <Box m={2} bg={'primary.100'} borderRadius={'5px'}>
-                <Box p={2} h={'50px'} as={Flex} justifyContent={'space-between'} bg={'card.100'} borderTopRadius={'5px'}>
+                <Box p={2} h={'50px'} as={Flex} justifyContent={'space-between'} bg={'card.60'} borderTopRadius={'5px'}>
                     <Text color={'text.primary'} fontSize={'xl'}>High Severity</Text>
                 </Box>
-                <Box p={5}>
+                <Stack direction='row'  spacing={0} height="inherit" >
+                    <Divider orientation='vertical'  borderWidth='5px' borderColor='#dc0000' height="inherit" />
+                    <Box>
 
+                    <Box p={5}>     
                     {highData && (
                         <NotificationsForm
                             formData={highData}
@@ -172,31 +202,19 @@ function Notifications () {
                             saveAction={highEditCall}
                         />
                     )}
-                </Box>
+                        </Box>
+                    </Box>
+                </Stack>
             </Box>
             <Box m={2} bg={'primary.100'} borderRadius={'5px'}>
-                <Box p={2} h={'50px'} as={Flex} justifyContent={'space-between'} bg={'card.100'} borderTopRadius={'5px'}>
-                    <Text color={'text.primary'} fontSize={'xl'}>Medium Severity</Text>
-                </Box>
-                <Box p={5}>
-
-                    {medData && (
-                        <NotificationsForm
-                            formData={medData}
-                            title={'Medium Severity'}
-                            disabled={false}
-                            saveAction={medEditCall}
-                            style={{color:"white"}}
-                        />
-                    )}
-                </Box>
-            </Box>
-            <Box m={2} bg={'primary.100'} borderRadius={'5px'}>
-                <Box p={2} h={'50px'} as={Flex} justifyContent={'space-between'} bg={'card.100'} borderTopRadius={'5px'}>
+                <Box p={2} h={'50px'} as={Flex} justifyContent={'space-between'} bg={'card.60'} borderTopRadius={'5px'}>
                     <Text color={'text.primary'} fontSize={'xl'}>Urgent Severity</Text>
                 </Box>
-                <Box p={5}>
+                <Stack direction='row'  spacing={0} height="inherit" >
+                    <Divider orientation='vertical'  borderWidth='5px' borderColor='#780000' height="inherit" />
+                    <Box>
 
+                    <Box p={5}>  
                     {urgData && (
                         <NotificationsForm
                             formData={urgData}
@@ -205,7 +223,9 @@ function Notifications () {
                             saveAction={urgEditCall}
                         />
                     )}
-                </Box>
+                        </Box>
+                    </Box>
+                </Stack>
             </Box>
         </>
     );

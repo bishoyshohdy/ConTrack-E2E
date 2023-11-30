@@ -13,6 +13,8 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
 import { ThemeContext } from "../../../context/theme";
 import cypod from "../../../assets/images/logo/cypod.png";
+import cypod_dark from "../../../assets/images/logo/cypod-dark.png";
+
 import "./tag-container.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -32,6 +34,7 @@ function tagContainer({
   hiddenCols = [],
   CreateDevice,
 }) {
+  const theme = useContext(ThemeContext);
   const [flatData, setFlatData] = useState(data);
   const [tags, setTags] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -64,7 +67,6 @@ function tagContainer({
     [data]
   );
   hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
-  const themeCtx = useContext(ThemeContext);
 
   useEffect(() => {}, []);
 
@@ -132,6 +134,8 @@ function tagContainer({
         w={"100%"}
         p={2}
         minW={minW}
+        boxShadow={theme.darkMode ?'0px 0px 10px 0px #111' : '0px 0px 1px 0px #aaaa'}
+
       >
         <Flex
           p={"1%"}
@@ -141,11 +145,11 @@ function tagContainer({
         >
           <Box w={children ? "30%" : "70%"} gap={2} as={Flex} px={4}>
             {icon}
-            <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
+            <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}  alignSelf={'center'}>
               {title}
             </Heading>
           </Box>
-          <Flex>
+          <Flex justifyContent={'center'} alignItems={'center'}>
           <Text
                 fontSize={"lg"}
                 color={"white"}
@@ -172,10 +176,11 @@ function tagContainer({
               >
             <Input
               size="md"
+              color= {'text.primary'}
+              fontFamily= "DM Sans"
               borderRadius={"10px"}
               placeholder="Search"
-              color={"text.primary"}
-              background={"black"}
+              bg={'primary.100'}
               mr={4}
               width={"70%"}
               value={searchText}
@@ -187,7 +192,7 @@ function tagContainer({
               icon={<SearchIcon />}
               mr={4}
               borderRadius={"10px"}
-              colorScheme="purple"
+              bg={"action.80"}
               onClick={() => handleSearch()}
             />
             
@@ -242,7 +247,7 @@ function tagContainer({
                           _hover={{
                             transform:
                               "perspective(1000px) rotatex(0deg) !important",
-                            boxShadow: "0 0 10px rgba(155, 40,231, 0.7)",
+                            boxShadow: `0 0 10px #${theme.darkMode ? 'fff' : '000'}`,
                             borderBottom: "15px solid rgba(0,0,0,0) !important",
                             transition: "transform 0.3s",
                           }}
@@ -276,6 +281,7 @@ function tagContainer({
                                 alignItems: "center",
                                 padding: "0",
                               }}
+                              color={"text.primary"}
                             >
                               <Box>
                                 <h2>{tag.name}</h2>
@@ -288,7 +294,7 @@ function tagContainer({
                                 }}
                               >
                                 <img
-                                  src={cypod}
+                                  src={theme.darkMode ? cypod : cypod_dark}
                                   alt="logo"
                                   style={{ width: "50%", padding: "16px" }}
                                 />

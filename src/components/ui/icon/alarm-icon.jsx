@@ -4,7 +4,7 @@ import React from 'react';
 function AlarmIcon (props) {
     const { color, ...rest } = props;
     return (
-        <Box w={'100%'} h={'100%'} {...rest}>
+        <Box w={'100%'} h={'100%'} {...rest} mx={2}>
             <svg width="100%" height="100%" viewBox="0 0 250 250" fill={color} xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_212_13)">
                     <g clipPath="url(#clip1_212_13)">

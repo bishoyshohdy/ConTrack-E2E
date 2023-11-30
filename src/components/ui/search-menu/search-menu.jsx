@@ -41,12 +41,11 @@ function SearchMenu({ showSearch, showUser, children }) {
         <Menu>
           <MenuButton
             rounded={"full"}
-            colorScheme="purple"
+            bg={'action.80'}
             mr={1}
             display={"flex"}
             as={IconButton}
-            width={"32px"}
-            height={"32px"}
+            size={'md'}
             icon={<FaUser display={"flex"} color="white" />}
           ></MenuButton>
           <MenuList>

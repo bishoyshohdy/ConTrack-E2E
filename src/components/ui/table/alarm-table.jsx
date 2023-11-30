@@ -117,6 +117,7 @@ function AlarmTable({
   allCytags,
   isLoading,
 }) {
+  const { theme } = useContext(ThemeContext);
   const [flatData, setFlatData] = useState(data);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedAlarm, setSelectedAlarm] = useState({});
@@ -269,6 +270,7 @@ function AlarmTable({
           p={2}
           minH={columns.length !== 0 ? "600px" : minHEmpty}
           minW={minW}
+          boxShadow={theme.darkMode ?'0px 0px 10px 0px #111' : '0px 0px 1px 0px #aaaa'}
         >
           <Flex
             p={"1%"}
@@ -276,7 +278,7 @@ function AlarmTable({
             gap={2}
             alignItems={"center"}
           >
-            <Box w={children ? "30%" : "70%"} gap={2} as={Flex}>
+            <Box w={children ? "30%" : "70%"} gap={2} as={Flex} alignItems={'center'}>
               {icon}
               <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
                 {title}

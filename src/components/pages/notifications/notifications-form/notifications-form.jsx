@@ -1,11 +1,17 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { useContext } from 'react';
+import { ThemeContext } from "../../../../context/theme";
+
+
 
 function NotificationsForm ({ formData, disabled, saveAction }) {
     const [enabled, setEnabled] = useState(formData.enabled);
     const [email, setEmail] = useState(formData.contact_details.email);
     const [sms, setSms] = useState(formData.contact_details.sms);
     const [choices, setChoices] = useState(formData.notification_type);
+    const { theme } = useContext(ThemeContext);
+
 
     const addElementToArray = (array, element) => {
         array.splice(array.findIndex((el) => el === element), 1);
@@ -33,7 +39,8 @@ function NotificationsForm ({ formData, disabled, saveAction }) {
     return (
         <>
             <Box mt={6} as={Flex} flexWrap={'wrap'} gap={6} color={'text.primary'}>
-                <Checkbox size={'lg'} w={'100%'} isDisabled={disabled} defaultChecked={formData.enabled} value={enabled} onChange={(e) => setEnabled(e.target.checked)}>Enabled</Checkbox>
+                <Checkbox borderColor={'action.80'}
+                size={'lg'} w={'100%'} isDisabled={disabled} defaultChecked={formData.enabled} value={enabled} onChange={(e) => setEnabled(e.target.checked)}>Enabled</Checkbox>
                 <Text w={'100%'} fontSize={'xl'}>Contact Details</Text>
                 <Box w={'100%'} alignItems={'center'} as={Flex} flexWrap={'wrap'} gap={2} m={2}>
                     <Text w={'25%'}>Email</Text>
@@ -43,12 +50,17 @@ function NotificationsForm ({ formData, disabled, saveAction }) {
                 </Box>
                 <Text w={'100%'} fontSize={'xl'}>Notification Type</Text>
                 <Box w={'100%'} m={2} as={Flex} justifyContent={'space-between'}>
-                    <Checkbox size={'lg'} isDisabled={disabled} defaultChecked={!!formData.notification_type.find((choice) => choice === 'sms')} value={!!choices.find((choice) => choice === 'sms')} onChange={(e) => modifyChoice('sms', e.target.checked)}>SMS</Checkbox>
-                    <Checkbox size={'lg'} isDisabled={disabled} defaultChecked={!!formData.notification_type.find((choice) => choice === 'email')} value={!!choices.find((choice) => choice === 'email')} onChange={(e) => modifyChoice('email', e.target.checked)}>Email</Checkbox>
-                    <Checkbox size={'lg'} isDisabled={disabled} defaultChecked={!!formData.notification_type.find((choice) => choice === 'app')} value={!!choices.find((choice) => choice === 'app')} onChange={(e) => modifyChoice('app', e.target.checked)}>App</Checkbox>
+                    <Checkbox borderColor={'action.80'} size={'lg'} isDisabled={disabled} defaultChecked={!!formData.notification_type.find((choice) => choice === 'sms')} value={!!choices.find((choice) => choice === 'sms')} onChange={(e) => modifyChoice('sms', e.target.checked)}>SMS</Checkbox>
+                    <Checkbox borderColor={'action.80'} size={'lg'} isDisabled={disabled} defaultChecked={!!formData.notification_type.find((choice) => choice === 'email')} value={!!choices.find((choice) => choice === 'email')} onChange={(e) => modifyChoice('email', e.target.checked)}>Email</Checkbox>
+                    <Checkbox  borderColor={'action.80'} size={'lg'} isDisabled={disabled} defaultChecked={!!formData.notification_type.find((choice) => choice === 'app')} value={!!choices.find((choice) => choice === 'app')} onChange={(e) => modifyChoice('app', e.target.checked)}>App</Checkbox>
                 </Box>
                 <Box w={'100%'} as={Flex} justifyContent={'end'}>
-                    <Button isDisabled={disabled} bg={'action.100'} onClick={saveChanges}>Save Changes</Button>
+                    <Button 
+                    isDisabled={disabled} 
+                    bg={'action.80'} 
+                    onClick={saveChanges}>
+                        Save Changes
+                    </Button>
                 </Box>
             </Box>
         </>
