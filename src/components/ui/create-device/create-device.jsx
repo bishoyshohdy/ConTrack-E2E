@@ -103,7 +103,6 @@ const CreateDevice=({
     }
     
 
-
     return (
         <FunctionalModal
           modalTitle={'Create device with user roles'}
@@ -135,9 +134,15 @@ const CreateDevice=({
                 <FormControl isRequired>
                 <FormLabel>User</FormLabel>
                 {/* <StyledSelect id="role" sx={{"&::placeholder": {textAlign: "center",color:'#878B9C'},}}  options={allroles} size={'md'} borderRadius={'10'} onChange={InputHandler}></StyledSelect> */}
-                <Select borderRadius='10'style={{"paddingLeft":"15px"}} variant={'flushed'} backgroundColor={"white"} value={userChosen} onChange={userInputHandler} >
+                <Select 
+                borderRadius='10'
+                style={{backgroundColor: 'black', paddingLeft: '15px' }}
+                variant={'flushed'} backgroundColor={"primary.100"} 
+                value={userChosen} 
+                onChange={userInputHandler} >
                   {allusers.map((Item)=>{
-                    return  <option value={Item.value} label={Item.label}></option>
+                    return  <option   style={{ backgroundColor: 'black'}}
+                    value={Item.value} label={Item.label}></option>
                   })}
                 </Select>
                 <FormErrorMessage></FormErrorMessage>
@@ -147,9 +152,10 @@ const CreateDevice=({
                 <FormControl isRequired>
                 <FormLabel>Role</FormLabel>
                 {/* <StyledSelect id="role" sx={{"&::placeholder": {textAlign: "center",color:'#878B9C'},}}  options={allroles} size={'md'} borderRadius={'10'} onChange={InputHandler}></StyledSelect> */}
-                <Select borderRadius='10'style={{"paddingLeft":"15px"}} variant={'flushed'} backgroundColor={"white"} value={roleChosen} onChange={roleInputHandler} >
+                <Select borderRadius='10'style={{"paddingLeft":"15px"}} variant={'flushed'} backgroundColor={"primary.100"} value={roleChosen} onChange={roleInputHandler} >
                   {allroles.map((Item2)=>{
-                    return  <option value={Item2.value} label={Item2.label}></option>
+                    return  <option  style={{ backgroundColor: 'black'}}  
+                    value={Item2.value} label={Item2.label}></option>
                   })}
                 </Select>
                 <FormErrorMessage></FormErrorMessage>

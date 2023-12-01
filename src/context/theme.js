@@ -35,10 +35,10 @@ const gradientColor2 = 'rgb(119,22,237)';
 
 const cardColor = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
 
-const gradientColor1_lo = 'rgb(155,41,231, 0.5)';
-const gradientColor2_lo = 'rgb(119,22,237, 0.5)';
+const gradientColor1_lo = 'rgb(155,41,231, 0.8)';
+const gradientColor2_lo = 'rgb(119,22,237, 0.8)';
 
-const cardColor2 = `linear-gradient(90deg, ${gradientColor1_lo} 0%, ${gradientColor2_lo} 100%)`;
+const purpleGrad = `linear-gradient(90deg, ${gradientColor1_lo} 0%, ${gradientColor2_lo} 100%)`;
 
 const tablecellGray = '#2D3748';
 const tablecelllight = '#f0f0f0';
@@ -56,7 +56,10 @@ const purple2 = "#9b29e7cc";
 
 const purpleGradient = `linear-gradient(90deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
 
+const blueGrad1 = 'rgb(34,156,226)';
+const blueGrad2 = 'rgb(0,86,145)';
 
+const blueGrad =  `linear-gradient(170deg, ${blueGrad1} 46%, ${blueGrad2} 100%)`;
 
 const darkModeColors = {
     primary: {
@@ -113,7 +116,7 @@ const darkModeColors = {
     },
     card: {
         100: LIQUORICE  ,
-        80:cardColor2,
+        80: purpleGrad,
         60: LIQUORICE,
         50: periwinklecrayola2
         
@@ -186,8 +189,10 @@ const lightModeColors = {
     },
     card: {
         100: bosch_light_grey,
+        80: blueGrad,
         60: periwinklecrayola3,
         50: cardColor
+
     },
     company: {
         logo: periwinklecrayola2

@@ -35,6 +35,7 @@ function FunctionalModal({
   isOpen = null,
   onOpen = null,
   onClose = null,
+  roundness = '10',
 
   //  when you want to use icon and text in the button
   IconAndText = false,
@@ -68,7 +69,7 @@ function FunctionalModal({
           <IconButton
             onClick={onOpen}
             size={btnSize}
-            rounded={10}
+            rounded={roundness}
             bg={btnColor}
             _hover={{ opacity: 0.8 }}
             icon={
@@ -85,6 +86,7 @@ function FunctionalModal({
           bg={btnColor}
           minH={btnMinH}
           onClick={onOpen}
+          p={5}
           leftIcon={
             iconBtn ? (
               <Icon boxSize={iconSize} as={iconBtn} color={"text.primary"} />

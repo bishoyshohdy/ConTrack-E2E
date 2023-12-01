@@ -105,10 +105,22 @@ function DeviceManagement () {
     return (
         <>
             <Tabs colorScheme='action' color={'text.primary'} isFitted variant="soft-rounded">
-                <TabList borderRadius={'20px'} mb="1em" bg={'primary.80'}>
+                <TabList borderRadius={'20px'}  bg={'primary.80'}>
                     {types &&
                         types.map((type) => {
-                            return <Tab key={type} color={'text.primary'}>{capatalizeName(type) + 's'}</Tab>;
+                            return <Tab 
+                            key={type} 
+                            color={'text.primary'}
+                            _selected={{ 
+                                color: "text.primary",
+                                bg: "primary.80",
+                              border : '3px solid',
+                              borderColor: 'action.80',
+                              boxShadow: '0px 0px 10px 0px #aaaa',
+                                }}
+                            _hover={{ bg: "action.80" }}
+
+                            >{capatalizeName(type) + 's'}</Tab>;
                         })}
                 </TabList>
                 <TabPanels color={'text.primary'}>

@@ -149,17 +149,16 @@ function tagContainer({
               {title}
             </Heading>
           </Box>
-          <Flex justifyContent={'center'} alignItems={'center'}>
-          <Text
+          <Flex gap={3} justifyContent={'center'} alignItems={'center'}>
+              <Flex  gap={1} alignItems={'center'}>
+               <Text
                 fontSize={"lg"}
                 color={"white"}
-                mr={4}
                 whiteSpace={"nowrap"}
-                my={1}
+                 
               >
                 Sort By:
               </Text>
-
               <StyledSelect
                 size={"md"}
                 options={columns.map((col) => ({
@@ -169,32 +168,32 @@ function tagContainer({
                 value={selectedColumn}
                 onchange={(res) => handleColumnSelect(res)}
               />
+              </Flex>
               <Box
                 display={"flex"}
                 alignItems={"center"}
                 justifyContent={"end"}
+                gap={1}
               >
-            <Input
-              size="md"
-              color= {'text.primary'}
-              fontFamily= "DM Sans"
-              borderRadius={"10px"}
-              placeholder="Search"
-              bg={'primary.100'}
-              mr={4}
-              width={"70%"}
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            />
-            <IconButton
-              aria-label="Search"
-              icon={<SearchIcon />}
-              mr={4}
-              borderRadius={"10px"}
-              bg={"action.80"}
-              onClick={() => handleSearch()}
-            />
+                <Input
+                  size="md"
+                  color= {'text.primary'}
+                  fontFamily= "DM Sans"
+                  borderRadius={"10px"}
+                  placeholder="Search"
+                  bg={'primary.100'}
+                  width={"70%"}
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                />
+                <IconButton
+                  aria-label="Search"
+                  icon={<SearchIcon />}
+                  borderRadius={"10px"}
+                  bg={"action.80"}
+                  onClick={() => handleSearch()}
+                />
             
             </Box>
 

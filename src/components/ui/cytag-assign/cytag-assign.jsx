@@ -30,8 +30,10 @@ function CytagAssign ({ cycollectorId, assignAction }) {
             <FunctionalModal
                 modalTitle={'Assign Cytags'}
                 iconBtn={BsPlusCircle }
-                btnColor={'card.100'}
+                btnColor={'card.80'}
                 btnMinH={'20px'}
+                btnSize='md'
+                roundness='full'
                 modalMinH={'500px'}
                 btnAction={
                     <Button

@@ -25,7 +25,7 @@ function CytagChip ({ cycollectorId, assignAction, unAssignAction }) {
                                     key={cytag.id}
                                     borderRadius="full"
                                     variant="solid"
-                                    bg="card.100"
+                                    bg="card.80"
                                     gap={1}
                                     minW={'fit-content'}
                                     p={2}
