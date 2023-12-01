@@ -32,14 +32,14 @@ function CytagChip ({ cycollectorId, assignAction, unAssignAction }) {
                                 >
                                     <TagLabel>{cytag.name}</TagLabel>
                                     <FunctionalModal
-                                        btnSize={'xs'}
+                                        btnSize={'sm'}
                                         iconBtn={CloseIcon}
-                                        btnColor={'transparent'}
+                                        btnColor={'action.80'}
                                         modalTitle={'Unassign Cytag'}
                                         modalMinH={'500px'}
                                         btnAction={
                                             <Button
-                                                bg={'danger.100'}
+                                                bg={'red'}
                                                 color={'text.primary'}
                                                 onClick={() => {
                                                     unAssignAction(cytag.id, cycollectorId).then(
