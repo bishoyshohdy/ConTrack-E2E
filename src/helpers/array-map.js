@@ -202,7 +202,17 @@ export function switchMainHeader(key, props) {
       case "message_time":
         return String(formatDate(props.value));
       default:
-        return String(props.value);
+        // capitalize first letter of each word
+        try {
+          const val = String(props.value)
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")
+            .replaceAll("_", " ");
+          return val;
+        } catch (error) {
+          return String(props.value);
+        }
     }
   }
 }
@@ -346,7 +356,12 @@ export function switchAlarmsTableFields(field, props) {
     case "updated_time":
       return String(formatDate(props.value));
     default:
-      return String(props.value);
+      const val = String(props.value)
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+        .replaceAll("_", " ");
+      return val;
   }
 }
 

@@ -72,14 +72,21 @@ function RoutesPage() {
       <Box
         p={2}
         className={"grid"}
-        h={"600px"}
+        minH={"calc(100vh - 120px)"}
         bg={"primary.80"}
         borderRadius={"25px"}
         m={4}
         boxShadow={"lg"}
       >
-        <Box className={"grid-item"} p={2}>
+        <Box
+          className={"grid-item"}
+          p={2}
+          borderRadius={"25px"}
+          w={"100%"}
+          mb={4}
+        >
           <ComplexTable
+            minH={"calc(100vh - 320px)"}
             title={"Routes"}
             extractFn={extractRouteHeaders}
             data={routes.map((geo) => {
@@ -119,6 +126,7 @@ function RoutesPage() {
                     onClick={createRouteAction}
                     bg={"action.80"}
                     color={"white"}
+                    _hover={{ bg: "action.60" }}
                   >
                     Create Route
                   </Button>
@@ -138,6 +146,7 @@ function RoutesPage() {
                   >
                     <Input
                       placeholder="Route Name"
+                      border={"1px solid #aaaa"}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -147,6 +156,7 @@ function RoutesPage() {
             )}
           </ComplexTable>
         </Box>
+
         <Box
           className={"grid-item"}
           w={"100%"}

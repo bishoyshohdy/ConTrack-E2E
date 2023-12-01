@@ -219,7 +219,7 @@ function CardTable({
                 w={"100%"}
                 border="2px"
                 borderColor="grey"
-                borderRadius="10px"
+                borderRadius="25px"
                 p={3}
                 m={"2"}
               >
@@ -241,9 +241,9 @@ function CardTable({
       ) : (
         <Box
           backgroundColor={"primary.80"}
-          borderRadius={"5px"}
+          borderRadius={"25px"}
           w={"100%"}
-          p={2}
+          p={{ base: 0, sm: 2 }}
           minH={columns.length !== 0 ? "555px" : minHEmpty}
           minW={minW}
           boxShadow={
@@ -251,12 +251,19 @@ function CardTable({
           }
         >
           <Flex
-            p={"1%"}
-            justifyContent={"space-between"}
+            p={{ base: 0, sm: 2 }}
+            justifyContent={{ base: "center", sm: "space-between" }}
             gap={2}
             alignItems={"center"}
+            flexDirection={["column", "column", "row"]}
           >
-            <Box w={children ? "30%" : "70%"} gap={2} as={Flex} px={4}>
+            <Box
+              w={children ? "30%" : "70%"}
+              gap={2}
+              as={Flex}
+              px={{ base: 0, md: 4 }}
+              mt={{ base: 5, sm: 0 }}
+            >
               {icon}
               <Heading
                 w={"100%"}
@@ -268,32 +275,42 @@ function CardTable({
               </Heading>
             </Box>
 
-            <Flex justifyContent={"center"} alignItems={"center"}>
-              <Text
-                fontSize={"lg"}
-                color={"white"}
-                mr={4}
-                whiteSpace={"nowrap"}
-                my={1}
-              >
-                Sort By:
-              </Text>
+            <Flex
+              justifyContent={"center"}
+              alignItems={"center"}
+              flexDirection={["column", "column", "row"]}
+            >
+              <Flex my={3}>
+                <Text
+                  fontSize={"lg"}
+                  color={"text.primary"}
+                  mr={{ base: 0, md: 4 }}
+                  whiteSpace={"nowrap"}
+                  my={1}
+                  mx={3}
+                >
+                  Sort By:
+                </Text>
 
-              <StyledSelect
-                size={"md"}
-                options={columns.map((col) => ({
-                  value: col.accessor,
-                  label: col.Header,
-                }))}
-                value={selectedColumn}
-                onchange={(res) => handleColumnSelect(res)}
-              />
+                <Box>
+                  <StyledSelect
+                    size={"md"}
+                    options={columns.map((col) => ({
+                      value: col.accessor,
+                      label: col.Header,
+                    }))}
+                    value={selectedColumn}
+                    onchange={(res) => handleColumnSelect(res)}
+                  />
+                </Box>
+              </Flex>
 
               {/* Search Bar */}
               <Box
                 display={"flex"}
                 alignItems={"center"}
-                justifyContent={"end"}
+                justifyContent={{ base: "center", sm: "end" }}
+                my={2}
               >
                 <Input
                   size="md"
@@ -315,7 +332,7 @@ function CardTable({
                   borderRadius={"full"}
                   bg={"white"}
                   boxShadow={"0px 0px 7px 0px #8c8c8c"}
-                  mr={4}
+                  mr={{ base: 0, sm: 4 }}
                 >
                   <IconButton
                     size={"sm"}
@@ -331,9 +348,18 @@ function CardTable({
 
               {CreateDevice}
               {children ? (
-                <Box me={10} my={1}>
+                <Flex me={{ base: 0, sm: 10 }} my={1}>
+                  <Text
+                    fontSize={"lg"}
+                    color={"text.primary"}
+                    my={1}
+                    mx={3}
+                    display={{ base: "block", sm: "none" }}
+                  >
+                    Export to Excel:
+                  </Text>
                   {children}
-                </Box>
+                </Flex>
               ) : null}
             </Flex>
           </Flex>
@@ -352,7 +378,10 @@ function CardTable({
                       <SimpleGrid
                         id="cardTable"
                         spacing={4}
-                        templateColumns="repeat(auto-fill, minmax( 260px, auto ))"
+                        templateColumns={{
+                          base: "repeat(auto-fill, minmax( 220px, auto ))",
+                          lg: "repeat(auto-fill, minmax( 350px, auto ))",
+                        }}
                         m={10}
                       >
                         {page.map((lock, rindex) => (
@@ -371,6 +400,7 @@ function CardTable({
                               redirectToDevice ? redirectToDevice(lock) : null
                             }
                             key={rindex}
+                            borderRadius={"25px"}
                           >
                             <CardHeader pb={"10px"}>
                               <Flex alignItems={"center"}>
@@ -455,8 +485,7 @@ function CardTable({
                               pr={"0px"}
                               pt={"10px"}
                             >
-                              <Text align={"start"}>
-                                {" "}
+                              <Text align={"start"} width={"200px"}>
                                 Attached To: {lock.attached_to}
                               </Text>
                               <Spacer />
@@ -470,7 +499,7 @@ function CardTable({
                                 width={"60%"}
                                 p={0}
                                 m={0}
-                                borderRadius={"0px 0px 4px 0px"}
+                                borderRadius={"0px 0px 25px 0px"}
                                 overflowY={"hidden"}
                               />
                             </CardFooter>

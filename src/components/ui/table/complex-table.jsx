@@ -59,7 +59,7 @@ import NoDataVectorDark from "../../../assets/images/resources/No-data-vector-da
 
 function ComplexTable({
   reverse = false,
-  minHEmpty = "150px",
+  minH = "550px",
   flatten = false,
   extractFn = extractHeaders,
   data,
@@ -202,7 +202,7 @@ function ComplexTable({
           borderRadius={"5px"}
           w={"100%"}
           p={2}
-          minH={columns.length !== 0 ? "555px" : minHEmpty}
+          minH={minH}
           minW={minW}
         >
           <Flex
@@ -234,7 +234,8 @@ function ComplexTable({
           </Flex>
           {columns.length !== 0 ? (
             <>
-              <Box overflowY={"scroll"} overflowX={"scroll"} h={"430px"}>
+              {console.log("minH", minH)}
+              <Box overflowY={"scroll"} overflowX={"scroll"} minH={minH}>
                 <Table
                   h={"100%"}
                   color={"secondary.100"}

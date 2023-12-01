@@ -16,6 +16,7 @@ import {
   IconButton,
   useDisclosure,
   Box,
+  Circle,
 } from "@chakra-ui/react";
 import FunctionalModalV2 from "../../../ui/functional-modal-v2/functional-modal-v2";
 import { DevicesContext } from "../../../../context/devices";
@@ -86,13 +87,22 @@ function EditAlarmSetting({ alarm, callback, alarmTypes }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Center>
-      <IconButton
-        onClick={onOpen}
-        size={"sm"}
-        rounded={"full"}
-        bg={"yellow.400"}
-        icon={<Icon boxSize={"20px"} as={BiPencil} color={"text.primary"} />}
-      />
+      <Circle
+        w={"40px"}
+        h={"40px"}
+        bg={"white"}
+        boxShadow={"0px 0px 10px 0px rgba(0,0,0,0.5)"}
+      >
+        <IconButton
+          w={"30px"}
+          h={"30px"}
+          onClick={onOpen}
+          size={"sm"}
+          rounded={"full"}
+          bg={"yellow.400"}
+          icon={<Icon boxSize={"20px"} as={BiPencil} color={"white"} />}
+        />
+      </Circle>
       <FunctionalModalV2
         closeBtn={
           <Button

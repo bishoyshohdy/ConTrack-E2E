@@ -194,9 +194,16 @@ function AlarmsSettings() {
 
   return (
     <>
-      <Box mt={2} mb={2} as={Flex} justifyContent={"end"}>
+      <Box mt={2} mb={2} mx={4} as={Flex} justifyContent={"start"}>
         {hasPermission(PERMISSIONS.CREATE_ALARMS_SETTINGS) && (
-          <Button color={"text.primary"} bg={"action.100"} onClick={onOpen}>
+          <Button
+            color={"white"}
+            bg={"action.80"}
+            _hover={{ bg: "action.60" }}
+            onClick={onOpen}
+            borderRadius={"25px"}
+            my={2}
+          >
             Create Alarm Configurations
           </Button>
         )}
@@ -206,6 +213,7 @@ function AlarmsSettings() {
             <Button
               color={"text.primary"}
               bg={"danger.100"}
+              _hover={{ opacity: 0.8 }}
               mr={3}
               onClick={onClose}
             >
@@ -250,11 +258,19 @@ function AlarmsSettings() {
           />
         </FunctionalModalV2>
       </Box>
+
       {alarmTypes &&
         alarmTypes.map((type, index) => {
           return (
             type.name !== NO_TYPE_SELECTED && (
-              <Box key={index} mb={2}>
+              <Box
+                key={index}
+                mx={4}
+                mb={4}
+                borderRadius={"25px"}
+                p={4}
+                bg={"primary.80"}
+              >
                 <ComplexTable
                   data={alarmSetting.filter((sett) => sett.name === type.name)}
                   extractFn={extractAlarmHeaders}

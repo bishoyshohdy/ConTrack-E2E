@@ -210,7 +210,7 @@ function RoutesMap({
             p={4}
             borderRadius="lg"
             m={4}
-            bgColor="primary.100"
+            bgColor="primary.80"
             shadow="base"
             minW="100%"
           >
@@ -220,6 +220,7 @@ function RoutesMap({
                   <Input
                     type="text"
                     color={"text.primary"}
+                    border={"1px solid #aaaa"}
                     placeholder="Origin"
                     ref={originRef}
                   />
@@ -229,6 +230,7 @@ function RoutesMap({
                 <Autocomplete>
                   <Input
                     color={"text.primary"}
+                    border={"1px solid #aaaa"}
                     type="text"
                     placeholder="Destination"
                     ref={destiantionRef}
@@ -237,11 +239,19 @@ function RoutesMap({
               </Box>
               <Box flexGrow={1}>{children}</Box>
               <ButtonGroup>
-                <Button bg="action.100" type="submit" onClick={calculateRoute}>
+                <Button
+                  bg="action.80"
+                  color={"white"}
+                  _hover={{ bg: "action.60" }}
+                  type="submit"
+                  onClick={calculateRoute}
+                >
                   Calculate Route
                 </Button>
                 <IconButton
-                  bg={"action.100"}
+                  bg={"danger.100"}
+                  color={"white"}
+                  _hover={{ opacity: 0.8 }}
                   aria-label="center back"
                   icon={<FaTimes color={"text.primary"} />}
                   onClick={clearRoute}
@@ -252,7 +262,9 @@ function RoutesMap({
               <Text color={"text.primary"}>Distance: {distance} </Text>
               <Text color={"text.primary"}>Duration: {duration} </Text>
               <IconButton
-                bg={"action.100"}
+                bg={"action.80"}
+                _hover={{ bg: "action.60" }}
+                color={"white"}
                 aria-label="center back"
                 icon={<FaLocationArrow color={"text.primary"} />}
                 isRound

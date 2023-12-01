@@ -182,7 +182,7 @@ function tagContainer({
     <>
       <Box
         backgroundColor={"primary.80"}
-        borderRadius={"5px"}
+        borderRadius={"25px"}
         w={"100%"}
         p={2}
         minW={minW}
@@ -191,12 +191,12 @@ function tagContainer({
         }
       >
         <Flex
-          p={"1%"}
-          justifyContent={"space-between"}
-          gap={2}
+          p={{ base: 0, sm: 2 }}
+          justifyContent={{ base: "center", sm: "space-between" }}
           alignItems={"center"}
+          flexDirection={["column", "column", "row"]}
         >
-          <Box w={children ? "30%" : "70%"} gap={2} as={Flex} px={4}>
+          <Flex gap={2} px={{ base: 0, md: 4 }} mt={{ base: 5, sm: 0 }}>
             {icon}
             <Heading
               w={"100%"}
@@ -206,27 +206,44 @@ function tagContainer({
             >
               {title}
             </Heading>
-          </Box>
-          <Flex gap={3} justifyContent={"center"} alignItems={"center"}>
-            <Flex gap={1} alignItems={"center"}>
-              <Text fontSize={"lg"} color={"white"} whiteSpace={"nowrap"}>
+          </Flex>
+
+          <Flex
+            justifyContent={"center"}
+            alignItems={"center"}
+            flexDirection={["column", "column", "row"]}
+          >
+            <Flex my={3}>
+              <Text
+                fontSize={"lg"}
+                color={"text.primary"}
+                mr={{ base: 0, md: 4 }}
+                whiteSpace={"nowrap"}
+                my={1}
+                mx={3}
+              >
                 Sort By:
               </Text>
-              <StyledSelect
-                size={"md"}
-                options={columns.map((col) => ({
-                  value: col.accessor,
-                  label: col.Header,
-                }))}
-                value={selectedColumn}
-                onchange={(res) => handleColumnSelect(res)}
-              />
+
+              <Box>
+                <StyledSelect
+                  size={"md"}
+                  options={columns.map((col) => ({
+                    value: col.accessor,
+                    label: col.Header,
+                  }))}
+                  value={selectedColumn}
+                  onchange={(res) => handleColumnSelect(res)}
+                />
+              </Box>
             </Flex>
+
+            {/* Search Bar */}
             <Box
               display={"flex"}
               alignItems={"center"}
-              justifyContent={"end"}
-              gap={1}
+              justifyContent={{ base: "center", sm: "end" }}
+              my={2}
             >
               <Input
                 size="md"
@@ -235,31 +252,47 @@ function tagContainer({
                 borderRadius={"10px"}
                 placeholder="Search"
                 bg={"primary.100"}
+                mr={4}
                 width={"70%"}
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               />
-              <IconButton
-                aria-label="Search"
-                icon={<SearchIcon />}
-                borderRadius={"10px"}
-                bg={"action.80"}
-                onClick={() => handleSearch()}
-              />
+
+              <Center
+                w={"40px"}
+                h={"40px"}
+                borderRadius={"full"}
+                bg={"white"}
+                boxShadow={"0px 0px 7px 0px #8c8c8c"}
+                mr={{ base: 0, sm: 4 }}
+              >
+                <IconButton
+                  size={"sm"}
+                  aria-label="Search"
+                  icon={<SearchIcon color={"white"} />}
+                  _hover={{ opacity: 0.8 }}
+                  rounded={"full"}
+                  bg={"action.80"}
+                  onClick={() => handleSearch()}
+                />
+              </Center>
             </Box>
 
             {CreateDevice}
             {children ? (
-              <Box
-                as={Flex}
-                flexWrap={"wrap"}
-                justifyContent={"end"}
-                me={10}
-                my={1}
-              >
+              <Flex me={{ base: 0, sm: 10 }} my={1}>
+                <Text
+                  fontSize={"lg"}
+                  color={"text.primary"}
+                  my={1}
+                  mx={3}
+                  display={{ base: "block", sm: "none" }}
+                >
+                  Export to PDF/Excel:
+                </Text>
                 {children}
-              </Box>
+              </Flex>
             ) : null}
           </Flex>
         </Flex>

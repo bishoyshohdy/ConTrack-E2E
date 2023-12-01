@@ -208,6 +208,25 @@ function AlarmTable({
     onClose();
   };
 
+  let Type;
+
+  function transformGeofenceString(inputString) {
+    const [, geofenceName, geofenceType, lat, lng] =
+      inputString.match(
+        /geofence_name:(.*?)geofence_type:(.*?)lat:([-0-9.]+)lng:([-0-9.]+)/
+      ) || [];
+
+    if (geofenceName && geofenceType && lat && lng) {
+      const insideOrOutside =
+        geofenceType === "ASSERT_IN" ? "Outside" : "Inside";
+      return `${geofenceName} ${insideOrOutside} (${parseFloat(lat).toFixed(
+        5
+      )}, ${parseFloat(lng).toFixed(5)})`;
+    } else {
+      return "Invalid input string";
+    }
+  }
+
   return (
     <Box mb={5}>
       {isLoading || LoadingElapsed ? (
@@ -219,7 +238,7 @@ function AlarmTable({
                 w={"100%"}
                 border="2px"
                 borderColor="grey"
-                borderRadius="10px"
+                borderRadius="25px"
                 p={3}
                 m={"2"}
               >
@@ -242,7 +261,7 @@ function AlarmTable({
         // END OF LOADING
         <Box
           backgroundColor={"primary.80"}
-          borderRadius={"5px"}
+          borderRadius={"25px"}
           w={"100%"}
           p={2}
           minH={columns.length !== 0 ? "600px" : minHEmpty}
@@ -252,17 +271,15 @@ function AlarmTable({
           }
         >
           <Flex
-            p={"1%"}
-            justifyContent={"space-between"}
+            p={{ base: 0, sm: 2 }}
+            justifyContent={{ base: "center", md: "space-between" }}
             gap={2}
             alignItems={"center"}
+            mt={2}
+            mb={4}
+            mx={4}
           >
-            <Box
-              w={children ? "30%" : "70%"}
-              gap={2}
-              as={Flex}
-              alignItems={"center"}
-            >
+            <Box gap={2} as={Flex} alignItems={"center"}>
               {icon}
               <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
                 {title}
@@ -270,10 +287,16 @@ function AlarmTable({
             </Box>
             {CreateDevice}
             {children ? (
-              <Box as={Flex} flexWrap={"wrap"} justifyContent={"end"} w={"50%"}>
+              <Box
+                as={Flex}
+                flexWrap={"wrap"}
+                justifyContent={"end"}
+                w={"100%"}
+              >
                 {children}
               </Box>
             ) : null}
+
             {columns.length !== 0 && (
               <GlobalFilter
                 preGlobalFilteredRows={preGlobalFilteredRows}
@@ -283,13 +306,14 @@ function AlarmTable({
               />
             )}
           </Flex>
+
           {columns.length !== 0 ? (
             <>
-              <Box mb={5}>
+              <Box mb={5} mx={4}>
                 {/* Card Grid */}
                 <SimpleGrid
-                  spacing={4}
-                  templateColumns="repeat(auto-fill, minmax( 260px, 24% ))"
+                  spacing={5}
+                  templateColumns="repeat(auto-fill, minmax( 350px, auto ))"
                   {...getTableBodyProps()}
                 >
                   {page.map((row, index) => {
@@ -339,12 +363,54 @@ function AlarmTable({
                       }
                     });
 
+                    const batteryMatch = details
+                      ? details.match(/Battery : (\d+\.\d+)/)
+                      : null;
+                    const resolveValueMatch = details
+                      ? details.match(/resolve_value : (\d+\.\d+)/)
+                      : null;
+
+                    const variablePattern =
+                      /(\w+) : (\d+\.\d+)resolve_value : (\d+)/;
+                    const variableMatch = details
+                      ? details.match(variablePattern)
+                      : null;
+
+                    const batteryValue = batteryMatch ? batteryMatch[1] : "N/A";
+                    const resolveValue = resolveValueMatch
+                      ? resolveValueMatch[1]
+                      : "N/A";
+
+                    let resultText;
+
+                    if (resolveValue !== "N/A") {
+                      resultText = `CyLock Battery: ${batteryValue} Resolve value: ${resolveValue}`;
+                    } else if (variableMatch !== null) {
+                      const variableTerm = variableMatch[1];
+                      const variableValue = variableMatch[2];
+                      const variableResolveValue = variableMatch[3];
+                      resultText = `${variableTerm}: ${variableValue} Resolve value: ${variableResolveValue}`;
+                    } else {
+                      resultText = null;
+                    }
+
+                    const timestamp = new Date(updatedTime);
+                    const time = timestamp.toLocaleTimeString();
+                    const date = timestamp.toLocaleDateString();
+                    const FormattedUpdatedTime = date + " " + time;
+
                     let alarmColor = mapThreatToColor(severity);
+
+                    severity =
+                      severity.charAt(0).toUpperCase() + severity.slice(1);
+
+                    type = type.charAt(0).toUpperCase() + type.slice(1);
 
                     return (
                       <Card
                         bg={"primary.80"}
                         color="secondary.100"
+                        borderRadius={"25px"}
                         width={"100%"}
                         border={"2px solid "}
                         borderColor={alarmColor}
@@ -420,7 +486,6 @@ function AlarmTable({
 
                           <CardBody mb={0}>
                             <Text as={"abbr"}>
-                              {" "}
                               Entity: {entity} <br />
                               {min !== "-" ||
                               (max !== "-" &&
@@ -436,20 +501,18 @@ function AlarmTable({
                               (max !== "-" &&
                                 type !== "CyTag Battery : Battery") ? (
                                 <Text as={"abbr"}>
-                                  Normal Range:{min},{max}
+                                  Normal Range: Min: {min}, Max: {max}
                                   <br />
                                 </Text>
-                              ) : (
-                                <Text></Text>
-                              )}
-                              {details}
+                              ) : null}
+                              {resultText}
                             </Text>
                           </CardBody>
 
                           <CardFooter as={"Flex"} p={"5%"}>
                             <Flex alignItems={"right"} w={"100%"}>
                               <Text as={"abbr"}>
-                                Updated Time:{updatedTime}
+                                Updated Time: {FormattedUpdatedTime}
                               </Text>
                               <Spacer />
                               <Box

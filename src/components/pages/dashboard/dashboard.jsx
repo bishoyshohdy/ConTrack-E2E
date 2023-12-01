@@ -525,25 +525,27 @@ function Dashboard() {
             </TabList>
           </Center>
 
-          {/*  */}
+          {/* Map */}
           <Box
             w={"100%"}
+            h={"100%"}
+            borderRadius={"25px"}
             mb={2}
             mt={5}
-            boxShadow={
-              themeCtx.darkMode
-                ? "0px 0px 10px 0px #111"
-                : "0px 0px 1px 0px #aaaa"
-            }
+            p={2}
+            bg={"primary.80"}
           >
             <GeneralAccordion
               title={
                 <Box
                   p={"1%"}
+                  borderRadius={"25px"}
                   w={"100%"}
+                  h={"90%"}
                   gap={1}
                   as={Flex}
                   alignItems={"center"}
+                  bg={"primary.80"}
                 >
                   <Icon
                     as={FaMapMarkedAlt}
@@ -556,18 +558,8 @@ function Dashboard() {
                   </Heading>
                 </Box>
               }
-            >
-              <Box
-                backgroundColor={"primary.80"}
-                w={"100%"}
-                minH={"480px"}
-                h={"100%"}
-                mt={1}
-                borderRadius={"5px"}
-              >
-                <Map minH={"450px"} trips={false} markers={markers} />
-              </Box>
-            </GeneralAccordion>
+              children={<Map minH={"450px"} trips={false} markers={markers} />}
+            ></GeneralAccordion>
           </Box>
 
           {/* ALARMS */}

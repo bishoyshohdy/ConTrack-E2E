@@ -19,7 +19,7 @@ import { MdReplay } from "react-icons/md";
 import StyledSelect from "../styled-select/styled-select";
 import Polygon from "./polygon/polygon";
 import { DevicesContext } from "../../../context/devices";
-import {ThemeContext} from "../../../context/theme";
+import { ThemeContext } from "../../../context/theme";
 
 function Map({
   minH = "90vh",
@@ -267,7 +267,6 @@ function Map({
         >
           {draw && (
             <DrawingManagerF
-              // drawingMode={"polygon"}
               onPolygonComplete={(e) => drawingComplete(e)}
               options={{
                 polygonOptions: {
@@ -277,7 +276,11 @@ function Map({
                 },
                 drawingControlOptions: {
                   position: google.maps.ControlPosition.TOP_CENTER,
-                  drawingModes: [google.maps.drawing.OverlayType.POLYLINE, google.maps.drawing.OverlayType.RECTANGLE, google.maps.drawing.OverlayType.POLYGON,],
+                  drawingModes: [
+                    google.maps.drawing.OverlayType.POLYLINE,
+                    google.maps.drawing.OverlayType.RECTANGLE,
+                    google.maps.drawing.OverlayType.POLYGON,
+                  ],
                 },
               }}
             />
