@@ -38,6 +38,7 @@ function FunctionalModal({
   isOpen = null,
   onOpen = null,
   onClose = null,
+  roundness = "10",
 
   //  when you want to use icon and text in the button
   IconAndText = false,
@@ -95,6 +96,7 @@ function FunctionalModal({
           rounded={"20px"}
           minH={btnMinH}
           onClick={onOpen}
+          p={5}
           leftIcon={
             iconBtn ? (
               <Icon boxSize={iconSize} as={iconBtn} color={"text.primary"} />

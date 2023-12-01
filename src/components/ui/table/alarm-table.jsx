@@ -463,12 +463,12 @@ function AlarmTable({
                                 opacity={ack.alarm ? 1 : 0.5}
                                 m={2}
                                 border="2px"
-                                borderColor={"white"}
+                                borderColor={ack.alarm ? alarmColor : "grey"}
                                 boxShadow="xl"
                                 _hover={
                                   ack.alarm
                                     ? {
-                                        backgroundColor: "secondary.80",
+                                        backgroundColor: "primary.80",
                                         cursor: "pointer",
                                       }
                                     : {}
@@ -481,7 +481,7 @@ function AlarmTable({
                               >
                                 <Center>
                                   <CheckIcon
-                                    color={"white"}
+                                    color={"text.primary"}
                                     fontSize={"22px"}
                                     m={2}
                                   />

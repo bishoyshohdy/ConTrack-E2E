@@ -205,7 +205,6 @@ function AccordionTable({
                 <Thead pos={"sticky"} top={"0"} bg={"primary.80"}>
                   {headerGroups.map((headerGroup, index) => (
                     <Tr
-                      bg={"primary.100"}
                       key={index}
                       {...headerGroup.getHeaderGroupProps()}
                     >
@@ -235,12 +234,12 @@ function AccordionTable({
                             key={i}
                             {...column.getSortByToggleProps()}
                           >
-                            <Flex textAlign={"center"}>
+                            <Flex textAlign={"center"} alignItems={'center'}>
                               {column.render("Header")}
                               <IconButton
                                 ml={1}
                                 size={"xs"}
-                                bg={"transparent"}
+                                bg={"primary.100"}
                                 icon={
                                   column.isSorted ? (
                                     column.isSortedDesc ? (
@@ -271,38 +270,36 @@ function AccordionTable({
                     prepareRow(row);
                     return (
                     <>
-
-                    {/* Access Normally */}
-                    {/* name  .cells[0].column.Header*/}
-                    {console.log("test0",row)}
-                    {/* gps */}
-                    {console.log("test1",row.cells[1].value)}
-                    {/* id */}
-                    {console.log("test2",row.cells[2].value)}
-                    {/*  */}
-                    {console.log("test3",row.cells[3].value[0])}
-                    {/*  */}
-                    { row.cells[4].value===null ? console.log("null") : console.log("test4",row.cells[4].value)}  
                     
                     <AccordionItem 
-                            key={index}
-                            rounded={5}
-                            // {...cell.getCellProps()}
-                            {...row.getRowProps()}
-                          >
+                      key={index}
+                      rounded={5}
+                      // {...cell.getCellProps()}
+                      {...row.getRowProps()}
+                    >
 
                     {({ isExpanded }) => (
                           <>
                     <AccordionButton 
-                    rounded={5}
-                      _expanded={{ bg: 'card.100', color: 'white', p:'20px', maxW: '100%'}}
+                      rounded={5}
+                      //remove lower rounded corners
+                      borderTopRadius={isExpanded ? '5px' : '5px'}
+                      borderBottomRadius={isExpanded ? '0px' : '5px'}
+                      _expanded={{ bg: 'card.100', color: 'action.80 ', p:'20px', maxW: '100%'}}
+                      border={isExpanded ? '3px solid' : '0px solid'}
+                      borderBottom={ '0px solid'}
+                      borderColor='action.80'
                      >
 
                       
                       {isExpanded ? (
                         <>
 
-                        <Box  as="span" flex='1' textAlign='left' w={'20px'} className="slide-right-animation ">
+                        <Box  as="span" 
+                        flex='1' 
+                        textAlign='left'
+                         w={'20px'} 
+                         className="slide-right-animation ">
                           {row.cells[0].value}
                         </Box>
                         <MinusIcon fontSize='20px' />
@@ -326,7 +323,11 @@ function AccordionTable({
                         </>
                       )}
                     </AccordionButton>
-                    <AccordionPanel 
+                    <AccordionPanel
+                    border={isExpanded ? '3px solid' : '0px solid'}
+                    borderTop={ '0px solid'}
+                    borderColor='action.80'
+                    borderBottomRadius={ '5px'}
                     p={10}
                     key={index}
                     py={4}>

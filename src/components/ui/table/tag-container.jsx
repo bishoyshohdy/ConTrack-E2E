@@ -207,27 +207,27 @@ function tagContainer({
               {title}
             </Heading>
           </Box>
-          <Flex justifyContent={"center"} alignItems={"center"}>
-            <Text
-              fontSize={"lg"}
-              color={"white"}
-              mr={4}
-              whiteSpace={"nowrap"}
-              my={1}
+          <Flex gap={3} justifyContent={"center"} alignItems={"center"}>
+            <Flex gap={1} alignItems={"center"}>
+              <Text fontSize={"lg"} color={"white"} whiteSpace={"nowrap"}>
+                Sort By:
+              </Text>
+              <StyledSelect
+                size={"md"}
+                options={columns.map((col) => ({
+                  value: col.accessor,
+                  label: col.Header,
+                }))}
+                value={selectedColumn}
+                onchange={(res) => handleColumnSelect(res)}
+              />
+            </Flex>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"end"}
+              gap={1}
             >
-              Sort By:
-            </Text>
-
-            <StyledSelect
-              size={"md"}
-              options={columns.map((col) => ({
-                value: col.accessor,
-                label: col.Header,
-              }))}
-              value={selectedColumn}
-              onchange={(res) => handleColumnSelect(res)}
-            />
-            <Box display={"flex"} alignItems={"center"} justifyContent={"end"}>
               <Input
                 size="md"
                 color={"text.primary"}
@@ -235,31 +235,18 @@ function tagContainer({
                 borderRadius={"10px"}
                 placeholder="Search"
                 bg={"primary.100"}
-                mr={4}
                 width={"70%"}
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               />
-
-              <Center
-                w={"40px"}
-                h={"40px"}
-                borderRadius={"full"}
-                bg={"white"}
-                boxShadow={"0px 0px 7px 0px #8c8c8c"}
-                mr={4}
-              >
-                <IconButton
-                  size={"sm"}
-                  aria-label="Search"
-                  icon={<SearchIcon color={"white"} />}
-                  _hover={{ opacity: 0.8 }}
-                  rounded={"full"}
-                  bg={"action.80"}
-                  onClick={() => handleSearch()}
-                />
-              </Center>
+              <IconButton
+                aria-label="Search"
+                icon={<SearchIcon />}
+                borderRadius={"10px"}
+                bg={"action.80"}
+                onClick={() => handleSearch()}
+              />
             </Box>
 
             {CreateDevice}
