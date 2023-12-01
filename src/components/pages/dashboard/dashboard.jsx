@@ -135,7 +135,17 @@ export function AlarmAction({
 
 function Dashboard() {
   const location = useLocation();
-  const initialActiveTab = location.state ? location.state.activeTab : 1;
+  let initialActiveTab = 1;
+
+  const [TabChange, setTabChange] = useState(false);
+
+  function handleTabClick() {
+    setTabChange(true);
+  }
+
+  useEffect(() => {
+    setTabChange(false);
+  }, [TabChange]);
 
   const deviceCtx = useContext(DevicesContext);
   const themeCtx = useContext(ThemeContext);
@@ -160,7 +170,6 @@ function Dashboard() {
   const [deviceTablePage, setDeviceTablePage] = useState(0);
   const [tagsTablePage, setTagsTablePage] = useState(0);
 
-  const [activeTab, setActiveTab] = useState(0);
   const [isHovered, setIsHovered] = useState(0);
 
   const [isLoadingAlarms, setIsLoadingAlarms] = useState(true);
@@ -402,10 +411,6 @@ function Dashboard() {
     setIsHovered(index);
   }
 
-  function handleTabClick(index) {
-    setActiveTab(index);
-  }
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   function toggleDrawer() {
@@ -414,117 +419,111 @@ function Dashboard() {
 
   return (
     <>
-      <Box position="relative" h="100vh">
+      <Box>
         <Tabs
           isFitted
-          variant="solid-rounded"
-          size="sm"
-          m={5}
+          variant="soft-rounded"
+          m={{ base: 0, md: 5 }}
+          my={{ base: 3, md: 5 }}
           defaultIndex={initialActiveTab}
+          onChange={handleTabClick}
         >
-          <TabList>
-            <Tab
-              mx={2}
-              _selected={{
-                color: "text.primary",
-                bg: "primary.80",
-                border: "3px solid",
-                borderColor: "action.80",
-                boxShadow: "0px 0px 10px 0px #aaaa",
-              }}
-              _hover={{ bg: "action.80" }}
+          <Center>
+            <TabList
+              h={"75px"}
+              minW={"60%"}
+              maxW={"100%"}
+              gap={{ base: 0, md: 15 }}
             >
-              <Box>
-                <Circle
-                  size="80px"
-                  borderRadius={"40%"}
-                  position={"relative"}
-                  top={"25%"}
-                  bg={"transparent"}
-                  margin={"5px"}
-                >
-                  <AlarmIcon
-                    margin={"auto"}
-                    p={"15%"}
-                    color={
-                      themeCtx.theme.colors &&
-                      themeCtx.theme.colors.text.primary
-                    }
-                  />
-                </Circle>
-              </Box>
-              <Text fontSize="4xl"> {alarms && alarms.length} Alarms</Text>
-            </Tab>
+              <Tab
+                mx={2}
+                _selected={{
+                  color: "text.primary",
+                  bg: "primary.80",
+                  border: "3px solid",
+                  borderColor: "action.80",
+                  boxShadow: "0px 0px 10px 0px #aaaa",
+                }}
+                _hover={{ bg: "action.80" }}
+              >
+                <Box>
+                  <Circle size={{ base: "60px", md: "70px" }}>
+                    <AlarmIcon
+                      margin={"auto"}
+                      p={{ base: 0, md: "15%" }}
+                      color={
+                        themeCtx.theme.colors &&
+                        themeCtx.theme.colors.text.primary
+                      }
+                    />
+                  </Circle>
+                </Box>
 
-            <Tab
-              mx={2}
-              _selected={{
-                color: "text.primary",
-                bg: "primary.80",
-                border: "3px solid",
-                borderColor: "action.80",
-                boxShadow: "0px 0px 10px 0px #aaaa",
-              }}
-              _hover={{ bg: "action.80" }}
-            >
-              <Box>
-                <Circle
-                  size="80px"
-                  borderRadius={"40%"}
-                  position={"relative"}
-                  top={"25%"}
-                  bg={"transparent"}
-                  margin={"5px"}
-                >
-                  <CyLockIcon
-                    margin={"auto"}
-                    p={"auto"}
-                    color={
-                      themeCtx.theme.colors &&
-                      themeCtx.theme.colors.text.primary
-                    }
-                  />
-                </Circle>
-              </Box>
-              <Text fontSize="4xl">
-                {" "}
-                {cycollects && cycollects.length} CyLocks
-              </Text>
-            </Tab>
+                <Text fontSize="2xl" display={{ base: "none", md: "block" }}>
+                  {" "}
+                  {alarms && alarms.length} Alarms
+                </Text>
+              </Tab>
 
-            <Tab
-              mx={2}
-              _selected={{
-                color: "text.primary",
-                bg: "primary.80",
-                border: "3px solid",
-                borderColor: "action.80",
-                boxShadow: "0px 0px 10px 0px #aaaa",
-              }}
-              _hover={{ bg: "action.80" }}
-            >
-              <Box>
-                <Circle
-                  size="80px"
-                  borderRadius={"40%"}
-                  position={"relative"}
-                  top={"25%"}
-                  margin={"5px"}
-                  bg={"transparent"}
-                >
-                  <CyTagIcon
-                    margin={"auto"}
-                    p={"15%"}
-                    color={
-                      themeCtx.theme.colors &&
-                      themeCtx.theme.colors.text.primary
-                    }
-                  />
-                </Circle>
-              </Box>
-              <Text fontSize="4xl"> {cytags && cytags.length} Cytags</Text>
-            </Tab>
-          </TabList>
+              <Tab
+                mx={3}
+                _selected={{
+                  color: "text.primary",
+                  bg: "primary.80",
+                  border: "3px solid",
+                  borderColor: "action.80",
+                  boxShadow: "0px 0px 10px 0px #aaaa",
+                }}
+                _hover={{ bg: "action.80" }}
+              >
+                <Box>
+                  <Circle size={{ base: "60px", md: "50px" }}>
+                    <CyLockIcon
+                      margin={"auto"}
+                      p={"auto"}
+                      color={
+                        themeCtx.theme.colors &&
+                        themeCtx.theme.colors.text.primary
+                      }
+                    />
+                  </Circle>
+                </Box>
+                <Text fontSize="2xl" display={{ base: "none", md: "block" }}>
+                  {" "}
+                  {cycollects && cycollects.length} CyLocks
+                </Text>
+              </Tab>
+
+              <Tab
+                mx={2}
+                _selected={{
+                  color: "text.primary",
+                  bg: "primary.80",
+                  border: "3px solid",
+                  borderColor: "action.80",
+                  boxShadow: "0px 0px 10px 0px #aaaa",
+                }}
+                _hover={{ bg: "action.80" }}
+              >
+                <Box>
+                  <Circle size={{ base: "60px", md: "80px" }}>
+                    <CyTagIcon
+                      margin={"auto"}
+                      p={{ base: 0, md: "15%" }}
+                      color={
+                        themeCtx.theme.colors &&
+                        themeCtx.theme.colors.text.primary
+                      }
+                    />
+                  </Circle>
+                </Box>
+                <Text fontSize="2xl" display={{ base: "none", md: "block" }}>
+                  {" "}
+                  {cytags && cytags.length} Cytags
+                </Text>
+              </Tab>
+            </TabList>
+          </Center>
 
           {/*  */}
           <Box
@@ -689,6 +688,9 @@ function Dashboard() {
                           <DrawerCloseButton />
                           <DrawerBody>
                             <TagContainer
+                              // TabChange={
+                              //   location.state ? location.state.activeTab : 1
+                              // }
                               redirectToDevice={redirectToTag}
                               data={selectedCytags}
                               title={"Connected CyTags"}
@@ -720,6 +722,7 @@ function Dashboard() {
                 {cytags.length !== 0 && (
                   <Box mt={1} w={"100%"} ref={refTags}>
                     <TagContainer
+                      TabChange={TabChange}
                       isLoading={deviceCtx.isLoadingCytags}
                       pageNumber={tagsTablePage}
                       setPageNumber={setTagsTablePage}

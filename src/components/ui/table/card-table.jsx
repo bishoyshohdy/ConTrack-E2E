@@ -104,25 +104,54 @@ function CardTable({
   const [locks, setLocks] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(null);
   const [searchText, setSearchText] = useState("");
-  // const [conImage, setConImage] = useState(container_side_dark);
 
-  //print data
+  const [divWidth, setDivWidth] = useState(0);
+  const [cardWidth, setCardWidth] = useState(0);
+
   useEffect(() => {
-    console.log("data", locks);
-  }, [locks]);
+    const updateDivWidth = () => {
+      const cardTableDiv = document.getElementById("cardTable");
+      const cardWidth = document.getElementById("card");
+      if (cardTableDiv && cardWidth) {
+        const newWidth = cardTableDiv.offsetWidth;
+        const newCardWidth = cardWidth.offsetWidth;
+        setDivWidth(newWidth);
+        setCardWidth(newCardWidth);
+      }
+    };
+
+    updateDivWidth();
+
+    window.addEventListener("resize", updateDivWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateDivWidth);
+    };
+  }, [data]);
+
+  const [cardsPerRow, setCardsPerRow] = useState(4);
+  useEffect(() => {
+    if (divWidth) {
+      const cardsPerRow = Math.floor(divWidth / cardWidth);
+
+      // minimum 1 card per row
+      if (cardsPerRow < 1) {
+        setCardsPerRow(1);
+      } else setCardsPerRow(cardsPerRow);
+    }
+  }, [data, divWidth]);
 
   useEffect(() => {
     let tmpLocks = [];
-    //devide data into 8s
 
     for (let i = 0; i < data.length; i++) {
-      if (i % 8 === 0) {
+      if (i % (cardsPerRow * 2) === 0) {
         tmpLocks.push([]);
       }
       tmpLocks[tmpLocks.length - 1].push(data[i]);
     }
     setLocks(tmpLocks);
-  }, [data]);
+  }, [data, divWidth]);
 
   const columns = React.useMemo(
     () =>
@@ -131,16 +160,6 @@ function CardTable({
         : [...extractFn(data, hiddenCols)],
     [data]
   );
-
-  // useEffect(() => {
-  //   if (ThemeContext.theme === "darkmode") {
-  //     setConImage(container_side_dark);
-
-  //   }
-  //   else {
-  //     setConImage(container_side_light);
-  //   }}
-  //   , [ThemeContext.theme]);
 
   const [LoadingElapsed, setLoadingElapsed] = useState(true);
   setTimeout(() => {
@@ -162,7 +181,7 @@ function CardTable({
 
       let tmpLocks = [];
       for (let i = 0; i < sortedData.length; i++) {
-        if (i % 8 === 0) {
+        if (i % (cardsPerRow * 2) === 0) {
           tmpLocks.push([]);
         }
         tmpLocks[tmpLocks.length - 1].push(sortedData[i]);
@@ -172,7 +191,6 @@ function CardTable({
   };
 
   const handleSearch = () => {
-    // Filter data based on the search input
     const filteredData = data.filter((item) => {
       return Object.values(item)
         .join(" ")
@@ -180,10 +198,9 @@ function CardTable({
         .includes(searchText.toLowerCase());
     });
 
-    // Update locks based on the filtered data
     let tmpLocks = [];
     for (let i = 0; i < filteredData.length; i++) {
-      if (i % 8 === 0) {
+      if (i % (cardsPerRow * 2) === 0) {
         tmpLocks.push([]);
       }
       tmpLocks[tmpLocks.length - 1].push(filteredData[i]);
@@ -229,24 +246,29 @@ function CardTable({
           p={2}
           minH={columns.length !== 0 ? "555px" : minHEmpty}
           minW={minW}
-          boxShadow={theme.darkMode ?'0px 0px 10px 0px #111' : '0px 0px 1px 0px #aaaa'}
-
+          boxShadow={
+            theme.darkMode ? "0px 0px 10px 0px #111" : "0px 0px 1px 0px #aaaa"
+          }
         >
           <Flex
-          p={"1%"}
-          justifyContent={"space-between"}
+            p={"1%"}
+            justifyContent={"space-between"}
             gap={2}
             alignItems={"center"}
-
           >
-            <Box w={children ? "30%" : "70%"} gap={2} as={Flex}  px={4} >
+            <Box w={children ? "30%" : "70%"} gap={2} as={Flex} px={4}>
               {icon}
-              <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}   alignSelf={'center'}>
+              <Heading
+                w={"100%"}
+                color={"text.primary"}
+                fontSize={"xl"}
+                alignSelf={"center"}
+              >
                 {title}
               </Heading>
             </Box>
 
-            <Flex justifyContent={'center'} alignItems={'center'}>
+            <Flex justifyContent={"center"} alignItems={"center"}>
               <Text
                 fontSize={"lg"}
                 color={"white"}
@@ -275,11 +297,11 @@ function CardTable({
               >
                 <Input
                   size="md"
-                  color= {'text.primary'}
-                  fontFamily= "DM Sans"
+                  color={"text.primary"}
+                  fontFamily="DM Sans"
                   borderRadius={"10px"}
                   placeholder="Search"
-                  bg={'primary.100'}
+                  bg={"primary.100"}
                   mr={4}
                   width={"70%"}
                   value={searchText}
@@ -287,16 +309,24 @@ function CardTable({
                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 />
 
-                <IconButton
-                  aria-label="Search"
-                  icon={<SearchIcon />}
+                <Center
+                  w={"40px"}
+                  h={"40px"}
+                  borderRadius={"full"}
+                  bg={"white"}
+                  boxShadow={"0px 0px 7px 0px #8c8c8c"}
                   mr={4}
-                  color={"text.primary"}
-                  borderRadius={"10px"}
-                  bg={"action.80"}
-                  _hover={{ bg: "action.80", opacity: 0.8 }}
-                  onClick={() => handleSearch()}
-                />
+                >
+                  <IconButton
+                    size={"sm"}
+                    aria-label="Search"
+                    icon={<SearchIcon color={"white"} />}
+                    _hover={{ opacity: 0.8 }}
+                    rounded={"full"}
+                    bg={"action.80"}
+                    onClick={() => handleSearch()}
+                  />
+                </Center>
               </Box>
 
               {CreateDevice}
@@ -315,17 +345,19 @@ function CardTable({
                   showArrows={true}
                   showStatus={true}
                   showIndicators={true}
-                  swipeable={true}  
+                  swipeable={true}
                 >
                   {locks.map((page, index) => (
                     <Box key={index}>
                       <SimpleGrid
+                        id="cardTable"
                         spacing={4}
                         templateColumns="repeat(auto-fill, minmax( 260px, auto ))"
                         m={10}
                       >
                         {page.map((lock, rindex) => (
                           <Card
+                            id="card"
                             bg={"card.100"}
                             color="secondary.100"
                             width={"100%"}
@@ -346,8 +378,8 @@ function CardTable({
                                   {lock.name}
                                 </Heading>
                                 <Spacer />
-                                {lock.lock_status==='true' ? (
-                                    <div
+                                {lock.lock_status === "true" ? (
+                                  <div
                                     style={{
                                       color: "green",
                                       marginLeft: "auto",
@@ -360,24 +392,23 @@ function CardTable({
                                     <Text fontSize="lg" ml={"3px"}>
                                       {" "}
                                       Locked
-                                    </Text> 
+                                    </Text>
                                   </div>
                                 ) : (
                                   <div
-                                  style={{
-                                    color: "red",
-                                    marginLeft: "auto",
-                                    display: "flex",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <FiUnlock />
-                                  <Text fontSize="lg" ml={"3px"}>
-                                    {" "}
-                                    Unlocked
-                                  </Text>
-                                </div>
-
+                                    style={{
+                                      color: "red",
+                                      marginLeft: "auto",
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <FiUnlock />
+                                    <Text fontSize="lg" ml={"3px"}>
+                                      {" "}
+                                      Unlocked
+                                    </Text>
+                                  </div>
                                 )}
                               </Flex>
                               <hr style={{ width: "60%", color: "blue" }} />
@@ -411,7 +442,7 @@ function CardTable({
                                   _hover={{
                                     textDecoration: "underline",
                                   }}
-                                  color={'action.80'}
+                                  color={"action.80"}
                                 >
                                   {" "}
                                   Connected Cytags
@@ -430,7 +461,11 @@ function CardTable({
                               </Text>
                               <Spacer />
                               <Image
-                                src={theme.darkMode ? container_side_dark : container_side_light}
+                                src={
+                                  theme.darkMode
+                                    ? container_side_dark
+                                    : container_side_light
+                                }
                                 alt="Container"
                                 width={"60%"}
                                 p={0}

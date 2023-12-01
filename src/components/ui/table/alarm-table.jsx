@@ -208,29 +208,6 @@ function AlarmTable({
     onClose();
   };
 
-  const [selectedColumn, setSelectedColumn] = useState(columns[0]);
-
-  // const ColumnDropdown = ({ columns, onColumnSelect }) => {
-  //   const handleColumnChange = (selected) => {
-  //     setSelectedColumn(selected);
-  //     onColumnSelect(selected);
-  //   };
-
-  //   return (
-  //     <select
-  //       value={selectedColumn}
-  //       onChange={(e) => handleColumnChange(e.target.value)}
-  //     >
-  //       choose
-  //       {columns.map((column) => (
-  //         <option key={column.id} value={column.id}>
-  //           {column.Header}
-  //         </option>
-  //       ))}
-  //     </select>
-  //   );
-  // };
-
   return (
     <Box mb={5}>
       {isLoading || LoadingElapsed ? (
@@ -270,7 +247,9 @@ function AlarmTable({
           p={2}
           minH={columns.length !== 0 ? "600px" : minHEmpty}
           minW={minW}
-          boxShadow={theme.darkMode ?'0px 0px 10px 0px #111' : '0px 0px 1px 0px #aaaa'}
+          boxShadow={
+            theme.darkMode ? "0px 0px 10px 0px #111" : "0px 0px 1px 0px #aaaa"
+          }
         >
           <Flex
             p={"1%"}
@@ -278,7 +257,12 @@ function AlarmTable({
             gap={2}
             alignItems={"center"}
           >
-            <Box w={children ? "30%" : "70%"} gap={2} as={Flex} alignItems={'center'}>
+            <Box
+              w={children ? "30%" : "70%"}
+              gap={2}
+              as={Flex}
+              alignItems={"center"}
+            >
               {icon}
               <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}>
                 {title}
@@ -302,82 +286,6 @@ function AlarmTable({
           {columns.length !== 0 ? (
             <>
               <Box mb={5}>
-                {/* <Table
-                mb={'10px'}
-                color={"secondary.100"}
-                {...getTableProps()}
-                variant={"unstyled"}
-              >
-                <Thead pos={"sticky"} top={"0"} bg={"primary.80"}>
-                  {headerGroups.map((headerGroup, index) => (
-                    <Tr
-                      bg={"primary.100"}
-                      key={index}
-                      {...headerGroup.getHeaderGroupProps()}
-                    >
-                      {headerGroup.headers.map((column, i) => {
-                        return column.id === "severity" ? (
-                          <Th
-                            mb={2}
-                            textAlign={"center"}
-                            h={"10px"}
-                            key={i}
-                            {...column.getHeaderProps()}
-                          >
-                            <Flex textAlign={"center"}>
-                              {column.render("Header")}
-                              <IconButton
-                                ml={1}
-                                size={"xs"}
-                                bg={"transparent"}
-                                isDisabled
-                              />
-                            </Flex>
-                          </Th>
-                        ) : (
-                          <Th
-                            textAlign={"center"}
-                            h={"10px"}
-                            key={i}
-                            {...column.getSortByToggleProps()}
-                          >
-                            <Flex textAlign={"center"}>
-                              {column.render("Header")}
-                              <IconButton
-                                ml={1}
-                                size={"xs"}
-                                bg={"transparent"}
-                                icon={
-                                  column.isSorted ? (
-                                    column.isSortedDesc ? (
-                                      <IconButton as={ArrowDownIcon} size={'50px'} bg={'transparent'} color={'text.primary'} />
-                                    ) : (
-                                      <IconButton as={ArrowUpIcon} size={'50px'} bg={'transparent'} color={'text.primary'} />
-                                    )
-                                  ) : (
-                                    <IconButton as={BsArrowDownUp} size={'50px'} bg={'transparent'} color={'text.primary'} />
-                                  )
-                                }
-                              />
-                            </Flex>
-                          </Th>
-                        );
-                      })}
-                    </Tr>
-                  ))}
-                </Thead>
-            </Table>
-           */}
-
-                <Box
-                  mb={5}
-                  color={"secondary.100"}
-                  {...getTableProps()}
-                  variant={"unstyled"}
-                >
-                  {/* <ColumnDropdown columns={columns} onColumnSelect={handleColumnSelect} /> */}
-                </Box>
-
                 {/* Card Grid */}
                 <SimpleGrid
                   spacing={4}
@@ -395,7 +303,7 @@ function AlarmTable({
                       startTime,
                       updatedTime,
                       ack,
-                      clear; // Declare variables here
+                      clear;
                     row.cells.forEach((cell, cellIndex) => {
                       switch (cellIndex) {
                         case 0:
@@ -495,7 +403,6 @@ function AlarmTable({
                                 m={"10px"}
                               />
                               <Heading size="md" mt={5} mb={"10px"}>
-                                {console.log("severity", type)}
                                 {type} <br />
                                 <Text
                                   as="cite"

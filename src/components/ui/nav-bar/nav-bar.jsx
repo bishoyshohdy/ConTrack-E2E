@@ -87,7 +87,7 @@ function NavBar(props) {
           mt={5}
           mb={2}
         >
-          {navData[0].length === 0 && "Dashboard"}
+          {navData[0].length === 0 && <Text mx={5}>Dashboard</Text>}
           {navData[1] &&
           (navData[1].toLowerCase().includes("cylock") ||
             navData[1] === "Cytag") ? (

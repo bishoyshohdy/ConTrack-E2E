@@ -8,6 +8,7 @@ import {
   Center,
   Heading,
   SimpleGrid,
+  Tag,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { extractHeaders, flattenObject } from "../../../helpers/array-map";
@@ -19,7 +20,6 @@ import "./tag-container.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StyledSelect from "../styled-select/styled-select";
-
 
 function tagContainer({
   reverse = false,
@@ -33,6 +33,8 @@ function tagContainer({
   minW,
   hiddenCols = [],
   CreateDevice,
+
+  TabChange,
 }) {
   const theme = useContext(ThemeContext);
   const [flatData, setFlatData] = useState(data);
@@ -40,13 +42,62 @@ function tagContainer({
   const [searchText, setSearchText] = useState("");
   const [selectedColumn, setSelectedColumn] = useState(null);
 
+  const [divWidth, setDivWidth] = useState(0);
+  const [cardWidth, setCardWidth] = useState(0);
 
-  useEffect(() => {}, [tags]);
+  useEffect(() => {
+    const updateDivWidth = () => {
+      const cardTableDiv = document.getElementById("TagTable");
+      const cardWidth = document.getElementById("Tagcard");
+
+      if (cardTableDiv && cardWidth) {
+        const newWidth = cardTableDiv.offsetWidth;
+        const newCardWidth = cardWidth.offsetWidth;
+        setDivWidth(newWidth);
+        setCardWidth(newCardWidth);
+      }
+    };
+
+    updateDivWidth();
+
+    window.addEventListener("resize", updateDivWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateDivWidth);
+    };
+  }, [TabChange, data]);
+
+  const [cardsPerRow, setCardsPerRow] = useState(4);
+
+  const updateTags = () => {
+    let tmpTags = [];
+    for (let i = 0; i < data.length; i++) {
+      if (i % (cardsPerRow * 2) === 0) {
+        tmpTags.push([]);
+      }
+      tmpTags[tmpTags.length - 1].push(data[i]);
+    }
+    setTags(tmpTags);
+  };
+
+  useEffect(() => {
+    updateTags();
+  }, [TabChange, cardsPerRow]);
+
+  useEffect(() => {
+    if (divWidth) {
+      const NewcardsPerRow = Math.floor((divWidth - 14) / (cardWidth + 24));
+
+      if (cardsPerRow <= 1) {
+        setCardsPerRow(1);
+      } else setCardsPerRow(NewcardsPerRow);
+    }
+  }, [divWidth]);
 
   useEffect(() => {
     let tmpTags = [];
     for (let i = 0; i < data.length; i++) {
-      if (i % 12=== 0) {
+      if (i % (cardsPerRow * 2) === 0) {
         tmpTags.push([]);
       }
       tmpTags[tmpTags.length - 1].push(data[i]);
@@ -68,8 +119,6 @@ function tagContainer({
   );
   hiddenCols = [...hiddenCols, "cycollector_id", "roles"];
 
-  useEffect(() => {}, []);
-
   const [filteredTags, setFilteredTags] = useState(tags);
   useEffect(() => {
     setFilteredTags(tags);
@@ -85,7 +134,7 @@ function tagContainer({
 
     let tmpTags = [];
     for (let i = 0; i < filteredData.length; i++) {
-      if (i % 12 === 0) {
+      if (i % (cardsPerRow * 2) === 0) {
         tmpTags.push([]);
       }
       tmpTags[tmpTags.length - 1].push(filteredData[i]);
@@ -95,35 +144,38 @@ function tagContainer({
 
   const handleColumnSelect = (selected) => {
     setSelectedColumn(selected);
-  
+
     const sortedData = [...data].sort((a, b) => {
       const valueA = a[selected];
       const valueB = b[selected];
-  
+
       // Convert MAC addresses to comparable format
       const formatMac = (mac) => {
         // Check if mac is undefined or null
         if (!mac) {
-          return '';
+          return "";
         }
-        return mac.split(':').map(part => parseInt(part, 16)).join('');
+        return mac
+          .split(":")
+          .map((part) => parseInt(part, 16))
+          .join("");
       };
-  
+
       const formattedValueA = formatMac(valueA);
       const formattedValueB = formatMac(valueB);
-  
+
       // Use a simple comparison for strings
       return formattedValueA.localeCompare(formattedValueB);
     });
-  
+
     let tmpTags = [];
     for (let i = 0; i < sortedData.length; i++) {
-      if (i % 8 === 0) {
+      if (i % (cardsPerRow * 2) === 0) {
         tmpTags.push([]);
       }
       tmpTags[tmpTags.length - 1].push(sortedData[i]);
     }
-  
+
     setTags(tmpTags);
   };
   return (
@@ -134,8 +186,9 @@ function tagContainer({
         w={"100%"}
         p={2}
         minW={minW}
-        boxShadow={theme.darkMode ?'0px 0px 10px 0px #111' : '0px 0px 1px 0px #aaaa'}
-
+        boxShadow={
+          theme.darkMode ? "0px 0px 10px 0px #111" : "0px 0px 1px 0px #aaaa"
+        }
       >
         <Flex
           p={"1%"}
@@ -145,57 +198,68 @@ function tagContainer({
         >
           <Box w={children ? "30%" : "70%"} gap={2} as={Flex} px={4}>
             {icon}
-            <Heading w={"100%"} color={"text.primary"} fontSize={"xl"}  alignSelf={'center'}>
+            <Heading
+              w={"100%"}
+              color={"text.primary"}
+              fontSize={"xl"}
+              alignSelf={"center"}
+            >
               {title}
             </Heading>
           </Box>
-          <Flex justifyContent={'center'} alignItems={'center'}>
-          <Text
-                fontSize={"lg"}
-                color={"white"}
-                mr={4}
-                whiteSpace={"nowrap"}
-                my={1}
-              >
-                Sort By:
-              </Text>
+          <Flex justifyContent={"center"} alignItems={"center"}>
+            <Text
+              fontSize={"lg"}
+              color={"white"}
+              mr={4}
+              whiteSpace={"nowrap"}
+              my={1}
+            >
+              Sort By:
+            </Text>
 
-              <StyledSelect
-                size={"md"}
-                options={columns.map((col) => ({
-                  value: col.accessor,
-                  label: col.Header,
-                }))}
-                value={selectedColumn}
-                onchange={(res) => handleColumnSelect(res)}
+            <StyledSelect
+              size={"md"}
+              options={columns.map((col) => ({
+                value: col.accessor,
+                label: col.Header,
+              }))}
+              value={selectedColumn}
+              onchange={(res) => handleColumnSelect(res)}
+            />
+            <Box display={"flex"} alignItems={"center"} justifyContent={"end"}>
+              <Input
+                size="md"
+                color={"text.primary"}
+                fontFamily="DM Sans"
+                borderRadius={"10px"}
+                placeholder="Search"
+                bg={"primary.100"}
+                mr={4}
+                width={"70%"}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               />
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"end"}
+
+              <Center
+                w={"40px"}
+                h={"40px"}
+                borderRadius={"full"}
+                bg={"white"}
+                boxShadow={"0px 0px 7px 0px #8c8c8c"}
+                mr={4}
               >
-            <Input
-              size="md"
-              color= {'text.primary'}
-              fontFamily= "DM Sans"
-              borderRadius={"10px"}
-              placeholder="Search"
-              bg={'primary.100'}
-              mr={4}
-              width={"70%"}
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            />
-            <IconButton
-              aria-label="Search"
-              icon={<SearchIcon />}
-              mr={4}
-              borderRadius={"10px"}
-              bg={"action.80"}
-              onClick={() => handleSearch()}
-            />
-            
+                <IconButton
+                  size={"sm"}
+                  aria-label="Search"
+                  icon={<SearchIcon color={"white"} />}
+                  _hover={{ opacity: 0.8 }}
+                  rounded={"full"}
+                  bg={"action.80"}
+                  onClick={() => handleSearch()}
+                />
+              </Center>
             </Box>
 
             {CreateDevice}
@@ -223,8 +287,9 @@ function tagContainer({
               {filteredTags.map((page, index) => {
                 return (
                   <SimpleGrid
+                    id="TagTable"
                     spacing={2}
-                    spacingX={12}
+                    spacingX={"12px"}
                     templateColumns="repeat(auto-fill, minmax( 260px, auto ))"
                     justifyContent={"center"}
                     m={10}
@@ -233,6 +298,7 @@ function tagContainer({
                     {page.map((tag, index2) => {
                       return (
                         <Box
+                          id="Tagcard"
                           key={index2}
                           bg={"table.cell"}
                           className="tag-container"
@@ -247,7 +313,9 @@ function tagContainer({
                           _hover={{
                             transform:
                               "perspective(1000px) rotatex(0deg) !important",
-                            boxShadow: `0 0 10px #${theme.darkMode ? 'fff' : '000'}`,
+                            boxShadow: `0 0 10px #${
+                              theme.darkMode ? "fff" : "000"
+                            }`,
                             borderBottom: "15px solid rgba(0,0,0,0) !important",
                             transition: "transform 0.3s",
                           }}
