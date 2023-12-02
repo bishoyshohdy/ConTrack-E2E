@@ -1,6 +1,6 @@
 .tag-container {
-   color: #fff; /* Set the text color */
-   font-weight: bold; /* Set font-weight as needed */
-   position: relative; /* Add position relative */
-   cursor: pointer; /* Change cursor style if needed */
+  color: #fff;
+  font-weight: bold;
+  position: relative;
+  cursor: pointer;
 }

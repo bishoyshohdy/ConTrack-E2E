@@ -8,7 +8,9 @@ import {
   Heading,
   Tag,
   Button,
-  Grid, GridItem 
+  Grid,
+  GridItem,
+  Center,
 } from "@chakra-ui/react";
 import StatBox from "../../ui/card/stat-box";
 import ComplexTable from "../../ui/table/complex-table";
@@ -40,6 +42,8 @@ import { FcOvertime } from "react-icons/fc";
 import TableV2 from "../../ui/table-v2/table-v2";
 import SpinnerLoader from "../../ui/loader/spinner-loader";
 import { io } from "socket.io-client";
+import { ThemeContext } from "../../../context/theme";
+
 const URL = process.env.REACT_APP_SERVER_URL;
 function CytagPage() {
   const { Id, identifier } = useParams();
@@ -167,7 +171,7 @@ function CytagPage() {
     return alarmss;
   };
   const getAlarmsCall = (filters) => {
-      getAlarms(filters).then((res) => {
+    getAlarms(filters).then((res) => {
       setAlarms(setupAlarms(res.data));
     });
   };
@@ -194,7 +198,7 @@ function CytagPage() {
   const [endDate, setEndDate] = useState();
   const [tableStartDate, setTableStartDate] = useState();
   const [tableEndDate, setTableEndDate] = useState();
-  // const { theme } = useContext(ThemeContext);
+  const Theme = useContext(ThemeContext);
 
   const pageNumber = useRef(0);
   const numberPerPageRef = useRef(25);
@@ -325,18 +329,31 @@ function CytagPage() {
       socket.on(`${identifier}/message`, newMessageHandler);
     }
   }, [socket, paginationData]);
-  
+
+  const [alarmsLoading, setAlarmsLoading] = useState(true);
+  useEffect(() => {
+    setAlarmsLoading(false);
+  }, [alarms]);
+
+  const DarkGradient1 = "linear-gradient(to bottom, #9b29e7cc 20%, #2d3748)";
+  const DarkGradient2 = "linear-gradient(to top, #9b29e7cc, #2d3748 25%)";
+  const LightGradient1 = "linear-gradient(to top, #229CE2cc, #e6e8eb )";
+  const LightGradient2 = "linear-gradient(to bottom, #229CE2cc, #e6e8eb 25%)";
+
+  const gradient1 = Theme.darkMode ? DarkGradient1 : LightGradient1;
+  const gradient2 = Theme.darkMode ? DarkGradient2 : LightGradient2;
+
   return (
     <>
-      <div className={"grid"} >
-        <Box w={"100%"} borderRadius={"5px"} bg={"primary.80"} >
-          <Box
-            borderTopRadius={"5px"}
-            gap={2}
-            p={3}
-            alignItems={"center"}
-            as={Flex}
-          >
+      <Grid className="grid" mx={4} my={5}>
+        {/* stats */}
+        <GridItem
+          w={"100%"}
+          borderRadius={"25px"}
+          bg={"primary.80"}
+          boxShadow={"md"}
+        >
+          <Box gap={5} p={5} m={5} alignItems={"center"} as={Flex}>
             <Image
               borderRadius="full"
               bg={"primary.100"}
@@ -363,126 +380,172 @@ function CytagPage() {
               </Tag>
             </Box>
           </Box>
-          <Box  as={Flex} flexWrap={"wrap"} alignItems={'center'} justifyContent={'center'}  >
-            <StatBox
-              icon={
-                <GiBatteryPack
-                  size={"25px"}
-                  color="secondary.60"
-                />
-              }
-              title="Battery"
-              subTitle={
-                <SpinnerLoader
-                  loading={loadingLabels}
-                  body={battery ? `${parseFloat(battery)} V` : ""}
-                />
-              }
-              subText={
-                lastBatteryTimestamp
-                  ? `Last updated at: ${formatDate(lastBatteryTimestamp)}`
-                  : ""
-              }
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"xs"}
-              maxW={"15%"}
-              wXh= {"200px"}
-              width={"35%"}
 
-            />
-            <StatBox
-              icon={
-                <WiHumidity
-                  size={"30px"}
-                  color="secondary.60"
-                />
-              }
-              title="Humidity"
-              subTitle={
-                <SpinnerLoader
-                  loading={loadingLabels}
-                  body={humid ? `${parseFloat(humid)} %RH` : ""}
-                />
-              }
-              subText={
-                lastHumidTimestamp
-                  ? `Last updated at: ${formatDate(lastHumidTimestamp)}`
-                  : ""
-              }
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"xs"}
-              maxW={"15%"}
-              wXh= {"200px"}
-              width={"35%"}
-            />
-            <StatBox
-              icon={
-                <FiThermometer
-                  size={"30px"}
-                  color="secondary.60"
-                />
-              }
-              title="Tempreture"
-              subTitle={
-                <SpinnerLoader
-                  loading={loadingLabels}
-                  body={temp ? `${parseFloat(temp)} C` : ""}
-                />
-              }
-              subText={
-                lastTempTimestamp
-                  ? `Last updated at: ${formatDate(lastTempTimestamp)}`
-                  : ""
-              }
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"xs"}
-              maxW={"15%"}
-              wXh= {"200px"}
-              width={"35%"}
-
-
-            />
-            <StatBox
-              icon={
-                <BsLightning
-                  size={"30px"}
+          <Center>
+            <Grid
+              gap={5}
+              justifyContent={"center"}
+              m={5}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                lg: "repeat(2, minmax(200px, 1fr))",
+              }}
+            >
+              <Center bg={gradient2} rounded={"xl"} p={0.5} boxShadow={"md"}>
+                <GridItem
+                  rowSpan={1}
+                  colSpan={1}
+                  rounded={"xl"}
+                  bg="card.100"
+                  w={"100%"}
                   h={"100%"}
-                  display={"block"}
-                  margin={"auto"}
-                  p={"20%"}
-                  color="secondary.60"
-                />
-              }
-              title="Light Intensity"
-              subTitle={
-                <SpinnerLoader
-                  loading={loadingLabels}
-                  body={
-                    lightIntensity ? `${parseFloat(lightIntensity)} hlx` : ""
-                  }
-                />
-              }
-              subText={
-                lastLightIntensityTimestamp
-                  ? `Last updated at: ${formatDate(
-                      lastLightIntensityTimestamp
-                    )}`
-                  : ""
-              }
-              bgColor={"card.100"}
-              textColor={"secondary.100"}
-              maxH={"xs"}
-              maxW={"15%"}
-              wXh= {"200px"}
-              width={"35%"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <StatBox
+                    icon={<GiBatteryPack size={"25px"} color="secondary.60" />}
+                    title="Battery"
+                    subTitle={
+                      <SpinnerLoader
+                        loading={loadingLabels}
+                        body={battery ? `${parseFloat(battery)} V` : ""}
+                      />
+                    }
+                    subText={
+                      lastBatteryTimestamp
+                        ? `Last updated at: ${formatDate(lastBatteryTimestamp)}`
+                        : ""
+                    }
+                    bgColor={"card.100"}
+                    textColor={"secondary.100"}
+                  />
+                </GridItem>
+              </Center>
 
-            />
-          </Box>
-        </Box>
-        <Box as={Flex} w={"100%"}>
+              <Center bg={gradient2} rounded={"xl"} p={0.5} boxShadow={"md"}>
+                <GridItem
+                  rowSpan={1}
+                  colSpan={1}
+                  rounded={"xl"}
+                  bg="card.100"
+                  w={"100%"}
+                  h={"100%"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <StatBox
+                    icon={<WiHumidity size={"30px"} color="secondary.60" />}
+                    title="Humidity"
+                    subTitle={
+                      <SpinnerLoader
+                        loading={loadingLabels}
+                        body={humid ? `${parseFloat(humid)} %RH` : ""}
+                      />
+                    }
+                    subText={
+                      lastHumidTimestamp
+                        ? `Last updated at: ${formatDate(lastHumidTimestamp)}`
+                        : ""
+                    }
+                    bgColor={"card.100"}
+                    textColor={"secondary.100"}
+                  />
+                </GridItem>
+              </Center>
+
+              <Center bg={gradient1} rounded={"xl"} p={0.5} boxShadow={"md"}>
+                <GridItem
+                  rowSpan={1}
+                  colSpan={1}
+                  rounded={"xl"}
+                  bg="card.100"
+                  w={"100%"}
+                  h={"100%"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <StatBox
+                    icon={<FiThermometer size={"30px"} color="secondary.60" />}
+                    title="Tempreture"
+                    subTitle={
+                      <SpinnerLoader
+                        loading={loadingLabels}
+                        body={temp ? `${parseFloat(temp)} C` : ""}
+                      />
+                    }
+                    subText={
+                      lastTempTimestamp
+                        ? `Last updated at: ${formatDate(lastTempTimestamp)}`
+                        : ""
+                    }
+                    bgColor={"card.100"}
+                    textColor={"secondary.100"}
+                  />
+                </GridItem>
+              </Center>
+
+              <Center bg={gradient1} rounded={"xl"} p={0.5} boxShadow={"md"}>
+                <GridItem
+                  rowSpan={1}
+                  colSpan={1}
+                  rounded={"xl"}
+                  bg="card.100"
+                  w={"100%"}
+                  // h={"100%"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <StatBox
+                    icon={
+                      <BsLightning
+                        size={"30px"}
+                        h={"100%"}
+                        display={"block"}
+                        margin={"auto"}
+                        p={"20%"}
+                        color="secondary.60"
+                      />
+                    }
+                    title="Light Intensity"
+                    subTitle={
+                      <SpinnerLoader
+                        loading={loadingLabels}
+                        body={
+                          lightIntensity
+                            ? `${parseFloat(lightIntensity)} hlx`
+                            : ""
+                        }
+                      />
+                    }
+                    subText={
+                      lastLightIntensityTimestamp
+                        ? `Last updated at: ${formatDate(
+                            lastLightIntensityTimestamp
+                          )}`
+                        : ""
+                    }
+                    bgColor={"card.100"}
+                    textColor={"secondary.100"}
+                  />
+                </GridItem>
+              </Center>
+            </Grid>
+          </Center>
+        </GridItem>
+
+        {/* Chart */}
+        <GridItem
+          as={Flex}
+          w={"100%"}
+          bg={"primary.80"}
+          p={4}
+          borderRadius={"25px"}
+          boxShadow={"md"}
+        >
           <DeviceChart
             startType={"Temperature"}
             mb={"0"}
@@ -498,9 +561,16 @@ function CytagPage() {
             endDate={endDate}
             setEndDate={setEndDate}
           />
-        </Box>
-      </div>
-      <Box w="100%" padding={"0.5%"}>
+        </GridItem>
+      </Grid>
+
+      <Box
+        padding={"0.5%"}
+        mx={4}
+        borderRadius={"25px"}
+        bg={"primary.80"}
+        boxShadow={"md"}
+      >
         <ComplexTable
           hiddenCols={[
             "id",
@@ -513,12 +583,20 @@ function CytagPage() {
           setPageNumber={setAlarmTablePage}
           extractFn={extractAlarmHeaders}
           title={"Alarms"}
-          icon={<Icon as={BiAlarm} boxSize={"30px"} color={"action.100"} />}
+          icon={<Icon as={BiAlarm} boxSize={"30px"} color={"action.80"} />}
           data={alarms}
-          isLoading={Boolean(alarms.length === 0)}
+          isLoading={alarmsLoading}
         />
       </Box>
-      <Box margin={"0.5%"}>
+
+      <Box
+        padding={"0.5%"}
+        mx={4}
+        my={5}
+        borderRadius={"25px"}
+        bg={"primary.80"}
+        boxShadow={"md"}
+      >
         <TableV2
           title={"Time series data"}
           icon={<Icon as={FcOvertime} boxSize={"30px"} color={"action.100"} />}

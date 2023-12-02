@@ -20,6 +20,11 @@ import "./tag-container.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StyledSelect from "../styled-select/styled-select";
+// react icons
+import {
+  RiArrowLeftSLine as LeftIcon,
+  RiArrowRightSLine as RightIcon,
+} from "react-icons/ri";
 
 function tagContainer({
   reverse = false,
@@ -300,9 +305,125 @@ function tagContainer({
           <>
             <Carousel
               showArrows={true}
-              showStatus={true}
+              showStatus={false}
               showIndicators={true}
               swipeable={true}
+              renderArrowPrev={(clickHandler, hasPrev) => {
+                return (
+                  <Flex
+                    top={0}
+                    bottom={0}
+                    left={0}
+                    zIndex={20}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    position={"absolute"}
+                    onClick={clickHandler}
+                    style={{ transition: " 0.1s" }}
+                    _hover={{ bg: "card.100", cursor: "pointer" }}
+                    _focus={{ bg: "transparent" }}
+                    disabled={!hasPrev}
+                    rounded={"full"}
+                    w={"40px"}
+                  >
+                    <IconButton
+                      onClick={clickHandler}
+                      icon={<LeftIcon size={"30px"} />}
+                      bg={"transparent"}
+                      _hover={{ bg: "transparent" }}
+                      _focus={{ bg: "transparent" }}
+                      color={"text.primary"}
+                      borderRadius={"full"}
+                      size={"lg"}
+                      mr={2}
+                      disabled={!hasPrev}
+                    />
+                  </Flex>
+                );
+              }}
+              renderArrowNext={(clickHandler, hasNext) => {
+                return (
+                  <Flex
+                    top={0}
+                    bottom={0}
+                    right={0}
+                    zIndex={20}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    position={"absolute"}
+                    onClick={clickHandler}
+                    style={{ transition: " 0.1s" }}
+                    _hover={{ bg: "card.100", cursor: "pointer" }}
+                    _focus={{ bg: "transparent" }}
+                    disabled={!hasNext}
+                    rounded={"full"}
+                    w={"40px"}
+                  >
+                    <IconButton
+                      onClick={clickHandler}
+                      icon={<RightIcon size={"30px"} />}
+                      bg={"transparent"}
+                      _hover={{ bg: "transparent" }}
+                      _focus={{ bg: "transparent" }}
+                      color={"text.primary"}
+                      borderRadius={"full"}
+                      size={"lg"}
+                      ml={2}
+                      disabled={!hasNext}
+                    />
+                  </Flex>
+                );
+              }}
+              renderIndicator={(clickHandler, isSelected, index, label) => {
+                if (isSelected) {
+                  return (
+                    <Tag
+                      bg={"action.80"}
+                      color={"white"}
+                      borderRadius={"full"}
+                      size={"sm"}
+                      mr={2}
+                      onClick={clickHandler}
+                      key={index}
+                      boxShadow={"sm"}
+                      _hover={{ bg: "action.80", cursor: "pointer" }}
+                      _focus={{ bg: "action.80", cursor: "pointer" }}
+                      style={{ transition: " 0.1s" }}
+                    >
+                      <Text
+                        fontSize={"sm"}
+                        color={"white"}
+                        display={{ base: "none", sm: "block" }}
+                      >
+                        {index + 1}
+                      </Text>
+                    </Tag>
+                  );
+                }
+                return (
+                  <Tag
+                    bg={"primary.100"}
+                    color={"text.primary"}
+                    borderRadius={"full"}
+                    size={"sm"}
+                    mr={2}
+                    onClick={clickHandler}
+                    key={index}
+                    boxShadow={"sm"}
+                    _hover={{ bg: "action.80", cursor: "pointer" }}
+                    _focus={{ bg: "action.80", cursor: "pointer" }}
+                    style={{ transition: " 0.1s" }}
+                  >
+                    <Text
+                      fontSize={"sm"}
+                      color={"text.primary"}
+                      display={{ base: "none", sm: "block" }}
+                    >
+                      {index + 1}
+                    </Text>
+                  </Tag>
+                );
+              }}
             >
               {filteredTags.map((page, index) => {
                 return (
@@ -333,11 +454,10 @@ function tagContainer({
                           _hover={{
                             transform:
                               "perspective(1000px) rotatex(0deg) !important",
-                            boxShadow: `0 0 10px #${
-                              theme.darkMode ? "fff" : "000"
+                            boxShadow: `0 0 3px #${
+                              theme.darkMode ? "9b29e7" : "229CE2"
                             }`,
                             borderBottom: "15px solid rgba(0,0,0,0) !important",
-                            transition: "transform 0.3s",
                           }}
                           onClick={() =>
                             redirectToDevice ? redirectToDevice(tag) : null
@@ -345,14 +465,14 @@ function tagContainer({
                           style={{
                             transform: "perspective(1000px) rotatex(15deg)",
                             transformStyle: "preserve-3d",
-                            transition: "transform 0.3s",
+                            transition: "transform 0.4s",
                             borderRadius: "40px",
                             position: "relative",
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "center",
                             alignItems: "center",
-                            borderBottom: "15px solid rgb(12,12,15)",
+                            borderBottom: "15px solid rgb(12,12,15, 0.2)",
                           }}
                         >
                           <Box

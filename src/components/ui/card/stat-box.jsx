@@ -49,7 +49,6 @@ function StatCard(props) {
       bg={clicked ? bgColor : bgColor}
       variant="elevated"
       color={textColor}
-      borderRadius={"5px"}
       overflow="hidden"
       cursor={handleClick ? "pointer" : "default"}
       w={width}

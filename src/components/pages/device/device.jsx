@@ -648,9 +648,6 @@ function Device() {
   const gradient1 = Theme.darkMode ? DarkGradient1 : LightGradient1;
   const gradient2 = Theme.darkMode ? DarkGradient2 : LightGradient2;
 
-  // rerender when sidebar size is changed
-  // use useEffect to get the latest value of size
-
   return (
     <>
       <Flex

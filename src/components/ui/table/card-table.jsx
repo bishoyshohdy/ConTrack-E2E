@@ -68,6 +68,10 @@ import container_side_light from "../../../assets/images/resources/container_sid
 import container_side_dark from "../../../assets/images/resources/container_side_dark.png";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import {
+  RiArrowLeftSLine as LeftIcon,
+  RiArrowRightSLine as RightIcon,
+} from "react-icons/ri";
 
 function CardTable({
   reverse = false,
@@ -369,9 +373,125 @@ function CardTable({
               <Box my={3} bg={"111"}>
                 <Carousel
                   showArrows={true}
-                  showStatus={true}
+                  showStatus={false}
                   showIndicators={true}
                   swipeable={true}
+                  renderArrowPrev={(clickHandler, hasPrev) => {
+                    return (
+                      <Flex
+                        top={0}
+                        bottom={0}
+                        left={0}
+                        zIndex={20}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        position={"absolute"}
+                        onClick={clickHandler}
+                        style={{ transition: " 0.1s" }}
+                        _hover={{ bg: "card.100", cursor: "pointer" }}
+                        _focus={{ bg: "transparent" }}
+                        disabled={!hasPrev}
+                        rounded={"full"}
+                        w={"30px"}
+                      >
+                        <IconButton
+                          onClick={clickHandler}
+                          icon={<LeftIcon size={"30px"} />}
+                          bg={"transparent"}
+                          _hover={{ bg: "transparent" }}
+                          _focus={{ bg: "transparent" }}
+                          color={"text.primary"}
+                          borderRadius={"full"}
+                          size={"lg"}
+                          mr={2}
+                          disabled={!hasPrev}
+                        />
+                      </Flex>
+                    );
+                  }}
+                  renderArrowNext={(clickHandler, hasNext) => {
+                    return (
+                      <Flex
+                        top={0}
+                        bottom={0}
+                        right={0}
+                        zIndex={20}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        position={"absolute"}
+                        onClick={clickHandler}
+                        style={{ transition: " 0.1s" }}
+                        _hover={{ bg: "card.100", cursor: "pointer" }}
+                        _focus={{ bg: "transparent" }}
+                        disabled={!hasNext}
+                        rounded={"full"}
+                        w={"30px"}
+                      >
+                        <IconButton
+                          onClick={clickHandler}
+                          icon={<RightIcon size={"30px"} />}
+                          bg={"transparent"}
+                          _hover={{ bg: "transparent" }}
+                          _focus={{ bg: "transparent" }}
+                          color={"text.primary"}
+                          borderRadius={"full"}
+                          size={"lg"}
+                          ml={2}
+                          disabled={!hasNext}
+                        />
+                      </Flex>
+                    );
+                  }}
+                  renderIndicator={(clickHandler, isSelected, index, label) => {
+                    if (isSelected) {
+                      return (
+                        <Tag
+                          bg={"action.80"}
+                          color={"white"}
+                          borderRadius={"full"}
+                          size={"sm"}
+                          mr={2}
+                          onClick={clickHandler}
+                          key={index}
+                          boxShadow={"sm"}
+                          _hover={{ bg: "action.80", cursor: "pointer" }}
+                          _focus={{ bg: "action.80", cursor: "pointer" }}
+                          style={{ transition: " 0.1s" }}
+                        >
+                          <Text
+                            fontSize={"sm"}
+                            color={"white"}
+                            display={{ base: "none", sm: "block" }}
+                          >
+                            {index + 1}
+                          </Text>
+                        </Tag>
+                      );
+                    }
+                    return (
+                      <Tag
+                        bg={"primary.100"}
+                        color={"text.primary"}
+                        borderRadius={"full"}
+                        size={"sm"}
+                        mr={2}
+                        onClick={clickHandler}
+                        key={index}
+                        boxShadow={"sm"}
+                        _hover={{ bg: "action.80", cursor: "pointer" }}
+                        _focus={{ bg: "action.80", cursor: "pointer" }}
+                        style={{ transition: " 0.1s" }}
+                      >
+                        <Text
+                          fontSize={"sm"}
+                          color={"text.primary"}
+                          display={{ base: "none", sm: "block" }}
+                        >
+                          {index + 1}
+                        </Text>
+                      </Tag>
+                    );
+                  }}
                 >
                   {locks.map((page, index) => (
                     <Box key={index}>
