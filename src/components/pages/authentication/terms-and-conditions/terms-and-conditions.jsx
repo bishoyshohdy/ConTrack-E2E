@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext,useEffect, useState } from "react";
+
 import MarkupRenderer from "../../../ui/markup-renderer/markup-renderer";
 import {
     AlertDialog,
@@ -14,9 +15,13 @@ import {
 import { secondStepLogin } from "../../../../api/user";
 import boschTerms from "../../../../assets/markup/bosch.md";
 import { CUSTOMERS } from "../../../../types/customers";
+//theme
+import {ThemeContext} from "../../../../context/theme";
 
 function TermsAndConditions({ isOpen, onClose, userInfo, token }) {
     const cancelRef = React.useRef()
+    const theme = useContext(ThemeContext);
+
     const acceptTerms = () => {
         secondStepLogin(token,userInfo);
     }
@@ -43,11 +48,16 @@ function TermsAndConditions({ isOpen, onClose, userInfo, token }) {
                     Terms and Conditions
                     </AlertDialogHeader>
                     <AlertDialogBody bg={'primary.100'}>
-                        <Box overflowY={'scroll'} p={2} bg={'secondary.100'} h={'300px'} color={'text.secondary'}>
-                            <MarkupRenderer termsFile={termsFile} />
+                        <Box overflowY={'scroll'} p={2} h={'300px'} color={'text.primary'}>
+                            <MarkupRenderer  termsFile={termsFile} />
                         </Box>
                         <Box mt={2} gap={1} w={'100%'}>
-                            <Checkbox alignItems={'baseline'} color={'text.primary'} size={'md'} value={checkAccept} onChange={(e) => setCheckAccept(e.target.checked)}>I agree to the terms and conditions as set out by the user agreement</Checkbox>
+                            <Checkbox
+                             alignItems={'baseline'}
+                             colorScheme={theme.darkMode? 'purple':'blue'}
+                            borderColor={'text.primary'}
+                              color={'text.primary'} size={'md'} value={checkAccept} 
+                              onChange={(e) => setCheckAccept(e.target.checked)}>I agree to the terms and conditions as set out by the user agreement</Checkbox>
                         </Box>
                     </AlertDialogBody>
 

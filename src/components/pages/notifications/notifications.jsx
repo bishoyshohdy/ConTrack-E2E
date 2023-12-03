@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Grid } from "@chakra-ui/layout";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { SEVERITY } from "../../../data/alarms";
 import {
   getNotificationsSettings,
@@ -8,6 +8,7 @@ import {
 import NotificationsForm from "./notifications-form/notifications-form";
 import { showsuccess } from "../../../helpers/toast-emitter";
 import { Divider, Stack } from "@chakra-ui/react";
+import { ThemeContext } from "../../../context/theme";
 
 function Notifications() {
   const defaultObj = {
@@ -22,6 +23,7 @@ function Notifications() {
   const [highData, setHighData] = useState(null);
   const [medData, setMedData] = useState();
   const [urgData, setUrgData] = useState(null);
+  const theme = useContext(ThemeContext);
   const setFormData = (notifSetting) => {
     return {
       enabled: notifSetting.notification_settings.enabled,

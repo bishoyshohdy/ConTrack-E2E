@@ -1,6 +1,5 @@
 import { Box, Button, Checkbox, Flex, Input, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { ThemeContext } from "../../../../context/theme";
 
 function NotificationsForm({ formData, disabled, saveAction }) {
@@ -40,7 +39,7 @@ function NotificationsForm({ formData, disabled, saveAction }) {
     <>
       <Box mt={6} as={Flex} flexWrap={"wrap"} gap={6} color={"text.primary"}>
         <Checkbox
-          borderColor={"action.80"}
+          borderColor={"text.primary"}
           size={"lg"}
           w={"100%"}
           isDisabled={disabled}
@@ -89,7 +88,7 @@ function NotificationsForm({ formData, disabled, saveAction }) {
         </Text>
         <Box w={"100%"} m={2} as={Flex} justifyContent={"space-between"}>
           <Checkbox
-            borderColor={"action.80"}
+            borderColor={"text.primary"}
             size={"lg"}
             isDisabled={disabled}
             defaultChecked={
@@ -101,7 +100,7 @@ function NotificationsForm({ formData, disabled, saveAction }) {
             SMS
           </Checkbox>
           <Checkbox
-            borderColor={"action.80"}
+            borderColor={"text.primary"}
             size={"lg"}
             isDisabled={disabled}
             defaultChecked={
@@ -113,7 +112,7 @@ function NotificationsForm({ formData, disabled, saveAction }) {
             Email
           </Checkbox>
           <Checkbox
-            borderColor={"action.80"}
+            borderColor={"text.primary"}
             size={"lg"}
             isDisabled={disabled}
             defaultChecked={
