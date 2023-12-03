@@ -235,7 +235,20 @@ function ComplexTable({
           {columns.length !== 0 ? (
             <>
               {console.log("minH", minH)}
-              <Box overflowY={"scroll"} overflowX={"scroll"} minH={minH}>
+              <Box overflowY={"scroll"} overflowX={"scroll"}
+              // scroll color
+              style={{
+                "&::-webkit-scrollbar": {
+                  width: "10px",
+                },
+                "&::-webkit-scrollbar-track": {
+                  backgroundColor: "red", /* Dark background color */
+                },  
+               "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: '#444 !important' 
+                },
+              }}
+              minH={minH}>
                 <Table
                   h={"100%"}
                   color={"secondary.100"}

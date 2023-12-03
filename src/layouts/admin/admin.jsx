@@ -12,13 +12,46 @@ function AdminLayout() {
   const location = useLocation().pathname;
   // Define a state variable to store the navSize
   const [navSize, setNavSize] = useState("small");
+  const style = {
+    scrollbar: {
+      width: "10px",
+    },
+    scrollbarTrack: {
+      backgroundColor: "#222", /* Dark background color */
+    },
+    scrollbarThumb: {
+      backgroundColor: "#444", /* Dark thumb color */
+    },
+    scrollbarThumbHover: {
+      backgroundColor: "#666", /* Dark thumb color on hover */
+    },
+
+  };
 
   // Function to update the navSize state
   const updateNavSize = (newNavSize) => {
     setNavSize(newNavSize);
   };
   return (
-    <div>
+    <div
+    // style={
+    //   {
+    //     scrollbar: {
+    //       width: "10px",
+    //     },
+    //     scrollbarTrack: {
+    //       backgroundColor: "#222", /* Dark background color */
+    //     },
+    //     scrollbarThumb: {
+    //       backgroundColor: "#444", /* Dark thumb color */
+    //     },
+    //     scrollbarThumbHover: {
+    //       backgroundColor: "#666", /* Dark thumb color on hover */
+    //     },
+        
+    //   }
+    // }
+    >
       <Flex w="100%">
         <SideBar updateNavSize={updateNavSize} />
         {navSize === "small" ? (
