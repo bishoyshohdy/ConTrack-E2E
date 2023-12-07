@@ -203,7 +203,7 @@ function Device() {
   useEffect(() => {
     if (!device) {
       setDevice(deviceCtx.getDevice(Id, DEVICES.CYCOLLECTOR));
-      setLocked(device ? device.lock_status : true);
+      // setLocked(device ? device.lock_status : true);
     }
   }, [deviceCtx]);
 
@@ -324,7 +324,17 @@ function Device() {
   const [tableStartDate, setTableStartDate] = useState();
   const [tableEndDate, setTableEndDate] = useState();
   const [markers, setMarkers] = useState([]);
-  const [locked, setLocked] = useState(device ? device.lock_status : true);
+  const [locked, setLocked] = useState(
+    device && (device.lock_status === true || device.lock_status === "true")
+  );
+
+  useEffect(() => {
+    setLocked(
+      device && (device.lock_status === true || device.lock_status === "true")
+    );
+  }, [device]);
+  console.log("device.lock_status", device ? device.lock_status : "NA");
+  console.log("locked", locked);
 
   const handleTelemetryExport = () => {
     setLoadingExportRepord(true);
@@ -407,7 +417,7 @@ function Device() {
   const handleLockToggle = (status) => {
     changeLockStatus(identifier, !status ? "Unlock" : "Lock").then((res) => {
       showsuccess(`Successfully ${!status ? "Unlocked" : "Locked"} the device`);
-      setLocked(status);
+      // setLocked(status);
     });
   };
 

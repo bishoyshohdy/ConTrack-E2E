@@ -437,7 +437,11 @@ function Reports() {
   const ContainersForm = () => {
     return (
       <>
-        <Box w={"300px"} p={1}>
+        <Flex
+          flexWrap={{ base: "no-wrap", md: "wrap" }}
+          w={{ base: "100%", md: "200px" }}
+          p={1}
+        >
           <Text p={1} color={"text.primary"}>
             Choose Entity:
           </Text>
@@ -446,7 +450,7 @@ function Reports() {
             options={containerChoices}
             onchange={setDataContainer}
           />
-        </Box>
+        </Flex>
       </>
     );
   };
@@ -464,7 +468,11 @@ function Reports() {
     return (
       <>
         <>
-          <Box w={"300px"} p={1}>
+          <Flex
+            flexWrap={{ base: "no-wrap", md: "wrap" }}
+            w={{ base: "100%", md: "200px" }}
+            p={1}
+          >
             <Text p={1} color={"text.primary"}>
               Choose Entity:
             </Text>
@@ -487,9 +495,13 @@ function Reports() {
                 }
               })}
             />
-          </Box>
+          </Flex>
           {entity.length !== 0 ? (
-            <Box w={"300px"} p={1}>
+            <Flex
+              flexWrap={{ base: "no-wrap", md: "wrap" }}
+              w={{ base: "100%", md: "200px" }}
+              p={1}
+            >
               <Text p={1} color={"text.primary"}>
                 Pick Action:
               </Text>
@@ -514,12 +526,16 @@ function Reports() {
                   }),
                 ]}
               />
-            </Box>
+            </Flex>
           ) : (
             ""
           )}
           {actionId.length !== 0 ? (
-            <Box w={"300px"} p={1}>
+            <Flex
+              flexWrap={{ base: "no-wrap", md: "wrap" }}
+              w={{ base: "100%", md: "200px" }}
+              p={1}
+            >
               <Text p={1} color={"text.primary"}>
                 Pick Field:
               </Text>
@@ -539,7 +555,7 @@ function Reports() {
                   return { label: field, value: field };
                 })}
               />
-            </Box>
+            </Flex>
           ) : (
             ""
           )}
@@ -558,7 +574,12 @@ function Reports() {
                     ]
                   : [];
                 return (
-                  <Box key={field.value} w={"300px"} p={1}>
+                  <Flex
+                    key={field.value}
+                    flexWrap={{ base: "no-wrap", md: "wrap" }}
+                    w={{ base: "100%", md: "200px" }}
+                    p={1}
+                  >
                     <Text p={1} color={"text.primary"}>
                       {titleDisplayed(field.value)}:
                     </Text>
@@ -569,7 +590,7 @@ function Reports() {
                         setFiledQueryCall(field.value, val, options)
                       }
                     />
-                  </Box>
+                  </Flex>
                 );
               case "container_id":
                 const options2 = containers
@@ -581,7 +602,12 @@ function Reports() {
                     ]
                   : [];
                 return (
-                  <Box key={field.value} w={"300px"} p={1}>
+                  <Flex
+                    key={field.value}
+                    flexWrap={{ base: "no-wrap", md: "wrap" }}
+                    w={{ base: "100%", md: "200px" }}
+                    p={1}
+                  >
                     <Text p={1} color={"text.primary"}>
                       {titleDisplayed(field.value)}:
                     </Text>
@@ -592,7 +618,7 @@ function Reports() {
                         setFiledQueryCall(field.value, val, options2)
                       }
                     />
-                  </Box>
+                  </Flex>
                 );
               case "cytag_id":
                 const options3 = deviceCtx.devicesObj.devices.cytag
@@ -607,7 +633,12 @@ function Reports() {
                     ]
                   : [];
                 return (
-                  <Box key={field.value} w={"300px"} p={1}>
+                  <Flex
+                    key={field.value}
+                    flexWrap={{ base: "no-wrap", md: "wrap" }}
+                    w={{ base: "100%", md: "200px" }}
+                    p={1}
+                  >
                     <Text p={1} color={"text.primary"}>
                       {titleDisplayed(field.value)}:
                     </Text>
@@ -618,7 +649,7 @@ function Reports() {
                         setFiledQueryCall(field.value, val, options3)
                       }
                     />
-                  </Box>
+                  </Flex>
                 );
               case "cylock_id":
                 const options4 = deviceCtx.devicesObj.devices.cycollector
@@ -633,7 +664,12 @@ function Reports() {
                     ]
                   : [];
                 return (
-                  <Box key={field.value} w={"300px"} p={1}>
+                  <Flex
+                    key={field.value}
+                    flexWrap={{ base: "no-wrap", md: "wrap" }}
+                    w={{ base: "100%", md: "200px" }}
+                    p={1}
+                  >
                     <Text p={1} color={"text.primary"}>
                       {titleDisplayed(field.value)}:
                     </Text>
@@ -644,11 +680,16 @@ function Reports() {
                         setFiledQueryCall(field.value, val, options4)
                       }
                     />
-                  </Box>
+                  </Flex>
                 );
               default:
                 return (
-                  <Box key={field.value} w={"300px"} p={1}>
+                  <Flex
+                    key={field.value}
+                    flexWrap={{ base: "no-wrap", md: "wrap" }}
+                    w={{ base: "100%", md: "200px" }}
+                    p={1}
+                  >
                     <Text p={1} color={"text.primary"}>
                       {field.value}:
                     </Text>
@@ -659,20 +700,26 @@ function Reports() {
                         ])
                       }
                     />
-                  </Box>
+                  </Flex>
                 );
             }
           })}
         </>
         <>
-          <HistoryPicker
-            selectStartDate={(date) => setStartDate(date)}
-            selectEndDate={(date) => setEndDate(date)}
-            disabled={!startDate || !endDate}
-            endDate={endDate}
-            startDate={startDate}
-            showBtn={false}
-          />
+          <Flex
+            flexWrap={{ base: "wrap", md: "wrap" }}
+            w={{ base: "100%", md: "200px" }}
+            p={1}
+          >
+            <HistoryPicker
+              selectStartDate={(date) => setStartDate(date)}
+              selectEndDate={(date) => setEndDate(date)}
+              disabled={!startDate || !endDate}
+              endDate={endDate}
+              startDate={startDate}
+              showBtn={false}
+            />
+          </Flex>
         </>
       </>
     );
@@ -685,15 +732,19 @@ function Reports() {
           mx={2}
           alignItems={"start"}
           alignContent={"baseline"}
-          borderRadius={"5px"}
+          borderRadius={"25px"}
           p={3}
           bg={"primary.80"}
           mt={2}
           as={Flex}
           flexWrap={"wrap"}
         >
-          <Box w={"200px"} p={1}>
-            <Text p={1} color={"text.primary"}>
+          <Flex
+            flexWrap={{ base: "no-wrap", md: "wrap" }}
+            w={{ base: "100%", md: "200px" }}
+            p={1}
+          >
+            <Text p={1} mx={3} color={"text.primary"}>
               Devices/Containers:
             </Text>
             <StyledSelect
@@ -713,14 +764,20 @@ function Reports() {
                 { value: "containers", label: "Containers" },
               ]}
             />
-          </Box>
+          </Flex>
           {project === "cylocks" ? CylockForm() : ContainersForm()}
 
-          <Center gap={3} mt={8} ml={2}>
+          <Flex
+            w={"100%"}
+            gap={3}
+            mt={{ base: 2, md: 8 }}
+            mr={{ base: 0, md: 8 }}
+            justifyContent={"end"}
+          >
             <ButtonGroup
               as={Flex}
               flexWrap={"wrap"}
-              isAttached
+              isAttached={{ base: false, md: true }}
               variant="outline"
             >
               <Button
@@ -728,25 +785,28 @@ function Reports() {
                 color={"white"}
                 bg={"action.80"}
                 _hover={{ bg: "action.60" }}
+                borderRadius={"25px"}
               >
                 Show Data
               </Button>
               <Button
+                borderRadius={"25px"}
                 onClick={onToggle}
-                bg={"action.100"}
-                color={"text.primary"}
+                bg={"white"}
+                color={"black"}
               >
                 Set Scheduling
               </Button>
               <Button
+                borderRadius={"25px"}
                 onClick={() => navigate("/scheduled-reports")}
-                bg={"action.100"}
-                color={"text.primary"}
+                bg={"white"}
+                color={"black"}
               >
                 View Scheduled reports
               </Button>
             </ButtonGroup>
-          </Center>
+          </Flex>
           <Box p={1} w={"100%"}>
             <Collapse in={isOpen} animateOpacity>
               <Heading fontSize={"2xl"} color={"text.primary"}>
@@ -786,7 +846,7 @@ function Reports() {
         </Box>
       )}
 
-      <Box mt={2} mx={2}>
+      <Box mt={2} mx={2} bg={"primary.80"} p={3} borderRadius={"25px"}>
         <SpinnerLoader
           loading={loading}
           body={

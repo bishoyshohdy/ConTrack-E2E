@@ -20,7 +20,6 @@ import "./tag-container.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import StyledSelect from "../styled-select/styled-select";
-// react icons
 import {
   RiArrowLeftSLine as LeftIcon,
   RiArrowRightSLine as RightIcon,
@@ -301,6 +300,7 @@ function tagContainer({
             ) : null}
           </Flex>
         </Flex>
+
         {columns.length !== 0 ? (
           <>
             <Carousel

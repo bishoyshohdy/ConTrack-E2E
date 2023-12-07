@@ -680,9 +680,6 @@ function Dashboard() {
                           <DrawerCloseButton />
                           <DrawerBody>
                             <TagContainer
-                              // TabChange={
-                              //   location.state ? location.state.activeTab : 1
-                              // }
                               redirectToDevice={redirectToTag}
                               data={selectedCytags}
                               title={"Connected CyTags"}
