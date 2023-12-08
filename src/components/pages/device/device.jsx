@@ -76,6 +76,7 @@ import {
 } from "../../../helpers/array-map";
 import StyledSelect from "../../ui/styled-select/styled-select";
 import RoutesMap from "../../ui/routes-map/routes-map";
+import Map from "../../ui/map/map";
 import { TripStatus } from "../../../data/trips";
 import DeviceChart from "./device-chart/device-chart";
 import { FaBroadcastTower, FaSimCard } from "react-icons/fa";
@@ -1115,10 +1116,139 @@ function Device() {
                 </Button>
               </Heading>
             </Box>
-            {/* <Map trips={false} markers={markers} /> */}
+
             {/* Map */}
             <Box my={6}>
+              {/* <Map
+                trips={true}
+                markers={markers}
+                zoom={16}
+                geofences={deviceGeofences}
+                routes={currentTrip}
+                tripChoices={
+                  trips.length !== 0 ? (
+                    <Accordion m={1} w={"100%"} allowMultiple>
+                      <AccordionItem>
+                        <AccordionButton bg={"primary.80"}>
+                          <Box
+                            color={"text.primary"}
+                            fontSize={"xl"}
+                            textAlign="left"
+                          >
+                            Trips
+                          </Box>
+                          <AccordionIcon color={"white"} />
+                        </AccordionButton>
+                        <AccordionPanel>
+                          <Box
+                            w={"100%"}
+                            alignContent={"center"}
+                            as={Flex}
+                            flexWrap={"wrap"}
+                            gap={2}
+                          >
+                            <Box
+                              as={Flex}
+                              gap={1}
+                              alignItems={"center"}
+                              w={"100%"}
+                              mb={1}
+                            >
+                              <StyledSelect
+                                value={trip}
+                                onchange={setTripInMap}
+                                options={trips.map((trip) => {
+                                  return {
+                                    label: trip.route
+                                      ? trip.route.name
+                                      : "Unnamed Trip",
+                                    value: trip.id,
+                                  };
+                                })}
+                              />
+
+                              {trip && getTripField(trip, "status") ? (
+                                <Tag
+                                  size={"lg"}
+                                  color={"text.primary"}
+                                  colorScheme="action"
+                                  ml={"2"}
+                                >
+                                  {trip && getTripField(trip, "status")}
+                                </Tag>
+                              ) : (
+                                <br />
+                              )}
+                            </Box>
+                            <Flex>
+                              <ButtonGroup
+                                w={"100%"}
+                                color={"text.primary"}
+                                isAttached
+                                variant="outline"
+                              >
+                                <Button
+                                  onClick={() =>
+                                    changeTripStatusCall(
+                                      trip,
+                                      TripStatus.IN_PROGRESS
+                                    )
+                                  }
+                                  bg={"action.100"}
+                                  isDisabled={
+                                    trip &&
+                                    getTripField(trip, "status") !==
+                                      TripStatus.PENDING
+                                  }
+                                  color={"white"}
+                                >
+                                  Start Trip
+                                </Button>
+                                <Button
+                                  onClick={() =>
+                                    changeTripStatusCall(
+                                      trip,
+                                      TripStatus.COMPLETED
+                                    )
+                                  }
+                                  bg={"action.100"}
+                                  isDisabled={
+                                    trip &&
+                                    getTripField(trip, "status") !==
+                                      TripStatus.IN_PROGRESS
+                                  }
+                                  color={"white"}
+                                >
+                                  Complete Trip
+                                </Button>
+                              </ButtonGroup>
+                              <Button
+                                ml={3}
+                                w={"100%"}
+                                variant="outline"
+                                onClick={() =>
+                                  changeTripStatusCall(trip, TripStatus.PENDING)
+                                }
+                                bg={"danger.100"}
+                                isDisabled={
+                                  trip &&
+                                  getTripField(trip, "status") !==
+                                    TripStatus.IN_PROGRESS
+                                }
+                                color={"white"}
+                              >
+                                Stop Trip
+                              </Button>
+                            </Flex>
+                          </Box>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    </Accordion>
+                  ) : null
+                }
+              /> */}
               <RoutesMap
+                trips={true}
                 zoom={16}
                 geofences={deviceGeofences}
                 markers={markers}
@@ -1244,6 +1374,7 @@ function Device() {
                     </Accordion>
                   ) : null
                 }
+                Trips={trips}
               />
             </Box>
           </Box>

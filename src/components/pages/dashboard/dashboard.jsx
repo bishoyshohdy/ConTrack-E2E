@@ -1,5 +1,4 @@
 import { Icon, CheckCircleIcon, CheckIcon } from "@chakra-ui/icons";
-
 import {
   Box,
   Button,
@@ -25,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useContext, useRef } from "react";
 import StatCard from "../../ui/card/stat-card";
-import ComplexTable from "../../ui/table/complex-table";
+import ContainerTable from "../../ui/table/container-table";
 import CardTable from "../../ui/table/card-table";
 import AlarmTable from "../../ui/table/alarm-table";
 import TabPan from "../../ui/tabs/tab-panel";
@@ -132,6 +131,74 @@ export function AlarmAction({
     </Box>
   );
 }
+
+const DummyContainerData = [
+  {
+    customs_clearance: "Ben Davis",
+    phone_number: "+123456789",
+    timeline: "2023-12-10",
+    shippingline_key_contact: "John Doe",
+    document_status: "shipping-line1@shippingline.com",
+    priority: "High",
+    estimate_start_time: "2023-12-01",
+    status: "Warehousing",
+    importer: ["Peter Smith", "IoT Business Development Manager", "Member"],
+    name: "MSCU5285725",
+    id: "5285725",
+  },
+  {
+    customs_clearance: "CustomsB",
+    phone_number: "+987654321",
+    timeline: "2023-12-15",
+    shippingline_key_contact: "Jane Doe",
+    document_status: "Pending Approval",
+    priority: "Medium",
+    estimate_start_time: "2023-12-05",
+    status: "Pending",
+    importer: ["Amy Aaronson", "Business Analyst", "Admin"],
+    name: "MSCU456789",
+    id: "456789",
+  },
+  {
+    customs_clearance: "Customs C",
+    phone_number: "+555123456",
+    timeline: "2023-12-05",
+    shippingline_key_contact: "Bob Smith",
+    document_status: "Approved",
+    priority: "Low",
+    estimate_start_time: "2023-11-28",
+    status: "Completed",
+    importer: ["Ian Kowalski", "Developer", "Member"],
+    name: "MSCU123456",
+    id: "123456",
+  },
+  {
+    customs_clearance: "Customs D",
+    phone_number: "+999876543",
+    timeline: "2023-12-12",
+    shippingline_key_contact: "Alice Johnson",
+    document_status: "Pending Approval",
+    priority: "High",
+    estimate_start_time: "2023-12-02",
+    status: "In Progress",
+    importer: ["Sam Anderson", "Developer", "Member"],
+    name: "MSCU987654",
+    id: "987654",
+  },
+  {
+    customs_clearance: "Customs E",
+    phone_number: "+777333444",
+    timeline: "2023-12-18",
+    shippingline_key_contact: "Eve Wilson",
+    document_status: "Pending Approval",
+    priority: "Medium",
+    estimate_start_time: "2023-12-08",
+    status: "Pending",
+    importer: ["Ruth Miller", "Senior Marketing Specialist", "Member"],
+    name: "MSCU777333",
+    id: "777333",
+  },
+];
 
 function Dashboard() {
   const location = useLocation();
@@ -431,7 +498,7 @@ function Dashboard() {
           <Center>
             <TabList
               h={"75px"}
-              minW={"60%"}
+              minW={"70%"}
               maxW={"100%"}
               gap={{ base: 0, md: 15 }}
             >
@@ -466,7 +533,7 @@ function Dashboard() {
               </Tab>
 
               <Tab
-                mx={3}
+                mx={2}
                 _selected={{
                   color: "text.primary",
                   bg: "primary.80",
@@ -491,6 +558,39 @@ function Dashboard() {
                 <Text fontSize="2xl" display={{ base: "none", md: "block" }}>
                   {" "}
                   {cycollects && cycollects.length} CyLocks
+                </Text>
+              </Tab>
+
+              <Tab
+                mx={2}
+                _selected={{
+                  color: "text.primary",
+                  bg: "primary.80",
+                  border: "3px solid",
+                  borderColor: "action.80",
+                  boxShadow: "0px 0px 10px 0px #aaaa",
+                }}
+                _hover={{ bg: "action.80" }}
+              >
+                <Box>
+                  <Circle size={{ base: "30px", md: "30px" }}>
+                    <GiCargoCrate
+                      size={{ base: "5px", md: "5px" }}
+                      margin={"auto"}
+                      p={"auto"}
+                      color={
+                        themeCtx.theme.colors &&
+                        themeCtx.theme.colors.text.primary
+                      }
+                    />
+                  </Circle>
+                </Box>
+                <Text
+                  mx={2}
+                  fontSize="2xl"
+                  display={{ base: "none", md: "block" }}
+                >
+                  5 Containers E2E
                 </Text>
               </Tab>
 
@@ -705,11 +805,49 @@ function Dashboard() {
               </div>
             </TabPanel>
 
+            {/* CONTAINERS */}
+            <TabPanel p={"0px"}>
+              <Box mt={5} borderRadius={"25px"} bg={"primary.80"}>
+                {/* Table with following columns:
+                Container ID (Sting)
+                Container Name (Sting)
+                Importer (Avatar) - Chosen from a list of avatars
+                Status (String in banner) - Chosen from a list of statuses
+                Estimate time to start shiping
+                Priority (String in banner) - Chosen from a list of priorities [High, Medium, Low]
+                Document Status (String in banner) - Chosen from a list of document statuses
+                Shippingline key contact (String) 
+                Timeline (Date) - Chosen from date picker
+                Phone number (String) 
+                Customs clearance (Avatar) - Chosen from a list of customs clearance Avatar
+                 */}
+                {/* Each row resembles a container */}
+                {/* Use dummy data using regular Table components*/}
+                <Box p={3}>
+                  <ContainerTable
+                    title={"Containers E2E"}
+                    data={DummyContainerData}
+                    icon={
+                      <GiCargoCrate
+                        size={"40px"}
+                        margin={"auto"}
+                        p={"auto"}
+                        color={
+                          themeCtx.theme.colors &&
+                          themeCtx.theme.colors.action[80]
+                        }
+                      />
+                    }
+                  ></ContainerTable>
+                </Box>
+              </Box>
+            </TabPanel>
+
             {/* CYTAGS */}
             <TabPanel p={"0px"}>
               <Box mt={5}>
                 {cytags.length !== 0 && (
-                  <Box mt={1} w={"100%"} ref={refTags}>
+                  <Box mt={1} ref={refTags}>
                     <TagContainer
                       TabChange={TabChange}
                       isLoading={deviceCtx.isLoadingCytags}

@@ -1,5 +1,18 @@
 import React from "react";
-import { Badge, Icon, Center, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Icon,
+  Center,
+  Text,
+  Avatar,
+  Tooltip,
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Button,
+  Select,
+} from "@chakra-ui/react";
 import { assignCytag, unAssignCytag } from "../api/device-actions";
 import EditGeofence from "../components/pages/geofences/edit-geofence/edit-geofence";
 import DeleteGeofence from "../components/pages/geofences/delete-geofence/delete-geofence";
@@ -431,4 +444,75 @@ export function flattenObject(object) {
     }
   });
   return newObject;
+}
+
+export function ExtractContainerHeaders(data = [], container) {
+  return data.length !== 0
+    ? Object.keys(data[0])
+        .reverse()
+        .map((key) => {
+          return {
+            Header: key.toUpperCase().replaceAll("_", " "),
+            accessor: key,
+            Cell: (props) => switchContainerHeaders(key, props),
+          };
+        })
+    : [];
+}
+
+export function switchContainerHeaders(field, props) {
+  // Switch case for each header and return the value
+  // Headers: importer, status,estimate_start_time, priority, document_status, timeline, customs_clearance
+  switch (field) {
+    case "importer":
+      return (
+        <Tooltip
+          hasArrow
+          boxShadow={"xl"}
+          borderRadius={"25px"}
+          minH={"100px"}
+          minW={"100px"}
+          label={
+            <Box p={4}>
+              <Flex>
+                <Avatar name={props.value[0]} size={"lg"} />
+                <Flex flexDirection={"column"} ml={4}>
+                  <Text fontSize={"xl"} my={1}>
+                    {props.value[0]}
+                  </Text>
+                  <Text my={1} textOverflow={"ellipsis"}>
+                    {props.value[1]}
+                  </Text>
+                  <Badge w={"fit-content"} my={1}>
+                    {props.value[2]}
+                  </Badge>
+                </Flex>
+              </Flex>
+            </Box>
+          }
+          bg="primary.80"
+          color="text.primary"
+        >
+          <Avatar name={props.value[0]} size={"sm"} />
+        </Tooltip>
+      );
+    case "status":
+      return (
+        <Center w={"100%"} h={"100%"} px={6} py={3} bg={"danger.100"}>
+          <Text color={"white"}>{props.value}</Text>
+        </Center>
+      );
+    case "estimate_start_time":
+      return String(formatDate(props.value));
+    case "priority":
+      return String(props.value);
+    case "document_status":
+      return String(props.value);
+    case "timeline":
+      return String(props.value);
+    case "customs_clearance":
+      return String(props.value);
+    default:
+      return String(props.value);
+  }
 }

@@ -9,6 +9,7 @@ import {
   Input,
   SkeletonText,
   Text,
+  useRadioGroup,
 } from "@chakra-ui/react";
 import { FaLocationArrow, FaTimes } from "react-icons/fa";
 import {
@@ -23,6 +24,11 @@ import "./routes-map.css";
 import { DevicesContext } from "../../../context/devices";
 import Polygon from "../map/polygon/polygon";
 import { ThemeContext } from "../../../context/theme";
+import StyledSelect from "../styled-select/styled-select";
+import { path1, path2 } from "../map/paths-test";
+import { MdReplay } from "react-icons/md";
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import { RadioCard } from "../radio-card/radio-card";
 
 function RoutesMap({
   markers = [],
@@ -33,6 +39,8 @@ function RoutesMap({
   drawingComplete,
   children,
   tripChoices,
+  trips,
+  Trips,
 }) {
   const deviceCtx = useContext(DevicesContext);
   const [center, setCenter] = useState();
