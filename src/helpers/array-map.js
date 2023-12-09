@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Badge,
   Icon,
@@ -12,6 +12,23 @@ import {
   GridItem,
   Button,
   Select,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+  ButtonGroup,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
 } from "@chakra-ui/react";
 import { assignCytag, unAssignCytag } from "../api/device-actions";
 import EditGeofence from "../components/pages/geofences/edit-geofence/edit-geofence";
@@ -23,11 +40,14 @@ import AssignEntities from "../components/pages/alarms-settings/assign-entities/
 import EditAlarmSetting from "../components/pages/alarms-settings/edit-alarm-setting/edit-alarm-setting";
 import { AlarmAction } from "../components/pages/dashboard/dashboard";
 import moment from "moment-timezone";
-import { FaLock, FaLockOpen } from "react-icons/fa";
+import { FaLock, FaLockOpen, FaCopy } from "react-icons/fa";
 import CytagChip from "../components/ui/cytag-chip/cytag-chip";
 import DeleteAlarmSetting from "../components/pages/alarms-settings/delete-alarm-settings/delete-alarm-settings";
 import { hasPermission } from "./permissions-helper";
 import { PERMISSIONS } from "../types/devices";
+import { showsuccess } from "./toast-emitter";
+import { getEmojiFlag, getCountryCode } from "countries-list";
+import { continents, countries, languages } from "countries-list";
 
 export function extractUniqueKeys(data) {
   const keys = [];
@@ -123,7 +143,6 @@ export function extractHeaders(data = [], alarms) {
 }
 
 export function extractNestedHeaders(data = [], hiddenCols) {
-  // const cols = [];
   const res = [];
   if (data.length !== 0) {
     Object.keys(data[0]).forEach((key) => {
@@ -166,6 +185,12 @@ export function formatDate(date) {
   return moment(date + "Z")
     .utcOffset(moment().utcOffset())
     .format("DD/MM/YYYY, HH:mm:ss");
+}
+
+export function formatDateNoTime(date) {
+  return moment(date + "Z")
+    .utcOffset(moment().utcOffset())
+    .format("DD/MM/YYYY");
 }
 
 export function formatLocalToISOUTC(date) {
@@ -461,57 +486,557 @@ export function ExtractContainerHeaders(data = [], container) {
 }
 
 export function switchContainerHeaders(field, props) {
-  // Switch case for each header and return the value
-  // Headers: importer, status,estimate_start_time, priority, document_status, timeline, customs_clearance
+  // Importer states & functions
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+
+  // Status functions and states
+  const [selectedStatus, setSelectedStatus] = useState(
+    props.value.current_status
+  );
+
+  const handleStatusChange = (newStatus) => {
+    setSelectedStatus(newStatus);
+  };
+
+  const [isStatusOpen, setStatusIsOpen] = useState(false);
+
+  const [selectedPriority, setSelectedPriority] = useState(
+    props.value.current_priority
+  );
+
+  const handlePriorityChange = (newPriority) => {
+    setSelectedPriority(newPriority);
+  };
+
+  const [isPriorityOpen, setPriorityIsOpen] = useState(false);
+
+  // Document status functions and states
+  const [selectedDocumentStatus, setSelectedDocumentStatus] = useState(
+    props.value.current_status
+  );
+
+  const handleDocumentStatusChange = (newDocumentStatus) => {
+    setSelectedDocumentStatus(newDocumentStatus);
+  };
+
+  const [isDocumentStatusOpen, setDocumentStatusIsOpen] = useState(false);
+
+  // Customs clearance functions and states
+  const [isTooltip2Open, setIsTooltip2Open] = useState(false);
+
+  const countriesList = require("countries-list");
+  // Phone number functions and states
+  const [countryCode, phoneNumber] = String(props.value)
+    .substring(1)
+    .split(" ");
+
+  const countryInfo = Object.values(countriesList.countries).find(
+    (country) => country.phone[0] === Number(countryCode)
+  );
+
+  const Emoji = countryInfo
+    ? getEmojiFlag(getCountryCode(countryInfo.name))
+    : "🌐";
+
   switch (field) {
     case "importer":
       return (
-        <Tooltip
-          hasArrow
-          boxShadow={"xl"}
-          borderRadius={"25px"}
-          minH={"100px"}
-          minW={"100px"}
-          label={
-            <Box p={4}>
-              <Flex>
-                <Avatar name={props.value[0]} size={"lg"} />
-                <Flex flexDirection={"column"} ml={4}>
-                  <Text fontSize={"xl"} my={1}>
-                    {props.value[0]}
-                  </Text>
-                  <Text my={1} textOverflow={"ellipsis"}>
-                    {props.value[1]}
-                  </Text>
-                  <Badge w={"fit-content"} my={1}>
-                    {props.value[2]}
-                  </Badge>
-                </Flex>
-              </Flex>
-            </Box>
-          }
-          bg="primary.80"
-          color="text.primary"
-        >
-          <Avatar name={props.value[0]} size={"sm"} />
-        </Tooltip>
+        <>
+          <Tooltip
+            hasArrow
+            pb={0}
+            px={0}
+            boxShadow={"xl"}
+            borderRadius={"25px"}
+            minH={"100px"}
+            minW={"120px"}
+            label={
+              <>
+                <Box p={4}>
+                  <Flex>
+                    <Avatar name={props.value.name} size={"lg"} />
+                    <Flex flexDirection={"column"} ml={4}>
+                      <Text fontSize={"xl"} my={1}>
+                        {props.value.name}
+                      </Text>
+                      <Text my={1} textOverflow={"ellipsis"}>
+                        {props.value.jobTitle}
+                      </Text>
+                      <Badge
+                        w={"fit-content"}
+                        my={1}
+                        colorScheme={
+                          props.value.role === "Admin" ? "success" : null
+                        }
+                        color={props.value.role === "Admin" ? "white" : ""}
+                      >
+                        {props.value.role}
+                      </Badge>
+                    </Flex>
+                  </Flex>
+                </Box>
+                <Box
+                  as={Flex}
+                  h={"100%"}
+                  w={"100%"}
+                  roundedBottom={"25px"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <ButtonGroup
+                    isAttached
+                    variant={"outline"}
+                    p={0}
+                    m={0}
+                    w={"100%"}
+                  >
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        bg={"primary.80"}
+                        rounded={0}
+                        roundedBottom={"25px"}
+                      >
+                        Contact Details
+                      </MenuButton>
+                      <MenuList>
+                        <MenuItem
+                          onClick={() => {
+                            navigator.clipboard.writeText(
+                              props.value.phone_number
+                            );
+                            showsuccess("Copied to clipboard successfully");
+                          }}
+                        >
+                          <Grid
+                            templateColumns={"auto 1fr auto"}
+                            alignItems={"center"}
+                            gap={2}
+                          >
+                            <Text>
+                              Phone Number: {props.value.phone_number}
+                            </Text>
+                            <Icon as={FaCopy} />
+                          </Grid>
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            navigator.clipboard.writeText(props.value.email);
+                            showsuccess("Copied to clipboard successfully");
+                          }}
+                        >
+                          {/* Copy to clipboard */}
+                          <Grid
+                            templateColumns={"auto 1fr auto"}
+                            alignItems={"center"}
+                            gap={2}
+                          >
+                            <Text>Email: {props.value.email}</Text>
+                            <Icon as={FaCopy} />
+                          </Grid>
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                    <Button
+                      bg={"primary.80"}
+                      rounded={0}
+                      roundedBottom={"25px"}
+                    >
+                      Ask for an update
+                    </Button>
+                  </ButtonGroup>
+                </Box>
+              </>
+            }
+            bg="primary.80"
+            color="text.primary"
+            placement="top"
+            isOpen={isTooltipOpen}
+            onOpen={() => setIsTooltipOpen(true)}
+            onMouseEnter={() => setIsTooltipOpen(true)}
+            onMouseLeave={() => {
+              setIsTooltipOpen(false);
+            }}
+            pointerEvents={"auto"}
+          >
+            <Avatar
+              onMouseEnter={() => setIsTooltipOpen(true)}
+              onMouseLeave={() => {
+                setIsTooltipOpen(false);
+              }}
+              name={props.value.name}
+              size={"sm"}
+            />
+          </Tooltip>
+        </>
       );
     case "status":
       return (
-        <Center w={"100%"} h={"100%"} px={6} py={3} bg={"danger.100"}>
-          <Text color={"white"}>{props.value}</Text>
-        </Center>
+        <Popover
+          placement="auto"
+          isOpen={isStatusOpen}
+          onClose={() => setStatusIsOpen(false)}
+        >
+          <PopoverTrigger>
+            <Center
+              w={"100%"}
+              h={"100%"}
+              px={6}
+              py={3}
+              fontWeight={500}
+              bg={
+                selectedStatus === "Warehousing"
+                  ? "orange"
+                  : selectedStatus === "Fleet Forwarders"
+                  ? "danger.100"
+                  : selectedStatus === "Shipping Line"
+                  ? "success.100"
+                  : "danger.100"
+              }
+              cursor="pointer"
+              _hover={{ opacity: 0.8 }}
+              onClick={() => setStatusIsOpen(true)}
+            >
+              <Text color={"white"}>{selectedStatus}</Text>
+            </Center>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Change Priority</PopoverHeader>
+            <PopoverBody>
+              {props.value.possible_status.map((status) => (
+                <Center>
+                  <Button
+                    w={"100%"}
+                    py={3}
+                    color={"white"}
+                    rounded={0}
+                    fontWeight={500}
+                    bg={
+                      status === "Warehousing"
+                        ? "orange"
+                        : status === "Fleet Forwarders"
+                        ? "danger.100"
+                        : status === "Shipping Line"
+                        ? "success.100"
+                        : "danger.100"
+                    }
+                    _hover={{ opacity: 0.8 }}
+                    key={status}
+                    variant={status === selectedStatus ? "solid" : "outline"}
+                    onClick={() => {
+                      handleStatusChange(status);
+                      setPriorityIsOpen(false);
+                    }}
+                  >
+                    {status}
+                  </Button>
+                </Center>
+              ))}
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
       );
     case "estimate_start_time":
-      return String(formatDate(props.value));
+      return String(formatDateNoTime(props.value));
     case "priority":
-      return String(props.value);
+      return (
+        <Popover
+          placement="auto"
+          isOpen={isPriorityOpen}
+          onClose={() => setPriorityIsOpen(false)}
+        >
+          <PopoverTrigger>
+            <Center
+              w={"100%"}
+              h={"100%"}
+              px={6}
+              py={3}
+              fontWeight={500}
+              bg={
+                selectedPriority === "High"
+                  ? "#311cac"
+                  : selectedPriority === "Medium"
+                  ? "#5559DF"
+                  : selectedPriority === "Low"
+                  ? "#579BFC"
+                  : "danger.100"
+              }
+              cursor="pointer"
+              _hover={{ opacity: 0.8 }}
+              onClick={() => setPriorityIsOpen(true)}
+            >
+              <Text color={"white"}>{selectedPriority}</Text>
+            </Center>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Change Priority</PopoverHeader>
+            <PopoverBody>
+              {props.value.possible_priority.map((priority) => (
+                <Center>
+                  <Button
+                    w={"100%"}
+                    py={3}
+                    color={"white"}
+                    rounded={0}
+                    fontWeight={500}
+                    bg={
+                      priority === "High"
+                        ? "#311cac"
+                        : priority === "Medium"
+                        ? "#5559DF"
+                        : priority === "Low"
+                        ? "#579BFC"
+                        : "danger.100"
+                    }
+                    _hover={{ opacity: 0.8 }}
+                    key={priority}
+                    variant={
+                      priority === selectedPriority ? "solid" : "outline"
+                    }
+                    onClick={() => {
+                      handlePriorityChange(priority);
+                      setPriorityIsOpen(false);
+                    }}
+                  >
+                    {priority}
+                  </Button>
+                </Center>
+              ))}
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      );
     case "document_status":
-      return String(props.value);
+      return (
+        <Popover
+          placement="auto"
+          isOpen={isDocumentStatusOpen}
+          onClose={() => setDocumentStatusIsOpen(false)}
+        >
+          <PopoverTrigger>
+            <Center
+              w={"100%"}
+              h={"100%"}
+              px={6}
+              py={3}
+              fontWeight={500}
+              bg={
+                selectedDocumentStatus === "In Progress"
+                  ? "orange"
+                  : selectedDocumentStatus === "Done"
+                  ? "success.100"
+                  : selectedDocumentStatus === "Stuck"
+                  ? "danger.100"
+                  : selectedDocumentStatus === "Canceled"
+                  ? "grey"
+                  : "danger.100"
+              }
+              cursor="pointer"
+              _hover={{ opacity: 0.8 }}
+              onClick={() => setDocumentStatusIsOpen(true)}
+            >
+              <Text color={"white"}>{selectedDocumentStatus}</Text>
+            </Center>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Change Priority</PopoverHeader>
+            <PopoverBody>
+              {props.value.possible_status.map((documentStatus) => (
+                <Center>
+                  <Button
+                    w={"100%"}
+                    py={3}
+                    color={"white"}
+                    rounded={0}
+                    fontWeight={500}
+                    bg={
+                      documentStatus === "In Progress"
+                        ? "orange"
+                        : documentStatus === "Done"
+                        ? "success.100"
+                        : documentStatus === "Stuck"
+                        ? "danger.100"
+                        : documentStatus === "Canceled"
+                        ? "grey"
+                        : "danger.100"
+                    }
+                    _hover={{ opacity: 0.8 }}
+                    key={documentStatus}
+                    variant={
+                      documentStatus === selectedDocumentStatus
+                        ? "solid"
+                        : "outline"
+                    }
+                    onClick={() => {
+                      handleDocumentStatusChange(documentStatus);
+                      setDocumentStatusIsOpen(false);
+                    }}
+                  >
+                    {documentStatus}
+                  </Button>
+                </Center>
+              ))}
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      );
     case "timeline":
-      return String(props.value);
+      return (
+        // format date
+        <Text w={"100%"}>{String(formatDateNoTime(props.value))}</Text>
+      );
     case "customs_clearance":
-      return String(props.value);
+      return (
+        <Tooltip
+          hasArrow
+          pb={0}
+          px={0}
+          boxShadow={"xl"}
+          borderRadius={"25px"}
+          minH={"100px"}
+          minW={"120px"}
+          label={
+            <>
+              <Box p={4}>
+                <Flex>
+                  <Avatar name={props.value.name} size={"lg"} />
+                  <Flex flexDirection={"column"} ml={4}>
+                    <Text fontSize={"xl"} my={1}>
+                      {props.value.name}
+                    </Text>
+                    <Text my={1} textOverflow={"ellipsis"}>
+                      {props.value.jobTitle}
+                    </Text>
+                    <Badge
+                      w={"fit-content"}
+                      my={1}
+                      colorScheme={
+                        props.value.role === "Admin" ? "success" : null
+                      }
+                      color={props.value.role === "Admin" ? "white" : ""}
+                    >
+                      {props.value.role}
+                    </Badge>
+                  </Flex>
+                </Flex>
+              </Box>
+              <Box
+                as={Flex}
+                h={"100%"}
+                w={"100%"}
+                roundedBottom={"25px"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <ButtonGroup
+                  isAttached
+                  variant={"outline"}
+                  p={0}
+                  m={0}
+                  w={"100%"}
+                >
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      bg={"primary.80"}
+                      rounded={0}
+                      roundedBottom={"25px"}
+                    >
+                      Contact Details
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            props.value.phone_number
+                          );
+                          showsuccess("Copied to clipboard successfully");
+                        }}
+                      >
+                        <Grid
+                          templateColumns={"auto 1fr auto"}
+                          alignItems={"center"}
+                          gap={2}
+                        >
+                          <Text>Phone Number: {props.value.phone_number}</Text>
+                          <Icon as={FaCopy} />
+                        </Grid>
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          navigator.clipboard.writeText(props.value.email);
+                          showsuccess("Copied to clipboard successfully");
+                        }}
+                      >
+                        {/* Copy to clipboard */}
+                        <Grid
+                          templateColumns={"auto 1fr auto"}
+                          alignItems={"center"}
+                          gap={2}
+                        >
+                          <Text>Email: {props.value.email}</Text>
+                          <Icon as={FaCopy} />
+                        </Grid>
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                  <Button bg={"primary.80"} rounded={0} roundedBottom={"25px"}>
+                    Ask for an update
+                  </Button>
+                </ButtonGroup>
+              </Box>
+            </>
+          }
+          bg="primary.80"
+          color="text.primary"
+          placement="top"
+          isOpen={isTooltip2Open}
+          onOpen={() => setIsTooltipOpen(true)}
+          onMouseEnter={() => setIsTooltip2Open(true)}
+          onMouseLeave={() => {
+            setIsTooltip2Open(false);
+          }}
+          pointerEvents={"auto"}
+        >
+          <Avatar
+            onMouseEnter={() => setIsTooltip2Open(true)}
+            onMouseLeave={() => {
+              setIsTooltip2Open(false);
+            }}
+            name={props.value.name}
+            size={"sm"}
+          />
+        </Tooltip>
+      );
+    case "shippingline_key_contact":
+      return (
+        <Text
+          as={"a"}
+          href={`mailto:${props.value}`}
+          textDecoration={"underline"}
+          color={"action.80"}
+        >
+          {props.value}
+        </Text>
+      );
+    case "phone_number":
+      return (
+        <Grid
+          templateColumns={"auto 1fr"}
+          gap={2}
+          alignItems="center"
+          w={"100%"}
+        >
+          <Text fontSize={"xl"}>{Emoji}</Text>
+          <Text fontSize={"md"}> {props.value}</Text>
+        </Grid>
+      );
     default:
       return String(props.value);
   }

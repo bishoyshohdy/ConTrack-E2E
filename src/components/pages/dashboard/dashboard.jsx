@@ -134,69 +134,349 @@ export function AlarmAction({
 
 const DummyContainerData = [
   {
-    customs_clearance: "Ben Davis",
-    phone_number: "+123456789",
+    customs_clearance: {
+      name: "Ben Davis",
+      jobTitle: "Customs Broker",
+      role: "Assistant",
+      phone_number: "+123456789",
+      email: "bendavis@xyz.com",
+    },
+    phone_number: "+12 3456789",
     timeline: "2023-12-10",
-    shippingline_key_contact: "John Doe",
-    document_status: "shipping-line1@shippingline.com",
-    priority: "High",
+    shippingline_key_contact: "shipping-line1@shippingline.com",
+    document_status: {
+      current_status: "Canceled",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Low",
+      possible_priority: ["High", "Medium", "Low"],
+    },
     estimate_start_time: "2023-12-01",
-    status: "Warehousing",
-    importer: ["Peter Smith", "IoT Business Development Manager", "Member"],
+    status: {
+      current_status: "Fleet Forwarders",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "John Doe",
+      jobTitle: "IoT Business Development Manager",
+      role: "Admin",
+      phone_number: "+123456789",
+      email: "bendavis@xyz.com",
+    },
     name: "MSCU5285725",
     id: "5285725",
   },
   {
-    customs_clearance: "CustomsB",
-    phone_number: "+987654321",
+    customs_clearance: {
+      name: "Alice Johnson",
+      jobTitle: "Software Engineer",
+      role: "Developer",
+      phone_number: "+987654321",
+      email: "alicejohnson@xyz.com",
+    },
+    phone_number: "+98 7654321",
     timeline: "2023-12-15",
-    shippingline_key_contact: "Jane Doe",
-    document_status: "Pending Approval",
-    priority: "Medium",
+    shippingline_key_contact: "shipping-line2@shippingline.com",
+    document_status: {
+      current_status: "Done",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "High",
+      possible_priority: ["High", "Medium", "Low"],
+    },
     estimate_start_time: "2023-12-05",
-    status: "Pending",
-    importer: ["Amy Aaronson", "Business Analyst", "Admin"],
-    name: "MSCU456789",
-    id: "456789",
+    status: {
+      current_status: "Shipping Line",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Jane Smith",
+      jobTitle: "Supply Chain Analyst",
+      role: "Manager",
+      phone_number: "+987654321",
+      email: "alicejohnson@xyz.com",
+    },
+    name: "CMAU7351982",
+    id: "7351982",
   },
   {
-    customs_clearance: "Customs C",
-    phone_number: "+555123456",
-    timeline: "2023-12-05",
-    shippingline_key_contact: "Bob Smith",
-    document_status: "Approved",
-    priority: "Low",
-    estimate_start_time: "2023-11-28",
-    status: "Completed",
-    importer: ["Ian Kowalski", "Developer", "Member"],
-    name: "MSCU123456",
-    id: "123456",
-  },
-  {
-    customs_clearance: "Customs D",
-    phone_number: "+999876543",
-    timeline: "2023-12-12",
-    shippingline_key_contact: "Alice Johnson",
-    document_status: "Pending Approval",
-    priority: "High",
-    estimate_start_time: "2023-12-02",
-    status: "In Progress",
-    importer: ["Sam Anderson", "Developer", "Member"],
-    name: "MSCU987654",
-    id: "987654",
-  },
-  {
-    customs_clearance: "Customs E",
-    phone_number: "+777333444",
-    timeline: "2023-12-18",
-    shippingline_key_contact: "Eve Wilson",
-    document_status: "Pending Approval",
-    priority: "Medium",
+    customs_clearance: {
+      name: "David Smith",
+      jobTitle: "Marketing Specialist",
+      role: "Coordinator",
+      phone_number: "+111223344",
+      email: "davidsmith@xyz.com",
+    },
+    phone_number: "+1 11223344",
+    timeline: "2023-12-20",
+    shippingline_key_contact: "shipping-line3@shippingline.com",
+    document_status: {
+      current_status: "Canceled",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "High",
+      possible_priority: ["High", "Medium", "Low"],
+    },
     estimate_start_time: "2023-12-08",
-    status: "Pending",
-    importer: ["Ruth Miller", "Senior Marketing Specialist", "Member"],
-    name: "MSCU777333",
-    id: "777333",
+    status: {
+      current_status: "Fleet Forwarders",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Sarah Brown",
+      jobTitle: "Logistics Coordinator",
+      role: "Coordinator",
+      phone_number: "+11 1223344",
+      email: "davidmiller@xyz.com",
+    },
+    name: "HPLU6247319",
+    id: "6247319",
+  },
+  {
+    customs_clearance: {
+      name: "Emily White",
+      jobTitle: "Graphic Designer",
+      role: "Designer",
+      phone_number: "+99 8877665",
+      email: "emilywhite@xyz.com",
+    },
+    phone_number: "+55 5666777",
+    timeline: "2023-12-18",
+    shippingline_key_contact: "shipping-line4@shippingline.com",
+    document_status: {
+      current_status: "Stuck",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Low",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-03",
+    status: {
+      current_status: "Warehousing",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Emma White",
+      jobTitle: "Operations Manager",
+      role: "Supervisor",
+      phone_number: "+555666777",
+      email: "chrisanderson@xyz.com",
+    },
+    name: "OOCL8901245",
+    id: "8901245",
+  },
+  {
+    customs_clearance: {
+      name: "Michael Turner",
+      jobTitle: "Financial Analyst",
+      role: "Analyst",
+      phone_number: "+112233445",
+      email: "michaelturner@xyz.com",
+    },
+    phone_number: "+77 7888999",
+    timeline: "2023-12-22",
+    shippingline_key_contact: "shipping-line5@shippingline.com",
+    document_status: {
+      current_status: "In Progress",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Medium",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-12",
+    status: {
+      current_status: "Shipping Line",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Olivia Taylor",
+      jobTitle: "Warehouse Supervisor",
+      role: "Supervisor",
+      phone_number: "+77 7888999",
+      email: "ryancarter@xyz.com",
+    },
+    name: "NYKU4321567",
+    id: "4321567",
+  },
+];
+
+const DummyUpdatesData = [
+  {
+    containerName: "MSCU5285725",
+    updates: [
+      {
+        user: "John Doe",
+        message: "Container loaded onto vessel for shipment.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Jane Smith",
+            reply: "Great! When is the estimated arrival?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+          {
+            user: "David Smith",
+            reply: "Thanks for the update!",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 3,
+      },
+      {
+        user: "Sameh Elsayed",
+        message: "Container reached port successfully.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Fathy Gaafer",
+            reply: "Any customs clearance issues?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+    ],
+  },
+  {
+    containerName: "CMAU7351982",
+    updates: [
+      {
+        user: "Sarah Brown",
+        message: "Container departed from origin port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Sameh Elsayed",
+            reply: "Safe travels! Let me know when it arrives.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Sameh Sayed",
+        message: "Customs clearance completed for CMAU7351982.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Ramy Agieb",
+            reply: "That's good news! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "HPLU6247319",
+    updates: [
+      {
+        user: "Chris Anderson",
+        message: "Delayed departure for HPLU6247319 due to weather conditions.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Awad Elsayed",
+            reply: "Stay safe! Keep me posted on any changes.",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Peter Magdy",
+        message: "New departure time confirmed for HPLU6247319.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Ramy Agieb",
+            reply:
+              "Thanks for the update. Hopefully, smooth sailing from here.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "OOCL8901245",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "OOCL8901245 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container OOCL8901245 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "NYKU4321567",
+    updates: [
+      {
+        user: "Peter Magdy",
+        message:
+          "Loading cargo into NYKU4321567 for the next leg of the journey.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Sameh Elsayed",
+            reply: "Is everything on schedule?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Masoud Matar",
+        message: "NYKU4321567 departed from transshipment port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Mo Salah",
+            reply: "Thanks for the update! Safe travels.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
   },
 ];
 
@@ -827,6 +1107,7 @@ function Dashboard() {
                   <ContainerTable
                     title={"Containers E2E"}
                     data={DummyContainerData}
+                    updates={DummyUpdatesData}
                     icon={
                       <GiCargoCrate
                         size={"40px"}
