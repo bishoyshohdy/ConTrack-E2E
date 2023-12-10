@@ -141,8 +141,11 @@ const DummyContainerData = [
       phone_number: "+123456789",
       email: "bendavis@xyz.com",
     },
-    phone_number: "+12 3456789",
-    timeline: "2023-12-10",
+    phone_number: "+971 5547896",
+    timeline: {
+      startdate: "2023-12-01",
+      enddate: "2023-12-08",
+    },
     shippingline_key_contact: "shipping-line1@shippingline.com",
     document_status: {
       current_status: "Canceled",
@@ -161,7 +164,7 @@ const DummyContainerData = [
       name: "John Doe",
       jobTitle: "IoT Business Development Manager",
       role: "Admin",
-      phone_number: "+123456789",
+      phone_number: "+971 5547896",
       email: "bendavis@xyz.com",
     },
     name: "MSCU5285725",
@@ -175,8 +178,11 @@ const DummyContainerData = [
       phone_number: "+987654321",
       email: "alicejohnson@xyz.com",
     },
-    phone_number: "+98 7654321",
-    timeline: "2023-12-15",
+    phone_number: "+254 1234567",
+    timeline: {
+      startdate: "2023-12-05",
+      enddate: "2023-12-12",
+    },
     shippingline_key_contact: "shipping-line2@shippingline.com",
     document_status: {
       current_status: "Done",
@@ -206,11 +212,14 @@ const DummyContainerData = [
       name: "David Smith",
       jobTitle: "Marketing Specialist",
       role: "Coordinator",
-      phone_number: "+111223344",
+      phone_number: "+212 1234567",
       email: "davidsmith@xyz.com",
     },
-    phone_number: "+1 11223344",
-    timeline: "2023-12-20",
+    phone_number: "+212 2023344",
+    timeline: {
+      startdate: "2023-12-08",
+      enddate: "2023-12-15",
+    },
     shippingline_key_contact: "shipping-line3@shippingline.com",
     document_status: {
       current_status: "Canceled",
@@ -243,8 +252,11 @@ const DummyContainerData = [
       phone_number: "+99 8877665",
       email: "emilywhite@xyz.com",
     },
-    phone_number: "+55 5666777",
-    timeline: "2023-12-18",
+    phone_number: "+20 10504020",
+    timeline: {
+      startdate: "2023-12-03",
+      enddate: "2023-12-10",
+    },
     shippingline_key_contact: "shipping-line4@shippingline.com",
     document_status: {
       current_status: "Stuck",
@@ -263,7 +275,7 @@ const DummyContainerData = [
       name: "Emma White",
       jobTitle: "Operations Manager",
       role: "Supervisor",
-      phone_number: "+555666777",
+      phone_number: "+2010504020",
       email: "chrisanderson@xyz.com",
     },
     name: "OOCL8901245",
@@ -277,8 +289,11 @@ const DummyContainerData = [
       phone_number: "+112233445",
       email: "michaelturner@xyz.com",
     },
-    phone_number: "+77 7888999",
-    timeline: "2023-12-22",
+    phone_number: "+49 57084213",
+    timeline: {
+      startdate: "2023-11-7",
+      enddate: "2023-12-20",
+    },
     shippingline_key_contact: "shipping-line5@shippingline.com",
     document_status: {
       current_status: "In Progress",
@@ -483,109 +498,141 @@ const DummyUpdatesData = [
 const DummyFilesData = [
   {
     ContainerName: "MSCU5285725",
-    files: [ 
+    files: [
       {
         fileName: "Container.pdf",
         fileType: "pdf",
         date: "2023-12-10 12:00:00",
-        location: {uri: require("../../../assets/DummyFiles/MSCU5285725/Container.pdf")}
-      }, 
+        location: {
+          uri: require("../../../assets/DummyFiles/MSCU5285725/Container.pdf"),
+        },
+      },
       {
         fileName: "Customs.xls",
         fileType: "xls",
         date: "2023-12-10 12:00:00",
-        location: {uri: require("../../../assets/DummyFiles/MSCU5285725/Customs.xls")}
-
-      }, {
-        fileName:"Freight Invoices.jpg",
+        location: {
+          uri: require("../../../assets/DummyFiles/MSCU5285725/Customs.xls"),
+        },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
         fileType: "jpg",
         date: "2023-12-10 12:00:00",
-        location: {uri: require("../../../assets/DummyFiles/MSCU5285725/Freight Invoices.jpg")}
-      }]},
+        location: {
+          uri: require("../../../assets/DummyFiles/MSCU5285725/Freight Invoices.jpg"),
+        },
+      },
+    ],
+  },
   {
     ContainerName: "CMAU7351982",
-    files: [ 
+    files: [
       {
         fileName: "Container.pdf",
         fileType: "pdf",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/CMAU7351982/Container.pdf"}
-      }, 
+        location: {
+          uri: "../../../assets/DummyFiles/CMAU7351982/Container.pdf",
+        },
+      },
       {
         fileName: "Customs.xls",
         fileType: "xls",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/CMAU7351982/Customs.xls"}
-
-      }, {
-        fileName:"Freight Invoices.jpg",
+        location: { uri: "../../../assets/DummyFiles/CMAU7351982/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
         fileType: "jpg",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/CMAU7351982/Freight Invoices.jpg"}
-      }]},
+        location: {
+          uri: "../../../assets/DummyFiles/CMAU7351982/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
   {
     ContainerName: "HPLU6247319",
-    files: [ 
+    files: [
       {
         fileName: "Container.pdf",
         fileType: "pdf",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/HPLU6247319/Container.pdf"}
-      }, 
+        location: {
+          uri: "../../../assets/DummyFiles/HPLU6247319/Container.pdf",
+        },
+      },
       {
         fileName: "Customs.xls",
         fileType: "xls",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/HPLU6247319/Customs.xls"}
-
-      }, {
-        fileName:"Freight Invoices.jpg",
+        location: { uri: "../../../assets/DummyFiles/HPLU6247319/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
         fileType: "jpg",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/HPLU6247319/Freight Invoices.jpg"}
-      }]},
+        location: {
+          uri: "../../../assets/DummyFiles/HPLU6247319/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
   {
     ContainerName: "OOCL8901245",
-    files: [ 
+    files: [
       {
         fileName: "Container.pdf",
         fileType: "pdf",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/OOCL8901245/Container.pdf"}
-      }, 
+        location: {
+          uri: "../../../assets/DummyFiles/OOCL8901245/Container.pdf",
+        },
+      },
       {
         fileName: "Customs.xls",
         fileType: "xls",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/OOCL8901245/Customs.xls"}
-
-      }, {
-        fileName:"Freight Invoices.jpg",
+        location: { uri: "../../../assets/DummyFiles/OOCL8901245/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
         fileType: "jpg",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/OOCL8901245/Freight Invoices.jpg"  }
-      }]},
+        location: {
+          uri: "../../../assets/DummyFiles/OOCL8901245/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
   {
     ContainerName: "NYKU4321567",
-    files: [ 
+    files: [
       {
         fileName: "Container.pdf",
         fileType: "pdf",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf"}
-      }, 
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
       {
         fileName: "Customs.xls",
         fileType: "xls",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls"}
-
-      }, {
-        fileName:"Freight Invoices.jpg",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
         fileType: "jpg",
         date: "2023-12-10 12:00:00",
-        location: {uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg"}
-      }]},
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
 ];
 
 function Dashboard() {
@@ -978,7 +1025,7 @@ function Dashboard() {
                   fontSize="2xl"
                   display={{ base: "none", md: "block" }}
                 >
-                  5 Containers E2E
+                  ConColab
                 </Text>
               </Tab>
 

@@ -29,6 +29,7 @@ import {
   PopoverHeader,
   PopoverBody,
   PopoverFooter,
+  Progress,
 } from "@chakra-ui/react";
 import { assignCytag, unAssignCytag } from "../api/device-actions";
 import EditGeofence from "../components/pages/geofences/edit-geofence/edit-geofence";
@@ -538,6 +539,29 @@ export function switchContainerHeaders(field, props) {
     ? getEmojiFlag(getCountryCode(countryInfo.name))
     : "🌐";
 
+  // Timeline functions and states
+
+  const { startdate, enddate } = props.value;
+
+  const calculateProgress = () => {
+    const currentDate = new Date();
+    const startDate = new Date(startdate);
+    const endDate = new Date(enddate);
+
+    const totalDuration = endDate - startDate;
+    const elapsedDuration = currentDate - startDate;
+
+    return Math.min((elapsedDuration / totalDuration) * 100, 100);
+  };
+
+  const calculateDaysRemaining = () => {
+    const currentDate = new Date();
+    const endDate = new Date(enddate);
+    const timeRemaining = endDate - currentDate;
+    const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24));
+
+    return daysRemaining > 0 ? daysRemaining : 0;
+  };
   switch (field) {
     case "importer":
       return (
@@ -888,8 +912,22 @@ export function switchContainerHeaders(field, props) {
       );
     case "timeline":
       return (
+        <Box>
+          <Progress value={calculateProgress()} rounded={"full"} />
+
+          {/* Text */}
+          <Tooltip
+            label={`${calculateDaysRemaining()} days remaining`}
+            hasArrow
+          >
+            <Text textAlign="center" mt={2}>
+              {`${startdate} - ${enddate}`}
+            </Text>
+          </Tooltip>
+        </Box>
+
         // format date
-        <Text w={"100%"}>{String(formatDateNoTime(props.value))}</Text>
+        // <Text w={"100%"}>{String(formatDateNoTime(props.value))}</Text>
       );
     case "customs_clearance":
       return (
