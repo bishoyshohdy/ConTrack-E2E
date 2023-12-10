@@ -480,6 +480,114 @@ const DummyUpdatesData = [
   },
 ];
 
+const DummyFilesData = [
+  {
+    ContainerName: "MSCU5285725",
+    files: [ 
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {uri: require("../../../assets/DummyFiles/MSCU5285725/Container.pdf")}
+      }, 
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: {uri: require("../../../assets/DummyFiles/MSCU5285725/Customs.xls")}
+
+      }, {
+        fileName:"Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {uri: require("../../../assets/DummyFiles/MSCU5285725/Freight Invoices.jpg")}
+      }]},
+  {
+    ContainerName: "CMAU7351982",
+    files: [ 
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/CMAU7351982/Container.pdf"}
+      }, 
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/CMAU7351982/Customs.xls"}
+
+      }, {
+        fileName:"Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/CMAU7351982/Freight Invoices.jpg"}
+      }]},
+  {
+    ContainerName: "HPLU6247319",
+    files: [ 
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/HPLU6247319/Container.pdf"}
+      }, 
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/HPLU6247319/Customs.xls"}
+
+      }, {
+        fileName:"Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/HPLU6247319/Freight Invoices.jpg"}
+      }]},
+  {
+    ContainerName: "OOCL8901245",
+    files: [ 
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/OOCL8901245/Container.pdf"}
+      }, 
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/OOCL8901245/Customs.xls"}
+
+      }, {
+        fileName:"Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/OOCL8901245/Freight Invoices.jpg"  }
+      }]},
+  {
+    ContainerName: "NYKU4321567",
+    files: [ 
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf"}
+      }, 
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls"}
+
+      }, {
+        fileName:"Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg"}
+      }]},
+];
+
 function Dashboard() {
   const location = useLocation();
   let initialActiveTab = 1;
@@ -778,7 +886,7 @@ function Dashboard() {
           <Center>
             <TabList
               h={"75px"}
-              minW={"70%"}
+              minW={"100%"}
               maxW={"100%"}
               gap={{ base: 0, md: 15 }}
             >
@@ -1108,6 +1216,7 @@ function Dashboard() {
                     title={"Containers E2E"}
                     data={DummyContainerData}
                     updates={DummyUpdatesData}
+                    files={DummyFilesData}
                     icon={
                       <GiCargoCrate
                         size={"40px"}

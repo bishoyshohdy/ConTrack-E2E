@@ -41,6 +41,7 @@ import {
   Avatar,
   Textarea,
   Tooltip,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import {
   ArrowBackIcon,
@@ -78,10 +79,9 @@ import { DevicesContext } from "../../../context/devices";
 import NoDataVectorLight from "../../../assets/images/resources/No-data-vector-light.png";
 import NoDataVectorDark from "../../../assets/images/resources/No-data-vector-dark.png";
 import { ExtractContainerHeaders } from "../../../helpers/array-map";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaFileExcel, FaFilePdf, FaFileImage } from "react-icons/fa";
 
 const MessageComponent = ({ containerName, updates }) => {
-  console.log("updates", updates);
   return (
     <Box>
       {updates.map((update, index) => (
@@ -227,6 +227,79 @@ const MessageComponent = ({ containerName, updates }) => {
   );
 };
 
+const FilesComponent = ({ containerName, files }) => {
+  return (
+    <Grid 
+      templateColumns={
+        files.length > 1 ? 
+        "repeat(3 , 1fr)" : 
+        "repeat(1, 1fr)"
+      } 
+      gap={4}
+    >
+      {files.map((file, index) => (
+          <Box minW={"100px"} minH={"250px"} bg={"primary.100"} rounded={"10px"} p={4} >
+              <Text fontSize={"xl"} color={"#0073EA"}>
+                {file.fileName}
+              </Text>
+              <Flex>
+                <Text opacity={"0.7"}>{file.date}</Text>
+                <IconButton
+                  ml={2}
+                  size={"xs"}
+                  bg={"transparent"}
+                  icon={<TimeIcon />}
+                  isDisabled
+                  _hover={{ cursor: "default" }}
+                />
+              </Flex>
+              <Center my={4}>
+              {file.fileType === "pdf" ? (
+              <FaFilePdf name="file" size={"150px"} color={"#0073EA"} />
+            ) : file.fileType === "xls" ? (
+              <FaFileExcel name="file" size={"150px"} color={"#0073EA"} />
+            ) : file.fileType === "jpg" ? (
+              <FaFileImage name="file" size={"150px"} color={"#0073EA"} />)
+              : null}
+              </Center>
+
+            <ButtonGroup w={"100%"}>
+            <Button
+              rounded={"10px"}
+              p={0}
+              m={0}
+              w={"100%"}
+              border={"1px solid #D0D4E4"}
+              bg={"primary.80"}
+              color={"text.primary"}
+              _hover={{ bg: "primary.60" }}
+              
+              
+            >
+              <a href={file.location.uri} download={file.fileName}>Download</a>
+            </Button>
+            <Button
+              rounded={"10px"}
+              p={0}
+              m={0}
+              w={"100%"}
+              border={"1px solid #D0D4E4"}
+              bg={"primary.80"}
+              color={"text.primary"}
+              _hover={{ bg: "primary.60" }}
+              onClick={() => {
+                // Implement this
+              }}
+            >Delete
+            </Button>
+            </ButtonGroup>
+              
+          </Box>
+      ))}
+    </Grid>
+  );
+};
+
 function ContainerDrawer({
   isOpen,
   onClose,
@@ -259,7 +332,9 @@ function ContainerDrawer({
               <TabPanel>
                 <MessageComponent updates={updatesData.updates} />
               </TabPanel>
-              <TabPanel></TabPanel>
+              <TabPanel>
+                <FilesComponent files={filesData.files} />
+              </TabPanel>
             </TabPanels>
           </Tabs>
         </DrawerBody>
@@ -296,6 +371,7 @@ function ContainerTable({
   CreateDevice,
   isLoading,
   updates,
+  files,
 }) {
   const [flatData, setFlatData] = useState(data);
 
@@ -365,6 +441,7 @@ function ContainerTable({
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [containerUpdates, setContainerUpdates] = useState({});
+  const [containerFiles, setContainerFiles] = useState({});
 
   const handleRowClick = (containerName) => {
     setIsDrawerOpen(true);
@@ -372,6 +449,12 @@ function ContainerTable({
       (update) => update.containerName === containerName
     );
     setContainerUpdates(containerUpdates);
+
+    const containerFiles = files.find(
+      (file) => file.ContainerName === containerName
+    );
+
+    setContainerFiles(containerFiles);
   };
 
   return (
@@ -476,6 +559,7 @@ function ContainerTable({
             isOpen={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
             updatesData={containerUpdates}
+            filesData={containerFiles}
           />
           <Flex
             p={"1%"}
@@ -489,11 +573,6 @@ function ContainerTable({
               </Heading>
             </Box>
             {CreateDevice}
-            {children ? (
-              <Box as={Flex} flexWrap={"wrap"} justifyContent={"end"} w={"50%"}>
-                {children}
-              </Box>
-            ) : null}
             {columns.length !== 0 && (
               <GlobalFilter
                 preGlobalFilteredRows={preGlobalFilteredRows}
@@ -514,7 +593,7 @@ function ContainerTable({
                     width: "10px",
                   },
                   "&::-webkit-scrollbar-track": {
-                    backgroundColor: "red" /* Dark background color */,
+                    backgroundColor: "red",
                   },
                   "&::-webkit-scrollbar-thumb": {
                     backgroundColor: "#444 !important",
@@ -528,79 +607,34 @@ function ContainerTable({
                   {...getTableProps()}
                   size={"sm"}
                 >
-                  <Thead pos={"sticky"} top={"0"}>
-                    {headerGroups.map((headerGroup, index) => (
-                      <Tr key={index} {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map((column, i) => {
-                          return column.id === "severity" ? (
-                            <Th
-                              mb={2}
-                              textAlign={"center"}
-                              color={"text.primary"}
-                              opacity={0.8}
-                              h={"10px"}
-                              key={i}
-                              {...column.getHeaderProps()}
-                            >
-                              <Flex textAlign={"center"}>
-                                {column.render("Header")}
-                                <IconButton
-                                  ml={1}
-                                  size={"xs"}
-                                  bg={"transparent"}
-                                  isDisabled
-                                />
-                              </Flex>
-                            </Th>
-                          ) : (
-                            <Th
-                              color={"text.primary"}
-                              opacity={0.8}
-                              textAlign={"center"}
-                              h={"10px"}
-                              key={i}
-                              {...column.getSortByToggleProps()}
-                            >
-                              <Flex textAlign={"center"}>
-                                {column.render("Header")}
-                                <IconButton
-                                  ml={1}
-                                  size={"xs"}
-                                  bg={"transparent"}
-                                  icon={
-                                    column.isSorted ? (
-                                      column.isSortedDesc ? (
-                                        <IconButton
-                                          as={ArrowDownIcon}
-                                          size={"50px"}
-                                          bg={"transparent"}
-                                          color={"text.primary"}
-                                        />
-                                      ) : (
-                                        <IconButton
-                                          as={ArrowUpIcon}
-                                          size={"50px"}
-                                          bg={"transparent"}
-                                          color={"text.primary"}
-                                        />
-                                      )
-                                    ) : (
-                                      <IconButton
-                                        as={BsArrowDownUp}
-                                        size={"50px"}
-                                        bg={"transparent"}
-                                        color={"text.primary"}
-                                      />
-                                    )
-                                  }
-                                />
-                              </Flex>
-                            </Th>
-                          );
-                        })}
-                      </Tr>
-                    ))}
-                  </Thead>
+                  <Thead pos={"sticky"} top={"0"} 
+                  borderBottom="2px"
+                  borderColor="action.80"
+                  >
+  {headerGroups.map((headerGroup, index) => (
+    <Tr key={index} {...headerGroup.getHeaderGroupProps()} >
+      {headerGroup.headers.map((column, i) => (
+        <Th
+          color={"text.primary"}
+          opacity={0.8}
+          h={"10px"}
+            key={i}
+          {...column.getSortByToggleProps()}
+          style={{
+            textAlign: "center",
+            maxWidth: "200px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {column.render("Header")}
+        </Th>
+      ))}
+    </Tr>
+  ))}
+</Thead>
+
 
                   <Tbody {...getTableBodyProps()}>
                     {page.map((row, index) => {
@@ -608,9 +642,9 @@ function ContainerTable({
                       return (
                         <Tr
                           h={"10px"}
-                          borderColor={"transparent"}
-                          borderRightWidth={4}
-                          borderLeftWidth={4}
+                          borderBottom="1px"
+        borderColor="secondary.100"
+        
                           _hover={{
                             backgroundColor: "primary.100",
                             borderColor: "primary.60",
@@ -622,7 +656,7 @@ function ContainerTable({
                         >
                           {row.cells.map((cell, index) => {
                             return (
-                              <Td p={1} key={index} {...cell.getCellProps()}>
+                              <Td p={1} key={index} {...cell.getCellProps()} >
                                 <Box
                                   display={"flex"}
                                   justifyContent={"center"}
