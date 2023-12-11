@@ -142,11 +142,11 @@ const DummyContainerData = [
       email: "bendavis@xyz.com",
     },
     phone_number: "+971 5547896",
+    shippingline_key_contact: "shipping-line1@shippingline.com",
     timeline: {
       startdate: "2023-12-01",
       enddate: "2023-12-08",
     },
-    shippingline_key_contact: "shipping-line1@shippingline.com",
     document_status: {
       current_status: "Canceled",
       possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
@@ -178,12 +178,12 @@ const DummyContainerData = [
       phone_number: "+987654321",
       email: "alicejohnson@xyz.com",
     },
+    shippingline_key_contact: "shipping-line2@shippingline.com",
     phone_number: "+254 1234567",
     timeline: {
       startdate: "2023-12-05",
       enddate: "2023-12-12",
     },
-    shippingline_key_contact: "shipping-line2@shippingline.com",
     document_status: {
       current_status: "Done",
       possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
@@ -216,11 +216,12 @@ const DummyContainerData = [
       email: "davidsmith@xyz.com",
     },
     phone_number: "+212 2023344",
+    shippingline_key_contact: "shipping-line3@shippingline.com",
     timeline: {
       startdate: "2023-12-08",
       enddate: "2023-12-15",
     },
-    shippingline_key_contact: "shipping-line3@shippingline.com",
+
     document_status: {
       current_status: "Canceled",
       possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
@@ -253,11 +254,11 @@ const DummyContainerData = [
       email: "emilywhite@xyz.com",
     },
     phone_number: "+20 10504020",
+    shippingline_key_contact: "shipping-line4@shippingline.com",
     timeline: {
       startdate: "2023-12-03",
       enddate: "2023-12-10",
     },
-    shippingline_key_contact: "shipping-line4@shippingline.com",
     document_status: {
       current_status: "Stuck",
       possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
@@ -317,6 +318,339 @@ const DummyContainerData = [
     },
     name: "NYKU4321567",
     id: "4321567",
+  },
+  {
+    customs_clearance: {
+      name: "Alice Smith",
+      jobTitle: "Customs Broker",
+      role: "Assistant",
+      phone_number: "+123456789",
+      email: "alicesmith@dummy.com",
+    },
+    phone_number: "+971 5551234",
+    shippingline_key_contact: "shipping-line1@shippingline.com",
+    timeline: {
+      startdate: "2023-12-01",
+      enddate: "2023-12-08",
+    },
+    document_status: {
+      current_status: "In Progress",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Medium",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-01",
+    status: {
+      current_status: "Warehousing",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Bob Johnson",
+      jobTitle: "Logistics Coordinator",
+      role: "Admin",
+      phone_number: "+971 5555678",
+      email: "bobjohnson@dummy.com",
+    },
+    name: "OOCL8901245",
+    id: "5285725",
+  },
+  {
+    customs_clearance: {
+      name: "Eva Davis",
+      jobTitle: "Customs Agent",
+      role: "Assistant",
+      phone_number: "+987654321",
+      email: "evadavis@dummy.com",
+    },
+    phone_number: "+971 5554321",
+    shippingline_key_contact: "shipping-line2@shippingline.com",
+    timeline: {
+      startdate: "2023-12-02",
+      enddate: "2023-12-09",
+    },
+    document_status: {
+      current_status: "Done",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "High",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-02",
+    status: {
+      current_status: "Fleet Forwarders",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Charlie Brown",
+      jobTitle: "Supply Chain Manager",
+      role: "Admin",
+      phone_number: "+971 5558765",
+      email: "charliebrown@dummy.com",
+    },
+    name: "NYKU4321567",
+    id: "5285726",
+  },
+  {
+    customs_clearance: {
+      name: "Grace Miller",
+      jobTitle: "Customs Specialist",
+      role: "Assistant",
+      phone_number: "+1122334455",
+      email: "gracemiller@dummy.com",
+    },
+    phone_number: "+971 5555555",
+    shippingline_key_contact: "shipping-line3@shippingline.com",
+    timeline: {
+      startdate: "2023-09-03",
+      enddate: "2024-5-10",
+    },
+    document_status: {
+      current_status: "Stuck",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Low",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-03",
+    status: {
+      current_status: "Shipping Line",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "David White",
+      jobTitle: "Operations Manager",
+      role: "Admin",
+      phone_number: "+971 5551111",
+      email: "davidwhite@dummy.com",
+    },
+    name: "MSCU5285727",
+    id: "5285727",
+  },
+  {
+    customs_clearance: {
+      name: "Helen Wilson",
+      jobTitle: "Customs Coordinator",
+      role: "Assistant",
+      phone_number: "+9988776655",
+      email: "helenwilson@dummy.com",
+    },
+    phone_number: "+971 5556666",
+    shippingline_key_contact: "shipping-line4@shippingline.com",
+    timeline: {
+      startdate: "2023-02-04",
+      enddate: "2024-12-11",
+    },
+    document_status: {
+      current_status: "Canceled",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "High",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-04",
+    status: {
+      current_status: "Warehousing",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Ivan Johnson",
+      jobTitle: "Logistics Specialist",
+      role: "Admin",
+      phone_number: "+971 5552222",
+      email: "ivanjohnson@dummy.com",
+    },
+    name: "MSCU5285728",
+    id: "5285728",
+  },
+  {
+    customs_clearance: {
+      name: "Julia Brown",
+      jobTitle: "Customs Administrator",
+      role: "Assistant",
+      phone_number: "+1122334455",
+      email: "juliabrown@dummy.com",
+    },
+    phone_number: "+971 5557777",
+    shippingline_key_contact: "shipping-line5@shippingline.com",
+    timeline: {
+      startdate: "2023-6-05",
+      enddate: "2023-12-12",
+    },
+    document_status: {
+      current_status: "In Progress",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Medium",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-05",
+    status: {
+      current_status: "Fleet Forwarders",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Kevin Davis",
+      jobTitle: "Supply Chain Coordinator",
+      role: "Admin",
+      phone_number: "+971 5553333",
+      email: "kevindavis@dummy.com",
+    },
+    name: "MSCU5285729",
+    id: "5285729",
+  },
+  {
+    customs_clearance: {
+      name: "Linda Wilson",
+      jobTitle: "Customs Officer",
+      role: "Assistant",
+      phone_number: "+9988776655",
+      email: "lindawilson@dummy.com",
+    },
+    phone_number: "+971 5558888",
+    shippingline_key_contact: "shipping-line6@shippingline.com",
+    timeline: {
+      startdate: "2023-12-06",
+      enddate: "2025-12-13",
+    },
+    document_status: {
+      current_status: "Done",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Low",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-06",
+    status: {
+      current_status: "Shipping Line",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Mary Johnson",
+      jobTitle: "Logistics Officer",
+      role: "Admin",
+      phone_number: "+971 5554444",
+      email: "maryjohnson@dummy.com",
+    },
+    name: "MSCU5285730",
+    id: "5285730",
+  },
+  {
+    customs_clearance: {
+      name: "Nathan Davis",
+      jobTitle: "Customs Specialist",
+      role: "Assistant",
+      phone_number: "+1122334455",
+      email: "nathandavis@dummy.com",
+    },
+    phone_number: "+971 5559999",
+    shippingline_key_contact: "shipping-line7@shippingline.com",
+    timeline: {
+      startdate: "2023-12-07",
+      enddate: "2024-12-14",
+    },
+    document_status: {
+      current_status: "Stuck",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "High",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-07",
+    status: {
+      current_status: "Warehousing",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Olivia Brown",
+      jobTitle: "Supply Chain Specialist",
+      role: "Admin",
+      phone_number: "+971 5555555",
+      email: "oliviabrown@dummy.com",
+    },
+    name: "MSCU5285731",
+    id: "5285731",
+  },
+  {
+    customs_clearance: {
+      name: "Peter Wilson",
+      jobTitle: "Customs Administrator",
+      role: "Assistant",
+      phone_number: "+9988776655",
+      email: "peterwilson@dummy.com",
+    },
+    phone_number: "+971 5550000",
+    shippingline_key_contact: "shipping-line8@shippingline.com",
+    timeline: {
+      startdate: "2023-12-08",
+      enddate: "2023-12-15",
+    },
+    document_status: {
+      current_status: "Canceled",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Medium",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-08",
+    status: {
+      current_status: "Fleet Forwarders",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Quincy Davis",
+      jobTitle: "Logistics Administrator",
+      role: "Admin",
+      phone_number: "+971 5556666",
+      email: "quincydavis@dummy.com",
+    },
+    name: "MSCU5285732",
+    id: "5285732",
+  },
+  {
+    customs_clearance: {
+      name: "Rachel Miller",
+      jobTitle: "Customs Coordinator",
+      role: "Assistant",
+      phone_number: "+1122334455",
+      email: "rachelmiller@dummy.com",
+    },
+    phone_number: "+971 5551234",
+    shippingline_key_contact: "shipping-line9@shippingline.com",
+    timeline: {
+      startdate: "2023-12-30",
+      enddate: "2024-1-16",
+    },
+    document_status: {
+      current_status: "In Progress",
+      possible_status: ["In Progress", "Done", "Stuck", "Canceled"],
+    },
+    priority: {
+      current_priority: "Low",
+      possible_priority: ["High", "Medium", "Low"],
+    },
+    estimate_start_time: "2023-12-09",
+    status: {
+      current_status: "Warehousing",
+      possible_status: ["Warehousing", "Fleet Forwarders", "Shipping Line"],
+    },
+    importer: {
+      name: "Sam Johnson",
+      jobTitle: "Supply Chain Officer",
+      role: "Admin",
+      phone_number: "+971 5554321",
+      email: "samjohnson@dummy.com",
+    },
+    name: "MSCU5285733",
+    id: "5285733",
   },
 ];
 
@@ -493,6 +827,337 @@ const DummyUpdatesData = [
       },
     ],
   },
+  // NEW
+  {
+    containerName: "OOCL8901245",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "OOCL8901245 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container OOCL8901245 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "NYKU4321567",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "NYKU4321567 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container NYKU4321567 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "MSCU5285727",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "MSCU5285727 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container MSCU5285727 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "MSCU5285728",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "MSCU5285728 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container MSCU5285728 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "MSCU5285730",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "MSCU5285730 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container MSCU5285730 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "MSCU5285732",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "MSCU5285732 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container MSCU5285732 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "MSCU5285729",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "MSCU5285729 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container MSCU5285729 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "OOCL8901245",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "OOCL8901245 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container OOCL8901245 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "OOCL8901245",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "OOCL8901245 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container OOCL8901245 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
+  {
+    containerName: "OOCL8901245",
+    updates: [
+      {
+        user: "Ramy Agieb",
+        message: "OOCL8901245 arrived at destination port.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Bishoy Magdy",
+            reply: "Excellent! Any issues during the journey?",
+            date: "2023-12-10 12:00:00",
+            seenCount: 2,
+          },
+        ],
+        seenCount: 2,
+      },
+      {
+        user: "Bishoy Magdy",
+        message: "Container OOCL8901245 cleared customs at destination.",
+        date: "2023-12-10 12:00:00",
+        replies: [
+          {
+            user: "Peter Magdy",
+            reply: "Good to hear! Thanks for the update.",
+            date: "2023-12-10 12:00:00",
+            seenCount: 1,
+          },
+        ],
+        seenCount: 1,
+      },
+    ],
+  },
 ];
 
 const DummyFilesData = [
@@ -608,6 +1273,276 @@ const DummyFilesData = [
   },
   {
     ContainerName: "NYKU4321567",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "OOCL8901245",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "NYKU4321567",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "MSCU5285727",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "MSCU5285728",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "MSCU5285730",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "MSCU5285731",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "MSCU5285729",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "NYKU4321567",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "NYKU4321567",
+    files: [
+      {
+        fileName: "Container.pdf",
+        fileType: "pdf",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Container.pdf",
+        },
+      },
+      {
+        fileName: "Customs.xls",
+        fileType: "xls",
+        date: "2023-12-10 12:00:00",
+        location: { uri: "../../../assets/DummyFiles/NYKU4321567/Customs.xls" },
+      },
+      {
+        fileName: "Freight Invoices.jpg",
+        fileType: "jpg",
+        date: "2023-12-10 12:00:00",
+        location: {
+          uri: "../../../assets/DummyFiles/NYKU4321567/Freight Invoices.jpg",
+        },
+      },
+    ],
+  },
+  {
+    ContainerName: "MSCU5285729",
     files: [
       {
         fileName: "Container.pdf",
@@ -1260,7 +2195,7 @@ function Dashboard() {
                 {/* Use dummy data using regular Table components*/}
                 <Box p={3}>
                   <ContainerTable
-                    title={"Containers E2E"}
+                    title={"ConColab"}
                     data={DummyContainerData}
                     updates={DummyUpdatesData}
                     files={DummyFilesData}

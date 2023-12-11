@@ -100,7 +100,7 @@ const MessageComponent = ({ containerName, updates }) => {
                 size={"md"}
                 name={update.user}
               />
-              <Text my={2} mx={4} fontSize={"xl"} color={"#0073EA"}>
+              <Text my={2} mx={4} fontSize={"xl"} color={"action.80"}>
                 {update.user}
               </Text>
             </Flex>
@@ -161,8 +161,13 @@ const MessageComponent = ({ containerName, updates }) => {
                     mx={2}
                     name={reply.user}
                   />
-                  <Box p={3} key={replyIndex} rounded={"10px"} bg={"#F6F7FB"}>
-                    <Text fontSize={"md"} mb={2} color={"#0073EA"}>
+                  <Box
+                    p={3}
+                    key={replyIndex}
+                    rounded={"10px"}
+                    bg={"chat.bubble"}
+                  >
+                    <Text fontSize={"md"} mb={2} color={"action.80"}>
                       {reply.user}
                     </Text>
                     <Text fontSize={"md"}>{reply.reply}</Text>
@@ -228,42 +233,63 @@ const MessageComponent = ({ containerName, updates }) => {
 };
 
 const FilesComponent = ({ containerName, files }) => {
+  // Theme
+  const theme = useContext(ThemeContext);
+
+  const [isDark, setIsDark] = useState(theme.darkMode ? true : false);
+  useEffect(() => {
+    setIsDark(theme.darkMode ? true : false);
+  }, [theme.darkMode]);
   return (
-    <Grid 
-      templateColumns={
-        files.length > 1 ? 
-        "repeat(3 , 1fr)" : 
-        "repeat(1, 1fr)"
-      } 
+    <Grid
+      templateColumns={files.length > 1 ? "repeat(3 , 1fr)" : "repeat(1, 1fr)"}
       gap={4}
     >
       {files.map((file, index) => (
-          <Box minW={"100px"} minH={"250px"} bg={"primary.100"} rounded={"10px"} p={4} >
-              <Text fontSize={"xl"} color={"#0073EA"}>
-                {file.fileName}
-              </Text>
-              <Flex>
-                <Text opacity={"0.7"}>{file.date}</Text>
-                <IconButton
-                  ml={2}
-                  size={"xs"}
-                  bg={"transparent"}
-                  icon={<TimeIcon />}
-                  isDisabled
-                  _hover={{ cursor: "default" }}
-                />
-              </Flex>
-              <Center my={4}>
-              {file.fileType === "pdf" ? (
-              <FaFilePdf name="file" size={"150px"} color={"#0073EA"} />
+        <Box
+          minW={"100px"}
+          minH={"250px"}
+          bg={"primary.100"}
+          rounded={"10px"}
+          p={4}
+        >
+          <Text fontSize={"xl"} color={"action.80"}>
+            {file.fileName}
+          </Text>
+          <Flex>
+            <Text opacity={"0.7"}>{file.date}</Text>
+            <IconButton
+              ml={2}
+              size={"xs"}
+              bg={"transparent"}
+              icon={<TimeIcon />}
+              isDisabled
+              _hover={{ cursor: "default" }}
+            />
+          </Flex>
+          <Center my={4}>
+            {file.fileType === "pdf" ? (
+              <FaFilePdf
+                name="file"
+                size={"150px"}
+                color={isDark === true ? "#9b29e7" : "#0073EA"}
+              />
             ) : file.fileType === "xls" ? (
-              <FaFileExcel name="file" size={"150px"} color={"#0073EA"} />
+              <FaFileExcel
+                name="file"
+                size={"150px"}
+                color={isDark === true ? "#9b29e7" : "#0073EA"}
+              />
             ) : file.fileType === "jpg" ? (
-              <FaFileImage name="file" size={"150px"} color={"#0073EA"} />)
-              : null}
-              </Center>
+              <FaFileImage
+                name="file"
+                size={"150px"}
+                color={isDark === true ? "#9b29e7" : "#0073EA"}
+              />
+            ) : null}
+          </Center>
 
-            <ButtonGroup w={"100%"}>
+          <ButtonGroup w={"100%"}>
             <Button
               rounded={"10px"}
               p={0}
@@ -273,10 +299,10 @@ const FilesComponent = ({ containerName, files }) => {
               bg={"primary.80"}
               color={"text.primary"}
               _hover={{ bg: "primary.60" }}
-              
-              
             >
-              <a href={file.location.uri} download={file.fileName}>Download</a>
+              <a href={file.location.uri} download={file.fileName}>
+                Download
+              </a>
             </Button>
             <Button
               rounded={"10px"}
@@ -290,11 +316,11 @@ const FilesComponent = ({ containerName, files }) => {
               onClick={() => {
                 // Implement this
               }}
-            >Delete
+            >
+              Delete
             </Button>
-            </ButtonGroup>
-              
-          </Box>
+          </ButtonGroup>
+        </Box>
       ))}
     </Grid>
   );
@@ -607,34 +633,35 @@ function ContainerTable({
                   {...getTableProps()}
                   size={"sm"}
                 >
-                  <Thead pos={"sticky"} top={"0"} 
-                  borderBottom="2px"
-                  borderColor="action.80"
+                  <Thead
+                    pos={"sticky"}
+                    top={"0"}
+                    borderBottom="2px"
+                    borderColor="action.80"
                   >
-  {headerGroups.map((headerGroup, index) => (
-    <Tr key={index} {...headerGroup.getHeaderGroupProps()} >
-      {headerGroup.headers.map((column, i) => (
-        <Th
-          color={"text.primary"}
-          opacity={0.8}
-          h={"10px"}
-            key={i}
-          {...column.getSortByToggleProps()}
-          style={{
-            textAlign: "center",
-            maxWidth: "200px",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {column.render("Header")}
-        </Th>
-      ))}
-    </Tr>
-  ))}
-</Thead>
-
+                    {headerGroups.map((headerGroup, index) => (
+                      <Tr key={index} {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroup.headers.map((column, i) => (
+                          <Th
+                            color={"text.primary"}
+                            opacity={0.8}
+                            h={"10px"}
+                            key={i}
+                            {...column.getSortByToggleProps()}
+                            style={{
+                              textAlign: "center",
+                              maxWidth: "200px",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {column.render("Header")}
+                          </Th>
+                        ))}
+                      </Tr>
+                    ))}
+                  </Thead>
 
                   <Tbody {...getTableBodyProps()}>
                     {page.map((row, index) => {
@@ -643,8 +670,7 @@ function ContainerTable({
                         <Tr
                           h={"10px"}
                           borderBottom="1px"
-        borderColor="secondary.100"
-        
+                          borderColor="secondary.100"
                           _hover={{
                             backgroundColor: "primary.100",
                             borderColor: "primary.60",
@@ -656,7 +682,7 @@ function ContainerTable({
                         >
                           {row.cells.map((cell, index) => {
                             return (
-                              <Td p={1} key={index} {...cell.getCellProps()} >
+                              <Td p={1} key={index} {...cell.getCellProps()}>
                                 <Box
                                   display={"flex"}
                                   justifyContent={"center"}

@@ -48,7 +48,7 @@ import { hasPermission } from "./permissions-helper";
 import { PERMISSIONS } from "../types/devices";
 import { showsuccess } from "./toast-emitter";
 import { getEmojiFlag, getCountryCode } from "countries-list";
-import { continents, countries, languages } from "countries-list";
+import { ThemeContext } from "../context/theme";
 
 export function extractUniqueKeys(data) {
   const keys = [];
@@ -189,9 +189,7 @@ export function formatDate(date) {
 }
 
 export function formatDateNoTime(date) {
-  return moment(date + "Z")
-    .utcOffset(moment().utcOffset())
-    .format("DD/MM/YYYY");
+  return date.slice(0);
 }
 
 export function formatLocalToISOUTC(date) {
@@ -487,6 +485,15 @@ export function ExtractContainerHeaders(data = [], container) {
 }
 
 export function switchContainerHeaders(field, props) {
+  // Theme
+  const theme = useContext(ThemeContext);
+
+  const [isDark, setIsDark] = useState(theme.darkMode ? true : false);
+
+  useEffect(() => {
+    setIsDark(theme.darkMode ? true : false);
+  }, [theme.darkMode]);
+
   // Importer states & functions
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
@@ -913,7 +920,11 @@ export function switchContainerHeaders(field, props) {
     case "timeline":
       return (
         <Box>
-          <Progress value={calculateProgress()} rounded={"full"} />
+          <Progress
+            value={calculateProgress()}
+            rounded={"full"}
+            colorScheme={isDark === true ? "purple" : "blue"}
+          />
 
           {/* Text */}
           <Tooltip
@@ -925,9 +936,6 @@ export function switchContainerHeaders(field, props) {
             </Text>
           </Tooltip>
         </Box>
-
-        // format date
-        // <Text w={"100%"}>{String(formatDateNoTime(props.value))}</Text>
       );
     case "customs_clearance":
       return (
